@@ -39,7 +39,6 @@ class SimpleGraph<V> {
      */
     operator fun get(v: V): Set<V> = m[v]!!
 
-
     operator fun contains(v: V) = v in m.keys
 
     fun deleteVertex(v: V): Boolean {

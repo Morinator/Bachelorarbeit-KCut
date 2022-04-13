@@ -21,9 +21,9 @@ object Factory {
         addEdge(1, n)
     }
 
-    /**                                               #-------------------------#
-     *                                                |                         |
-     * @return A [SimpleGraph] of the form:          (1) - (2) - ... - (n-1) - (n)
+    /**
+     *
+     * @return A [SimpleGraph] of the form:
      */
     fun createClique(n: Int) = SimpleGraph<Int>().apply {
         for (i in 1..n)
@@ -31,9 +31,9 @@ object Factory {
                 if (i != j) addEdge(i, j)
     }
 
-    /**                                               #-------------------------#
-     *                                                |                         |
-     * @return A [SimpleGraph] of the form:          (1) - (2) - ... - (n-1) - (n)
+    /**
+     *
+     * @return A [SimpleGraph] of the form:
      */
     fun createStar(n: Int) = SimpleGraph<Int>().apply {
         for (i in 2..n)
