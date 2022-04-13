@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class FileReaderTest {
 
-    val edgesSmall1 = listOf(Pair(1, 2), Pair(1, 8), Pair(2, 3), Pair(3, 4), Pair(3, 5), Pair(3, 6), Pair(3, 7))
+    private val edgesSmall1 = listOf(Pair(1, 2), Pair(1, 8), Pair(2, 3), Pair(3, 4), Pair(3, 5), Pair(3, 6), Pair(3, 7))
 
     @Test
     fun validateLine1() {

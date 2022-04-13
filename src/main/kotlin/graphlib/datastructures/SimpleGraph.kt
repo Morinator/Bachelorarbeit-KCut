@@ -91,6 +91,9 @@ class SimpleGraph<V> {
 
     override fun hashCode() = m.hashCode()
 
-    val delta: Int
+    val delta: Int // MAX-DEGREE
         get() = vertices().maxOf { degreeOf(it) }
+
+    val degrees: List<Int>
+        get() = vertices().map { degreeOf(it) }
 }
