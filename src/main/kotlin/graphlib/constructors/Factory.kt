@@ -39,6 +39,4 @@ object Factory {
         for (i in 2..n)
             addEdge(1, i)
     }
-
-
 }

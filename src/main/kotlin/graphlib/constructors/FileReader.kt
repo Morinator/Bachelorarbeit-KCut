@@ -14,11 +14,10 @@ object FileReader { // TODO handle weights, ignore if wanted
         edges.forEach { addEdge(it.first, it.second) }
     }
 
-
     /**Reads in the graph at [file] and returns a list of edges, where each edge is in the format <VertexID, VertexID, Weight>.*/
     fun edgesFromPath(file: String): List<Pair<Int, Int>> =
         File(file).readLines()
             .filter { validateLine(it) }
-            .map { it.split(Regex("""\s+""")) }     //split vertex-IDs by whitespace between them
+            .map { it.split(Regex("""\s+""")) } // split vertex-IDs by whitespace between them
             .mapTo(ArrayList()) { Pair(Integer.parseInt(it[0]), Integer.parseInt(it[1])) }
 }

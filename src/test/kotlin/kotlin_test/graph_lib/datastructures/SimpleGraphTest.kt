@@ -13,7 +13,7 @@ import kotlin.test.assertTrue
 
 internal class SimpleGraphTest {
 
-    private val g = SimpleGraph<Int>()  // looks like:       0-1-2  3
+    private val g = SimpleGraph<Int>() // looks like:       0-1-2  3
 
     @BeforeEach
     fun setUp() {
@@ -40,7 +40,7 @@ internal class SimpleGraphTest {
 
     @Test
     fun addEdge2() {
-        val g2 = SimpleGraph<Int>()  // is empty
+        val g2 = SimpleGraph<Int>() // is empty
         g2.addEdge(1, 1)
         assertEquals(0, g2.size())
     }
@@ -62,7 +62,7 @@ internal class SimpleGraphTest {
         assertTrue { 2 in g }
         assertTrue { g.deleteVertex(2) }
         assertFalse { 2 in g }
-        assertEquals(setOf(0), g[1])   // it's not a neighbour of vertex 1 anymore
+        assertEquals(setOf(0), g[1]) // it's not a neighbour of vertex 1 anymore
     }
 
     @Test
@@ -122,9 +122,9 @@ internal class SimpleGraphTest {
     fun copy() {
         val g1 = g.copy()
 
-        for (v in g1.vertices()) assertEquals(g1[v], g[v])          // make sure content is equal
+        for (v in g1.vertices()) assertEquals(g1[v], g[v]) // make sure content is equal
 
-        g1.deleteVertex(2)                                       // check if old graph is unaffected
+        g1.deleteVertex(2) // check if old graph is unaffected
         assertFalse { 2 in g1 }
         assertTrue { 2 in g }
     }
@@ -132,7 +132,7 @@ internal class SimpleGraphTest {
     @Test
     fun equalsTest() {
         assertEquals(createPath(100), createPath(100))
-        assertTrue { createPath(42) == createPath(42) }       // check if "==" Operator works
+        assertTrue { createPath(42) == createPath(42) } // check if "==" Operator works
     }
 
     @Test
@@ -159,7 +159,6 @@ internal class SimpleGraphTest {
         assertEquals(setOf(4, 8), createCycle(10)[setOf(5, 6, 7)])
         assertEquals(setOf(2, 10, 5, 7), createCycle(10)[setOf(1, 6)])
         assertEquals(setOf(3, 5), createStar(5)[setOf(1, 2, 4)])
-        assertEquals(setOf(1), createStar(5)[setOf(2, 3, 4,5)])
+        assertEquals(setOf(1), createStar(5)[setOf(2, 3, 4, 5)])
     }
-
 }

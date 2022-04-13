@@ -20,21 +20,21 @@ internal class CombinationIteratorTest {
     fun test2() {
         val combinations = CombinationIterator(listOf(1, 2, 3, 4), 2).asSequence().toList()
         val truth = listOf(
-            setOf(1,2),
-            setOf(1,3),
-            setOf(1,4),
-            setOf(2,3),
-            setOf(2,4),
-            setOf(3,4),
+            setOf(1, 2),
+            setOf(1, 3),
+            setOf(1, 4),
+            setOf(2, 3),
+            setOf(2, 4),
+            setOf(3, 4),
         )
         assertEquals(truth, combinations)
     }
 
     @Test
     fun test3() {
-        val combinations = CombinationIterator(listOf('a','b', 'c'), 3).asSequence().toList()
+        val combinations = CombinationIterator(listOf('a', 'b', 'c'), 3).asSequence().toList()
         val truth = listOf(
-            setOf('a','b', 'c'),
+            setOf('a', 'b', 'c'),
         )
         assertEquals(truth, combinations)
     }
@@ -43,12 +43,11 @@ internal class CombinationIteratorTest {
     fun test4() {
         val combinations = CombinationIterator(listOf(1, 2, 3, 4), 3).asSequence().toList()
         val truth = listOf(
-            setOf(1,2,3),
-            setOf(1,2,4),
-            setOf(1,3,4),
-            setOf(2,3,4),
+            setOf(1, 2, 3),
+            setOf(1, 2, 4),
+            setOf(1, 3, 4),
+            setOf(2, 3, 4),
         )
         assertEquals(truth, combinations)
     }
-
 }

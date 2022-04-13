@@ -45,7 +45,6 @@ internal class FactoryTest {
         val g = createStar(5)
         assertEquals(4, g.edgeCount())
         for (i in 2..5)
-            assertTrue { g.isConnected(1,i) }
+            assertTrue { g.isConnected(1, i) }
     }
-
 }

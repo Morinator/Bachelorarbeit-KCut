@@ -27,7 +27,7 @@ internal class HandcraftedSolutions {
     @Test
     fun solveC() {
         val g = createClique(6)
-        assertEquals(9, solve(g, 3).value)  // solution is not unique
+        assertEquals(9, solve(g, 3).value) // solution is not unique
     }
 
     @Nested
@@ -38,12 +38,11 @@ internal class HandcraftedSolutions {
         @Test
         fun k1() = assertEquals(Solution(setOf(3), 5), solve(g, 1))
 
-
         @Test
         fun k2() = assertEquals(Solution(setOf(1, 3), 7), solve(g, 2))
 
         @Test
-        fun k3() = assertEquals(6, solve(g, 3).value)        // vertices not unique
+        fun k3() = assertEquals(6, solve(g, 3).value) // vertices not unique
 
         @Test
         fun k4() = assertEquals(5, solve(g, 4).value)
@@ -61,6 +60,5 @@ internal class HandcraftedSolutions {
 
         @Test
         fun k8() = assertEquals(Solution((1..8).toSet(), 0), solve(g, 8))
-
     }
 }

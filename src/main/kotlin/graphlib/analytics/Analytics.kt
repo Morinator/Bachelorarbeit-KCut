@@ -2,7 +2,6 @@ package graphlib.analytics
 
 import graphlib.datastructures.SimpleGraph
 
-
 fun <V> printAnalytics(g: SimpleGraph<V>) {
     val paddingRight = 20
 

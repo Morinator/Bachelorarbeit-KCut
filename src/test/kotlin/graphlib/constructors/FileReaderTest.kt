@@ -4,7 +4,9 @@ import graphlib.constructors.FileReader.edgesFromPath
 import graphlib.constructors.FileReader.graphFromEdges
 import graphlib.constructors.FileReader.graphFromPath
 import graphlib.constructors.FileReader.validateLine
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class FileReaderTest {

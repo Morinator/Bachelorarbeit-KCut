@@ -4,10 +4,11 @@ import core.collections.CombinationIterator
 import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
+import org.paukov.combinatorics3.Generator
 
 fun <V> solve(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(emptySet<V>(), Int.MIN_VALUE)
-    val combs = CombinationIterator(g.vertices(), k)
+    val combs = Generator.combination(g.vertices()).simple(k)
 
     for (c in combs) {
         val s = cutSize(g, c)
@@ -16,8 +17,6 @@ fun <V> solve(g: SimpleGraph<V>, k: Int): Solution<V> {
     }
     return sol
 }
-
-
 
 // TODO S als Name für Teilmenge Größe k verwenden
 
@@ -40,5 +39,3 @@ fun <V> solveFast(g: SimpleGraph<V>, k: Int): Solution<V> {
     }
     return sol
 }
-
-

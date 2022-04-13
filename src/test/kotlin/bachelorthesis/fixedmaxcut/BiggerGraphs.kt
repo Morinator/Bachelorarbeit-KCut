@@ -13,7 +13,7 @@ class BiggerGraphs {
         assertEquals(24, solve(g, 5).value)
     }
 
-    @Test   // ~700ms
+    @Test // ~700ms
     fun solveB() {
         val g = graphFromPath("data/graphs/random/100-0.1.edges")
         assertEquals(56, solve(g, 3).value)

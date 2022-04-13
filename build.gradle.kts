@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.github.dpaukov:combinatoricslib3:3.3.3")
 }
 
 tasks.test {

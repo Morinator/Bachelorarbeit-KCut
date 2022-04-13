@@ -13,7 +13,7 @@ class BFS_Level_Iterator<V>(private val g: SimpleGraph<V>, root: V) : Iterator<L
         queue.clear()
 
         for (v in result)
-            g[v].filter { it !in explored }.also {  // non-explored neighbours
+            g[v].filter { it !in explored }.also { // non-explored neighbours
                 queue.addAll(it)
                 explored.addAll(it)
             }

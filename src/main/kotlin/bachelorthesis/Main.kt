@@ -1,8 +1,7 @@
 package bachelorthesis
 
-import graphlib.constructors.Factory.createClique
+import org.paukov.combinatorics3.Generator
 
 fun main() {
-    val g = createClique(5)
-    println(g.size())
+    Generator.combination(1, 2, 3, 4).simple(2).forEach { println(it) }
 }

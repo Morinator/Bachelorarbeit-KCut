@@ -1,6 +1,5 @@
 package graphlib.datastructures
 
-
 /**
  * Undirected
  * no loops
@@ -21,9 +20,8 @@ class SimpleGraph<V> {
         return true
     }
 
-
     fun addEdge(a: V, b: V) {
-        if (a == b) return      // no self-loops
+        if (a == b) return // no self-loops
 
         addVertex(a)
         addVertex(b)
@@ -32,7 +30,6 @@ class SimpleGraph<V> {
         m[a]!!.add(b)
         m[b]!!.add(a)
     }
-
 
     /**
      * @return The neighbours of [v].
@@ -49,7 +46,6 @@ class SimpleGraph<V> {
         m.remove(v)
         return true
     }
-
 
     /**
      * @return True if an edge between [a] and [b] previously existed
@@ -77,7 +73,7 @@ class SimpleGraph<V> {
     /**
      * @return Number of edges in the graph
      */
-    fun edgeCount() = m.values.sumOf { it.size } / 2           //sums up number of all neighbours, but counts each twice
+    fun edgeCount() = m.values.sumOf { it.size } / 2 // sums up number of all neighbours, but counts each twice
 
     fun vertices(): Set<V> = m.keys
 
@@ -87,8 +83,7 @@ class SimpleGraph<V> {
         for (v in vertices) addAll(get(v).filter { it !in vertices })
     }
 
-
-    fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) }     // SHALLOW COPY
+    fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
     override fun toString() = vertices().joinToString("\n") { "$it: ${get(it)}" }
 
