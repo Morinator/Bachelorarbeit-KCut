@@ -55,7 +55,7 @@ internal class FactoryTest {
 
         @Test
         fun illegalSizes() {
-            assertThrows(IllegalArgumentException::class.java) {createBipartite(0, 0)}
+            assertThrows(IllegalArgumentException::class.java) { createBipartite(0, 0) }
         }
 
         @Test
@@ -90,8 +90,6 @@ internal class FactoryTest {
             assertTrue(g.isConnected(3, 198))
             assertFalse(g.isConnected(45, 199))
             assertFalse(g.isConnected(136, 199))
-
         }
-
     }
 }

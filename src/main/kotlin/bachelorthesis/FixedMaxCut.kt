@@ -7,7 +7,7 @@ import graphlib.datastructures.Solution
 import org.paukov.combinatorics3.Generator
 
 fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
-    var sol = Solution(emptySet<V>(), Int.MIN_VALUE)
+    var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
     val combinations = Generator.combination(g.vertices()).simple(k)
 
     for (S in combinations) {
@@ -25,7 +25,7 @@ fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
 // TODO save some results of brute-force in a file
 
 fun <V> solveFast(g: SimpleGraph<V>, k: Int): Solution<V> {
-    var sol = Solution(emptySet<V>(), Int.MIN_VALUE)
+    var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
     val combinationIterator = CombinationIterator(g.vertices(), k)
 
     val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
@@ -34,7 +34,7 @@ fun <V> solveFast(g: SimpleGraph<V>, k: Int): Solution<V> {
         val c = combinationIterator.next()
         val s = cutSize(g, c)
         if (s > sol.value) {
-            sol = Solution(c, s)
+            sol = Solution(c.toMutableSet(), s)
         }
     }
     return sol

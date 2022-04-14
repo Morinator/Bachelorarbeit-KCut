@@ -47,5 +47,4 @@ object Factory {
             for (j in 1..sizeB)
                 if (i != j) addEdge(i, j)
     }
-
 }
