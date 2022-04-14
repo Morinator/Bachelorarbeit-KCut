@@ -33,4 +33,11 @@ internal class GraphFileReaderTest {
         val gTruth = graphFromEdges(edgesSmall1)
         assertEquals(gTruth, gRead)
     }
+
+    @Test
+    fun ignoresWeightsInFile() {
+        val gRead = graphFromPath("data/graphs/small-weighted-graph.txt")
+        val gTruth = graphFromEdges(listOf(1 to 2, 1 to 3, 8 to 9))
+        assertEquals(gTruth, gRead)
+    }
 }
