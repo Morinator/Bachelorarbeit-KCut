@@ -1,7 +1,7 @@
 package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solveBruteForce
-import graphlib.constructors.FileReader.graphFromPath
+import graphlib.constructors.GraphFileReader.graphFromPath
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

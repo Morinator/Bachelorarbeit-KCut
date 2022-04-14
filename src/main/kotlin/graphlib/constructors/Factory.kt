@@ -39,4 +39,13 @@ object Factory {
         for (i in 2..n)
             addEdge(1, i)
     }
+
+    /**@return A bipartite graph, whose vertex partition has sizes [sizeA] and [sizeB]. Any two vertices of from
+     * different sides in the graph are connected, thus there are [sizeA] * [sizeB] edges in total.*/
+    fun createBipartite(sizeA: Int, sizeB: Int) = SimpleGraph<Int>().apply {
+        for (i in 1..sizeA)
+            for (j in 1..sizeB)
+                if (i != j) addEdge(i, j)
+    }
+
 }

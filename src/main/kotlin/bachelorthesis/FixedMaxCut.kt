@@ -8,9 +8,9 @@ import org.paukov.combinatorics3.Generator
 
 fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(emptySet<V>(), Int.MIN_VALUE)
-    val combs = Generator.combination(g.vertices()).simple(k)
+    val combinations = Generator.combination(g.vertices()).simple(k)
 
-    for (S in combs) {
+    for (S in combinations) {
         val s = cutSize(g, S)
         if (s > sol.value)
             sol = Solution(S, s)
