@@ -1,6 +1,7 @@
 package graphlib.algorithms.heuristic
 
 import graphlib.algorithms.bipartite.cutSize
+import graphlib.constructors.Factory.createBipartite
 import graphlib.constructors.Factory.createStar
 import graphlib.datastructures.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,5 +18,12 @@ internal class LocalSearchTest {
         localSearchStep(star, solution)
 
         assertEquals(Solution(vertices = mutableSetOf(1), value = 9), solution)
+    }
+
+    @Test
+    fun getHeuristic() {
+        val g = createBipartite(2, 10)
+        val sol = getHeuristic(g, 2)
+        assertEquals(Solution(mutableSetOf(1,2), 20), sol)
     }
 }
