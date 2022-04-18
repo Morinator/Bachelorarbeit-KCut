@@ -44,7 +44,7 @@ object Factory {
      * different sides in the graph are connected, thus there are [sizeA] * [sizeB] edges in total.*/
     fun createBipartite(sizeA: Int, sizeB: Int) = SimpleGraph<Int>().apply {
         for (i in 1..sizeA)
-            for (j in 1..sizeB)
+            for (j in sizeA + 1..sizeA + sizeB)
                 if (i != j) addEdge(i, j)
     }
 }

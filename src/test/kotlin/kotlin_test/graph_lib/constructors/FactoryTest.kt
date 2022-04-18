@@ -5,7 +5,8 @@ import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
@@ -54,30 +55,24 @@ internal class FactoryTest {
     internal inner class BipartiteTest {
 
         @Test
-        fun illegalSizes() {
-            assertThrows(IllegalArgumentException::class.java) { createBipartite(0, 0) }
-        }
-
-        @Test
         fun size_1_1() {
             val g = createBipartite(1, 1)
             assertEquals(2, g.size())
             assertEquals(1, g.edgeCount())
-            assertTrue(g.isConnected(0, 1))
+            assertTrue(g.isConnected(1, 2))
         }
 
         @Test
         fun size_2_4() {
             val g = createBipartite(2, 4)
             assertEquals(8, g.edgeCount())
-            assertTrue(g.isConnected(0, 2))
-            assertTrue(g.isConnected(0, 3))
-            assertTrue(g.isConnected(0, 4))
-            assertTrue(g.isConnected(0, 5))
-            assertFalse(g.isConnected(0, 1))
-            assertFalse(g.isConnected(0, 6))
-            (0 until 2).forEach { assertEquals(4, g.degreeOf(it)) }
-            (2 until 6).forEach { assertEquals(2, g.degreeOf(it)) }
+            assertTrue(g.isConnected(1, 3))
+            assertTrue(g.isConnected(1, 4))
+            assertTrue(g.isConnected(1, 5))
+            assertTrue(g.isConnected(1, 6))
+            assertFalse(g.isConnected(1, 2))
+            (1..2).forEach { assertEquals(4, g.degreeOf(it)) }
+            (3..6).forEach { assertEquals(2, g.degreeOf(it)) }
         }
 
         @Test
@@ -88,7 +83,6 @@ internal class FactoryTest {
             assertTrue(g.isConnected(98, 101))
             assertTrue(g.isConnected(54, 179))
             assertTrue(g.isConnected(3, 198))
-            assertFalse(g.isConnected(45, 199))
             assertFalse(g.isConnected(136, 199))
         }
     }

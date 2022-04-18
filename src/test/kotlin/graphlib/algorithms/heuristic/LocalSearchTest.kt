@@ -3,7 +3,7 @@ package graphlib.algorithms.heuristic
 import graphlib.algorithms.bipartite.cutSize
 import graphlib.constructors.Factory.createStar
 import graphlib.datastructures.Solution
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class LocalSearchTest {
