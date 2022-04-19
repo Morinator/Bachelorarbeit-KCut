@@ -66,14 +66,14 @@ class SimpleGraph<V> {
     /**
      * @return The number of vertices in the graph (isolated vertices also count)
      */
-    fun size() = m.keys.size
+    val size get() = m.keys.size
 
     fun degreeOf(v: V): Int = m[v]!!.size
 
     /**
      * @return Number of edges in the graph
      */
-    fun edgeCount() = m.values.sumOf { it.size } / 2 // sums up number of all neighbours, but counts each twice
+    val edgeCount get() = m.values.sumOf { it.size } / 2
 
     fun vertices(): Set<V> = m.keys
 

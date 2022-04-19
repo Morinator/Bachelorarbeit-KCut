@@ -1,6 +1,6 @@
 package kotlin_test.core.collections
 
-import core.collections.intersectAll
+import util.collections.intersectAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

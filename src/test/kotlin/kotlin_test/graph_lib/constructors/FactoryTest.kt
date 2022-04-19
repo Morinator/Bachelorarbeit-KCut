@@ -16,7 +16,7 @@ internal class FactoryTest {
     @Test
     fun createPath1() {
         val g = createPath(4)
-        assertEquals(4, g.size())
+        assertEquals(4, g.size)
         assertTrue { g.isConnected(1, 2) }
         assertTrue { g.isConnected(2, 3) }
         assertTrue { g.isConnected(3, 4) }
@@ -25,7 +25,7 @@ internal class FactoryTest {
     @Test
     fun createCycle1() {
         val g = createCycle(5)
-        assertEquals(5, g.size())
+        assertEquals(5, g.size)
         assertTrue { g.isConnected(1, 2) }
         assertTrue { g.isConnected(2, 3) }
         assertTrue { g.isConnected(3, 4) }
@@ -36,7 +36,7 @@ internal class FactoryTest {
     @Test
     fun createClique1() {
         val g = createClique(5)
-        assertEquals(10, g.edgeCount())
+        assertEquals(10, g.edgeCount)
         for (i in 1..5)
             for (j in 1..5)
                 if (i != j)
@@ -46,7 +46,7 @@ internal class FactoryTest {
     @Test
     fun createStar1() {
         val g = createStar(5)
-        assertEquals(4, g.edgeCount())
+        assertEquals(4, g.edgeCount)
         for (i in 2..5)
             assertTrue { g.isConnected(1, i) }
     }
@@ -57,15 +57,15 @@ internal class FactoryTest {
         @Test
         fun size_1_1() {
             val g = createBipartite(1, 1)
-            assertEquals(2, g.size())
-            assertEquals(1, g.edgeCount())
+            assertEquals(2, g.size)
+            assertEquals(1, g.edgeCount)
             assertTrue(g.isConnected(1, 2))
         }
 
         @Test
         fun size_2_4() {
             val g = createBipartite(2, 4)
-            assertEquals(8, g.edgeCount())
+            assertEquals(8, g.edgeCount)
             assertTrue(g.isConnected(1, 3))
             assertTrue(g.isConnected(1, 4))
             assertTrue(g.isConnected(1, 5))
@@ -78,8 +78,8 @@ internal class FactoryTest {
         @Test
         fun size_99_100() {
             val g = createBipartite(99, 100)
-            assertEquals(9900, g.edgeCount())
-            assertEquals(199, g.size())
+            assertEquals(9900, g.edgeCount)
+            assertEquals(199, g.size)
             assertTrue(g.isConnected(98, 101))
             assertTrue(g.isConnected(54, 179))
             assertTrue(g.isConnected(3, 198))

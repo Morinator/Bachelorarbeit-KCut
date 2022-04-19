@@ -1,6 +1,6 @@
 package bachelorthesis
 
-import core.collections.CombinationIterator
+import util.collections.CombinationIterator
 import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution

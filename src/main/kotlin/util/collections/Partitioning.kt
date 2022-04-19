@@ -1,4 +1,4 @@
-package core.collections
+package util.collections
 
 /**This data structure represents a set *S* that is partitioned.
  * This means *S* is divided into subsets that are mutually disjoint, but the union of all the subset is *S*.

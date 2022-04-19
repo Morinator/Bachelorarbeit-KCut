@@ -42,7 +42,7 @@ internal class SimpleGraphTest {
     fun addEdge2() {
         val g2 = SimpleGraph<Int>() // is empty
         g2.addEdge(1, 1)
-        assertEquals(0, g2.size())
+        assertEquals(0, g2.size)
     }
 
     @Test
@@ -73,9 +73,9 @@ internal class SimpleGraphTest {
 
     @Test
     fun size() {
-        assertEquals(4, g.size())
+        assertEquals(4, g.size)
         g.deleteVertex(1)
-        assertEquals(3, g.size())
+        assertEquals(3, g.size)
     }
 
     @Test
@@ -90,13 +90,13 @@ internal class SimpleGraphTest {
 
     @Test
     fun edgeCount() {
-        assertEquals(2, g.edgeCount())
+        assertEquals(2, g.edgeCount)
         g.addEdge(4, 5)
-        assertEquals(3, g.edgeCount())
+        assertEquals(3, g.edgeCount)
 
         for (v in 0..5)
             g.deleteVertex(v)
-        assertEquals(0, g.edgeCount()) // no vertices, no edges
+        assertEquals(0, g.edgeCount) // no vertices, no edges
     }
 
     @Test
