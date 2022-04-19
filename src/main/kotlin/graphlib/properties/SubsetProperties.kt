@@ -9,3 +9,12 @@ fun <V> isIndependentSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
 
     return true
 }
+
+fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
+    val x = HashSet(S)
+    for (s in S) {
+        x.addAll(g[s])
+    }
+
+    return x.size == g.size
+}
