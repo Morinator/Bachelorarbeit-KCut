@@ -17,8 +17,8 @@ internal class Partitioning_Test {
 
     private val strings = Partitioning<String>()
 
-    private val stringsFilled = Partitioning<String>().apply {   //      { {a, b}, {c} }
-        add(setOf("a", "b"));this += "c"
+    private val stringsFilled = Partitioning<String>().apply { //      { {a, b}, {c} }
+        add(setOf("a", "b")); this += "c"
     }
 
     @Nested
@@ -146,7 +146,7 @@ internal class Partitioning_Test {
 
         @Test
         fun remove_elemMissing() {
-            intsFilled -= 7  //7 is not present
+            intsFilled -= 7 // 7 is not present
             assertTrue(intsFilled[2] === intsFilled[3])
             assertEquals(intsFilled[2], setOf(1, 2, 3))
 
@@ -195,7 +195,6 @@ internal class Partitioning_Test {
             assertEquals(setOf(1, 2, 3), intsFilled[2])
             assertEquals(setOf(4, 5), intsFilled[4])
         }
-
     }
 
     @Nested
@@ -232,7 +231,7 @@ internal class Partitioning_Test {
         @Test
         fun bothArgumentsInSameSubset() {
             intsFilled.merge(1, 2)
-            assertEquals(listOf(setOf(1, 2, 3), setOf(4, 5), setOf(6)), intsFilled.subsets())    //nothing happened
+            assertEquals(listOf(setOf(1, 2, 3), setOf(4, 5), setOf(6)), intsFilled.subsets()) // nothing happened
         }
 
         @Test

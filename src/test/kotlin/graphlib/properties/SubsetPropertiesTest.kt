@@ -17,18 +17,17 @@ internal class SubsetPropertiesTest {
             println(g)
             assertTrue(isIndependentSet(setOf(2, 3, 4, 5, 6), g))
             assertFalse(isIndependentSet(setOf(1, 4), g))
-            assertFalse(isIndependentSet(setOf(1, 2, 5,7), g))
+            assertFalse(isIndependentSet(setOf(1, 2, 5, 7), g))
         }
 
         @Test
         fun path() {
             val g = createPath(10)
             println(g)
-            assertTrue(isIndependentSet(setOf(1,3,6,8), g))
+            assertTrue(isIndependentSet(setOf(1, 3, 6, 8), g))
             assertFalse(isIndependentSet(setOf(1, 2), g))
-            assertFalse(isIndependentSet(setOf(1,4,5,7), g))
+            assertFalse(isIndependentSet(setOf(1, 4, 5, 7), g))
         }
-
     }
 
     @Nested
@@ -49,10 +48,8 @@ internal class SubsetPropertiesTest {
             assertFalse(isVertexCover(setOf(1, 5, 7), g))
 
             assertTrue(isVertexCover((1..7).toSet(), g))
-            assertTrue(isVertexCover(setOf(1, 3,5,7), g))
+            assertTrue(isVertexCover(setOf(1, 3, 5, 7), g))
             assertFalse(isVertexCover(setOf(1), g))
         }
-
     }
-
 }

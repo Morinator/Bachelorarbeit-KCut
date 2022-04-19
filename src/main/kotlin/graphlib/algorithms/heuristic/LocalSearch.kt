@@ -4,12 +4,10 @@ import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 
-
 fun <V> getHeuristic(g: SimpleGraph<V>, k: Int): Solution<V> {
 
     val randomVertices = g.vertices().toList().shuffled().take(k)
     val sol = Solution(randomVertices, cutSize(g, randomVertices))
-
 
     while (true) {
         val oldVal = sol.value

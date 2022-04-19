@@ -83,11 +83,11 @@ class Partitioning<T> {
     fun merge(a: T, b: T) {
         require(a in this && b in this)
 
-        if (m[a] === m[b]) return       //a and b already are in the same subset
+        if (m[a] === m[b]) return // a and b already are in the same subset
 
-        val (x, y) = listOf(a, b).sortedBy { m[it]!!.size } //size of the subset m[x] is <= the size of the subset [my]
+        val (x, y) = listOf(a, b).sortedBy { m[it]!!.size } // size of the subset m[x] is <= the size of the subset [my]
 
-        m[x]!!.toList().forEach {   //adds the smaller subset into the other
+        m[x]!!.toList().forEach { // adds the smaller subset into the other
             m[y]!!.add(it)
             m[it] = m[y]!!
         }
