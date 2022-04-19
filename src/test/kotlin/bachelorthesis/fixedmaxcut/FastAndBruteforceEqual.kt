@@ -2,9 +2,9 @@ package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solveBruteForce
 import bachelorthesis.solveFast
-import util.time.timeoutAsNull
 import graphlib.constructors.GraphFileReader
 import org.junit.jupiter.api.Test
+import util.time.timeoutAsNull
 import java.io.File
 import java.util.concurrent.Executors.newSingleThreadExecutor
 import java.util.concurrent.TimeUnit.SECONDS

@@ -1,5 +1,6 @@
-package graphlib.algorithms.exploration
+package graphlib.properties
 
+import graphlib.algorithms.exploration.checkIfConnected
 import graphlib.datastructures.SimpleGraph
 
 /**

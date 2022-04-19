@@ -3,7 +3,7 @@ package graphlib.constructors
 import graphlib.datastructures.SimpleGraph
 import java.io.File
 
-object GraphFileReader { // TODO handle weights, ignore if wanted
+object GraphFileReader {
 
     /**Line is not commented out (doesn't start with % or #) and is not empty.*/
     fun validateLine(l: String) = !l.startsWith("%") && !l.startsWith("#") && l.isNotEmpty()

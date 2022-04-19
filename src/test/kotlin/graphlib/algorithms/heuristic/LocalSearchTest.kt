@@ -24,6 +24,6 @@ internal class LocalSearchTest {
     fun getHeuristic() {
         val g = createBipartite(2, 10)
         val sol = getHeuristic(g, 2)
-        assertEquals(Solution(mutableSetOf(1,2), 20), sol)
+        assertEquals(Solution(mutableSetOf(1, 2), 20), sol)
     }
 }

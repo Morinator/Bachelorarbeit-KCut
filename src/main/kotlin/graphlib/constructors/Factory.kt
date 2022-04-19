@@ -22,7 +22,6 @@ object Factory {
     }
 
     /**
-     *
      * @return A [SimpleGraph] of the form:
      */
     fun createClique(n: Int) = SimpleGraph<Int>().apply {
@@ -32,7 +31,6 @@ object Factory {
     }
 
     /**
-     *
      * @return A [SimpleGraph] of the form:
      */
     fun createStar(n: Int) = SimpleGraph<Int>().apply {

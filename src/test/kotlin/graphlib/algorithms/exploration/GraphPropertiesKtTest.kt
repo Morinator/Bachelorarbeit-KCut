@@ -5,11 +5,12 @@ import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
+import graphlib.properties.checkIfTree
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-
-internal class CheckIfTreeKtTest {
+internal class GraphPropertiesKtTest {
 
     @Test
     fun basicShapes1() {

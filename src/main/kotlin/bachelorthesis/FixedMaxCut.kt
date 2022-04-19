@@ -1,10 +1,10 @@
 package bachelorthesis
 
-import util.collections.CombinationIterator
 import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import org.paukov.combinatorics3.Generator
+import util.collections.CombinationIterator
 
 fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
