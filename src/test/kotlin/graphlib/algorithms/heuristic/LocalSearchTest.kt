@@ -15,7 +15,7 @@ internal class LocalSearchTest {
 
         // init a bad solution
         val solution = Solution(mutableSetOf(3), cutSize(star, setOf(3)))
-        localSearchStep(star, solution)
+        localSearchStep(star, solution, ::cutSize)
 
         assertEquals(Solution(vertices = mutableSetOf(1), value = 9), solution)
     }
