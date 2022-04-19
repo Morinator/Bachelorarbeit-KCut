@@ -39,3 +39,27 @@ fun <V> solveFast(g: SimpleGraph<V>, k: Int): Solution<V> {
     }
     return sol
 }
+
+/**
+ * @return A [Solution] of size [k] with a value of at least [t] if possible, or *null* otherwise.
+ */
+fun <V> solveFastDecision(g: SimpleGraph<V>, k: Int, t: Int): Solution<V>? {
+    for (c in CombinationIterator(g.vertices(), k))
+        if (cutSize(g, c) >= t) return Solution(c.toMutableSet(), cutSize(g, c))
+    return null
+}
+
+fun <V> solveFastWithT(g: SimpleGraph<V>, k: Int): Solution<V> {
+    var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
+
+    val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
+    for (t in 0..upperBound) {
+        val tmpResult = solveFastDecision(g, k, t)
+        if (tmpResult == null)
+            break
+        else
+            sol = tmpResult
+    }
+
+    return sol
+}

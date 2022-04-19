@@ -1,4 +1,0 @@
-package bachelorthesis
-
-fun main() {
-}
