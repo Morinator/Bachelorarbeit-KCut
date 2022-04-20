@@ -1,6 +1,7 @@
 package graphlib.algorithms.bipartite
 
 import graphlib.constructors.Factory.createPath
+import graphlib.properties.cutSize
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

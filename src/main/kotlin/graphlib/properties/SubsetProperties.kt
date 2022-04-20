@@ -18,3 +18,9 @@ fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
 
     return x.size == g.size
 }
+
+/**
+ * Assumes that [S] is a subset of the vertices of [g].
+ */
+fun <V> cutSize(g: SimpleGraph<V>, S: Collection<V>): Int =
+    S.sumOf { g[it].filter { nb -> nb !in S }.size }

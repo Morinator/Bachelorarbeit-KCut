@@ -6,8 +6,8 @@ import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
 import graphlib.datastructures.SimpleGraph
-import graphlib.properties.checkIfTree
 import graphlib.properties.hIndex
+import graphlib.properties.isTree
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
@@ -20,11 +20,11 @@ internal class GraphPropertiesTest {
     internal inner class IsTree {
         @Test
         fun basicShapes1() {
-            assertTrue(checkIfTree(createStar(10)))
-            assertTrue(checkIfTree(createPath(10)))
-            assertFalse(checkIfTree(createCycle(10)))
-            assertFalse(checkIfTree(createClique(10)))
-            assertFalse(checkIfTree(createBipartite(10, 20)))
+            assertTrue(isTree(createStar(10)))
+            assertTrue(isTree(createPath(10)))
+            assertFalse(isTree(createCycle(10)))
+            assertFalse(isTree(createClique(10)))
+            assertFalse(isTree(createBipartite(10, 20)))
         }
     }
 

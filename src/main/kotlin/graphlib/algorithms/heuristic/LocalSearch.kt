@@ -1,8 +1,8 @@
 package graphlib.algorithms.heuristic
 
-import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
+import graphlib.properties.cutSize
 
 fun <V> getHeuristic(g: SimpleGraph<V>, k: Int): Solution<V> {
 

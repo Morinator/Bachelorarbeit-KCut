@@ -1,8 +1,8 @@
 package bachelorthesis
 
-import graphlib.algorithms.bipartite.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
+import graphlib.properties.cutSize
 import org.paukov.combinatorics3.Generator
 import util.collections.CombinationIterator
 
