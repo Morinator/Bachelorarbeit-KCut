@@ -45,4 +45,10 @@ object Factory {
             for (j in sizeA + 1..sizeA + sizeB)
                 if (i != j) addEdge(i, j)
     }
+
+    fun <V> graphFromEdges(edges: Collection<Pair<V, V>>): SimpleGraph<V> =
+        SimpleGraph<V>().apply {
+            for ((v, w) in edges)
+                addEdge(v, w)
+        }
 }
