@@ -25,9 +25,9 @@ internal class SimpleGraphTest {
     @Test
     fun addVertex() {
         assertFalse { 4 in g }
-        assertTrue { g.addVertex(4) }
+        g.addVertex(4)
         assertTrue { 4 in g }
-        assertFalse { g.addVertex(4) }
+        g.addVertex(4)
         assertTrue { 4 in g }
     }
 
@@ -60,7 +60,7 @@ internal class SimpleGraphTest {
     @Test
     fun deleteVertex() {
         assertTrue { 2 in g }
-        assertTrue { g.deleteVertex(2) }
+        g.deleteVertex(2)
         assertFalse { 2 in g }
         assertEquals(setOf(0), g[1]) // it's not a neighbour of vertex 1 anymore
     }
@@ -81,10 +81,10 @@ internal class SimpleGraphTest {
     @Test
     fun deleteEdge() {
         assertTrue { g.areNeighbours(0, 1) }
-        assertTrue { g.deleteEdge(0, 1) }
+        g.deleteEdge(0, 1)
         assertFalse { g.areNeighbours(0, 1) }
         assertTrue { 0 in g && 1 in g }
-        assertFalse { g.deleteEdge(0, 1) }
+        g.deleteEdge(0, 1)
         assertFalse { g.areNeighbours(0, 1) }
     }
 

@@ -13,22 +13,19 @@ class SimpleGraph<V> {
     /**
      * @return True if [v] wasn't contained already
      */
-    fun addVertex(v: V): Boolean {
-        if (v in m.keys) return false
-
-        m[v] = HashSet() // has empty neighbour-set
-        return true
+    fun addVertex(v: V): SimpleGraph<V> = this.apply {
+        if (v !in m.keys)
+            m[v] = HashSet()
     }
 
-    fun addEdge(a: V, b: V) {
-        if (a == b) return // no self-loops
+    fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
+        if (a != b) {
+            addVertex(a)
+            addVertex(b)
 
-        addVertex(a)
-        addVertex(b)
-
-        // we know they are contained from the calls above, so we do !!
-        m[a]!!.add(b)
-        m[b]!!.add(a)
+            m[a]!!.add(b)
+            m[b]!!.add(a)
+        }
     }
 
     /**
@@ -38,24 +35,26 @@ class SimpleGraph<V> {
 
     operator fun contains(v: V) = v in m.keys
 
-    fun deleteVertex(v: V): Boolean {
-        if (v !in m.keys) return false
+    fun deleteVertex(v: V): SimpleGraph<V> {
+        if (v in m.keys) {
+            for (nb in m[v]!!)
+                m[nb]!!.remove(v)
+            m.remove(v)
+        }
 
-        for (nb in m[v]!!)
-            m[nb]!!.remove(v)
-        m.remove(v)
-        return true
+        return this
     }
 
     /**
      * @return True if an edge between [a] and [b] previously existed
      */
-    fun deleteEdge(a: V, b: V): Boolean {
-        if (a !in m[b]!!) return false
+    fun deleteEdge(a: V, b: V): SimpleGraph<V> {
+        if (a in m[b]!!) {
+            m[a]!!.remove(b)
+            m[b]!!.remove(a)
+        }
 
-        m[a]!!.remove(b)
-        m[b]!!.remove(a)
-        return true
+        return this
     }
 
     /**

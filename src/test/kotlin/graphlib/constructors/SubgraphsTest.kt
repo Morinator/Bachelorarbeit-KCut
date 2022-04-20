@@ -21,8 +21,8 @@ internal class SubgraphsTest {
     @Test
     fun isolatedVertices() {
         val g = createStar(6)
-        val sub = inducedSubgraph(g, setOf(4,5,6))
-        val correct = SimpleGraph<Int>().apply {addVertex(4); addVertex(5); addVertex(6) }
+        val sub = inducedSubgraph(g, setOf(4, 5, 6))
+        val correct = SimpleGraph<Int>().apply { addVertex(4); addVertex(5); addVertex(6) }
         assertEquals(correct, sub)
     }
 
@@ -33,5 +33,4 @@ internal class SubgraphsTest {
         val correct = SimpleGraph<Int>()
         assertEquals(correct, sub)
     }
-
 }
