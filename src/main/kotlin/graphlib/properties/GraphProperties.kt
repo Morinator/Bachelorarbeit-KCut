@@ -9,6 +9,12 @@ import java.lang.RuntimeException
  */
 fun <V> checkIfTree(g: SimpleGraph<V>) = checkIfConnected(g) && g.edgeCount == g.size - 1
 
+/**
+ * Runtime: O([g].delta)
+ *
+ * @return The h-Index of [g], i.e. the biggest natural number *h* so that there are at
+ * least *h* vertices with degree of at least *h*
+ */
 fun <V> hIndex(g: SimpleGraph<V>): Int {
     val arr = IntArray(g.delta + 1) // Indices are: 0, 1, ...,delta-1, delta
 

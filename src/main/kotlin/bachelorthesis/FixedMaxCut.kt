@@ -31,10 +31,9 @@ fun <V> solveFastWithT(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
 
     val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
-    for (t in 0..upperBound) {
 
-        // TODO Paper von Algo-AG lesen und schauen was umsetzbar -> Regel, wann Knoten rein / raus
-        //                                                        -> Fragen aufschreiben
+    // TODO let t start at heuristic-value
+    for (t in 1..upperBound) {
 
         val tmpResult = solveFastDecision(g, k, t)
         if (tmpResult == null)

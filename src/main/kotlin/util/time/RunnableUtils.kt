@@ -4,7 +4,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-fun timeoutAsNull(task: Runnable, time: Long) {
+fun runWithTimeout(task: Runnable, time: Long) {
     val checkerThread = Executors.newSingleThreadExecutor().submit { task.run() }
 
     try {

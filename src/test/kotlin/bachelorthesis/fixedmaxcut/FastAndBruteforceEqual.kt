@@ -4,7 +4,7 @@ import bachelorthesis.solveBruteForce
 import bachelorthesis.solveFastWithT
 import graphlib.constructors.GraphIO
 import org.junit.jupiter.api.Test
-import util.time.timeoutAsNull
+import util.time.runWithTimeout
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -20,7 +20,7 @@ class FastAndBruteforceEqual {
             println("\n## k is $k ##")
             for (file in graphFiles) {
                 val g = GraphIO.graphFromPath(file)
-                timeoutAsNull({ assertEquals(solveBruteForce(g, k), solveFastWithT(g, k)) }, timeout)
+                runWithTimeout({ assertEquals(solveBruteForce(g, k), solveFastWithT(g, k)) }, timeout)
             }
         }
     }
