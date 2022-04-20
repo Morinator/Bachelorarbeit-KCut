@@ -10,12 +10,13 @@ class SimpleGraph<V> {
     // The internal hashmap that maps any vertex to the set of its neighbours
     private val m = HashMap<V, MutableSet<V>>()
 
-    /**
-     * @return True if [v] wasn't contained already
-     */
     fun addVertex(v: V): SimpleGraph<V> = this.apply {
         if (v !in m.keys)
             m[v] = HashSet()
+    }
+
+    fun addVertices(vertices: Collection<V>): SimpleGraph<V> = this.apply {
+        vertices.forEach { addVertex(it) }
     }
 
     fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
@@ -45,9 +46,6 @@ class SimpleGraph<V> {
         return this
     }
 
-    /**
-     * @return True if an edge between [a] and [b] previously existed
-     */
     fun deleteEdge(a: V, b: V): SimpleGraph<V> {
         if (a in m[b]!!) {
             m[a]!!.remove(b)

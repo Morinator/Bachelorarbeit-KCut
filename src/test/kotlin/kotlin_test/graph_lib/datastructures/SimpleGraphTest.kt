@@ -32,6 +32,14 @@ internal class SimpleGraphTest {
     }
 
     @Test
+    fun addVertices() {
+        assertFalse { 4 in g }
+        g.addVertices(listOf(5, 6))
+        assertTrue { 5 in g && 6 in g }
+        assertEquals(6, g.size)
+        assertEquals(2, g.edgeCount)
+    }
+    @Test
     fun addEdge1() {
         assertFalse { g.areNeighbours(1, 3) }
         g.addEdge(1, 3)
