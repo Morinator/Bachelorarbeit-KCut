@@ -17,20 +17,20 @@ internal class FactoryTest {
     fun createPath1() {
         val g = createPath(4)
         assertEquals(4, g.size)
-        assertTrue { g.isConnected(1, 2) }
-        assertTrue { g.isConnected(2, 3) }
-        assertTrue { g.isConnected(3, 4) }
+        assertTrue { g.areNeighbours(1, 2) }
+        assertTrue { g.areNeighbours(2, 3) }
+        assertTrue { g.areNeighbours(3, 4) }
     }
 
     @Test
     fun createCycle1() {
         val g = createCycle(5)
         assertEquals(5, g.size)
-        assertTrue { g.isConnected(1, 2) }
-        assertTrue { g.isConnected(2, 3) }
-        assertTrue { g.isConnected(3, 4) }
-        assertTrue { g.isConnected(4, 5) }
-        assertTrue { g.isConnected(5, 1) }
+        assertTrue { g.areNeighbours(1, 2) }
+        assertTrue { g.areNeighbours(2, 3) }
+        assertTrue { g.areNeighbours(3, 4) }
+        assertTrue { g.areNeighbours(4, 5) }
+        assertTrue { g.areNeighbours(5, 1) }
     }
 
     @Test
@@ -40,7 +40,7 @@ internal class FactoryTest {
         for (i in 1..5)
             for (j in 1..5)
                 if (i != j)
-                    assertTrue { g.isConnected(i, j) }
+                    assertTrue { g.areNeighbours(i, j) }
     }
 
     @Test
@@ -48,7 +48,7 @@ internal class FactoryTest {
         val g = createStar(5)
         assertEquals(4, g.edgeCount)
         for (i in 2..5)
-            assertTrue { g.isConnected(1, i) }
+            assertTrue { g.areNeighbours(1, i) }
     }
 
     @Nested
@@ -59,18 +59,18 @@ internal class FactoryTest {
             val g = createBipartite(1, 1)
             assertEquals(2, g.size)
             assertEquals(1, g.edgeCount)
-            assertTrue(g.isConnected(1, 2))
+            assertTrue(g.areNeighbours(1, 2))
         }
 
         @Test
         fun size_2_4() {
             val g = createBipartite(2, 4)
             assertEquals(8, g.edgeCount)
-            assertTrue(g.isConnected(1, 3))
-            assertTrue(g.isConnected(1, 4))
-            assertTrue(g.isConnected(1, 5))
-            assertTrue(g.isConnected(1, 6))
-            assertFalse(g.isConnected(1, 2))
+            assertTrue(g.areNeighbours(1, 3))
+            assertTrue(g.areNeighbours(1, 4))
+            assertTrue(g.areNeighbours(1, 5))
+            assertTrue(g.areNeighbours(1, 6))
+            assertFalse(g.areNeighbours(1, 2))
             (1..2).forEach { assertEquals(4, g.degreeOf(it)) }
             (3..6).forEach { assertEquals(2, g.degreeOf(it)) }
         }
@@ -80,10 +80,10 @@ internal class FactoryTest {
             val g = createBipartite(99, 100)
             assertEquals(9900, g.edgeCount)
             assertEquals(199, g.size)
-            assertTrue(g.isConnected(98, 101))
-            assertTrue(g.isConnected(54, 179))
-            assertTrue(g.isConnected(3, 198))
-            assertFalse(g.isConnected(136, 199))
+            assertTrue(g.areNeighbours(98, 101))
+            assertTrue(g.areNeighbours(54, 179))
+            assertTrue(g.areNeighbours(3, 198))
+            assertFalse(g.areNeighbours(136, 199))
         }
     }
 }

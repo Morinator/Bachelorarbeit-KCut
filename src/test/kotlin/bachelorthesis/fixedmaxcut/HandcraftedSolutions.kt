@@ -3,7 +3,7 @@ package bachelorthesis.fixedmaxcut
 import bachelorthesis.solveBruteForce
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
-import graphlib.constructors.GraphFileReader.graphFromPath
+import graphlib.constructors.GraphIO.graphFromPath
 import graphlib.datastructures.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled

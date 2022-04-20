@@ -1,13 +1,13 @@
 package graphlib.constructors
 
-import graphlib.constructors.GraphFileReader.edgesFromPath
-import graphlib.constructors.GraphFileReader.graphFromEdges
-import graphlib.constructors.GraphFileReader.graphFromPath
-import graphlib.constructors.GraphFileReader.validateLine
+import graphlib.constructors.GraphIO.edgesFromPath
+import graphlib.constructors.GraphIO.graphFromEdges
+import graphlib.constructors.GraphIO.graphFromPath
+import graphlib.constructors.GraphIO.validateLine
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class GraphFileReaderTest {
+internal class GraphIOTest {
 
     private val edgesSmall1 = listOf(Pair(1, 2), Pair(1, 8), Pair(2, 3), Pair(3, 4), Pair(3, 5), Pair(3, 6), Pair(3, 7))
 

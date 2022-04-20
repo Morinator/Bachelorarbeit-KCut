@@ -61,7 +61,7 @@ class SimpleGraph<V> {
     /**
      * @return True if [a] and [b] are connected by an edge
      */
-    fun isConnected(a: V, b: V): Boolean = a in m[b]!!
+    fun areNeighbours(a: V, b: V): Boolean = a in m[b]!!
 
     /**
      * @return The number of vertices in the graph (isolated vertices also count)

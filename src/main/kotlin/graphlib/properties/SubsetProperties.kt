@@ -11,8 +11,8 @@ fun <V> isIndependentSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
 }
 
 fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
-    val x = HashSet(S)
-    for (s in S) {
+    val x = HashSet(S) // copy-constructor
+    for (s in S) { // add neighbours for all
         x.addAll(g[s])
     }
 

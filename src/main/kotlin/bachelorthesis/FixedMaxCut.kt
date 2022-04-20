@@ -27,14 +27,15 @@ fun <V> solveFastDecision(g: SimpleGraph<V>, k: Int, t: Int): Solution<V>? {
     return null
 }
 
-// TODO Paper von Algo-AG lesen und schauen was umsetzbar -> Regel, wann Knoten rein / raus
-//                                                        -> Fragen aufschreiben
-// TODO save some results of brute-force in a file
 fun <V> solveFastWithT(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
 
     val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
     for (t in 0..upperBound) {
+
+        // TODO Paper von Algo-AG lesen und schauen was umsetzbar -> Regel, wann Knoten rein / raus
+        //                                                        -> Fragen aufschreiben
+
         val tmpResult = solveFastDecision(g, k, t)
         if (tmpResult == null)
             break
