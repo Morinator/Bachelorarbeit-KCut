@@ -10,15 +10,25 @@ class SimpleGraph<V> {
     // The internal hashmap that maps any vertex to the set of its neighbours
     private val m = HashMap<V, MutableSet<V>>()
 
+    /**
+     * Runtime: O(1)  <=>  constant
+     */
     fun addVertex(v: V): SimpleGraph<V> = this.apply {
         if (v !in m.keys)
             m[v] = HashSet()
     }
 
+    /**
+     * Like [addVertex], but for multiple vertices.
+     * Runtime: O(l) for l vertices
+     */
     fun addVertices(vertices: Collection<V>): SimpleGraph<V> = this.apply {
         vertices.forEach { addVertex(it) }
     }
 
+    /**
+     * Runtime: O(1)  <=>  constant
+     */
     fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
         if (a != b) {
             addVertex(a)
@@ -29,13 +39,35 @@ class SimpleGraph<V> {
         }
     }
 
+    // TODO create alias "neighbours"
     /**
+     * Runtime: O(1)  <=>  constant; because no new set is generated,
+     * but you only get a view of an internally existing object.
+     *
      * @return The neighbours of [v].
      */
     operator fun get(v: V): Set<V> = m[v]!!
 
+    // TODO Test
+    /**
+     * @return The open neighbourhood of [vertices]
+     */
+    fun neighbours(vertices: Set<V>): Set<V> {
+        return mutableSetOf<V>().apply {
+            vertices.map { get(it) }.forEach { addAll(it) }
+            removeAll(vertices.toSet())
+        }
+    }
+
+    /**
+     * Runtime: O(1)  <=>  constant
+     * @return True iff it contains [v] as a vertex.
+     */
     operator fun contains(v: V) = v in m.keys
 
+    /**
+     * Runtime: O( degreeOf(v) )    because every neighbour of [v] also needs to be updated.
+     */
     fun deleteVertex(v: V): SimpleGraph<V> {
         if (v in m.keys) {
             for (nb in m[v]!!)
