@@ -18,28 +18,6 @@ fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
     return sol
 }
 
-// TODO Außenrum Schleife für t hochzählen
-
-// TODO Paper von Algo-AG lesen und schauen was umsetzbar -> Regel, wann Knoten rein / raus
-//                                                        -> Fragen aufschreiben
-// TODO save some results of brute-force in a file
-
-fun <V> solveFast(g: SimpleGraph<V>, k: Int): Solution<V> {
-    var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
-    val combinationIterator = CombinationIterator(g.vertices(), k)
-
-    val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
-
-    while (combinationIterator.hasNext() && sol.value < upperBound) {
-        val c = combinationIterator.next()
-        val s = cutSize(g, c)
-        if (s > sol.value) {
-            sol = Solution(c.toMutableSet(), s)
-        }
-    }
-    return sol
-}
-
 /**
  * @return A [Solution] of size [k] with a value of at least [t] if possible, or *null* otherwise.
  */
@@ -49,6 +27,9 @@ fun <V> solveFastDecision(g: SimpleGraph<V>, k: Int, t: Int): Solution<V>? {
     return null
 }
 
+// TODO Paper von Algo-AG lesen und schauen was umsetzbar -> Regel, wann Knoten rein / raus
+//                                                        -> Fragen aufschreiben
+// TODO save some results of brute-force in a file
 fun <V> solveFastWithT(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
 

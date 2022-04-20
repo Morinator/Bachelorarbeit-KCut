@@ -23,7 +23,7 @@ fun <V> getHeuristic(g: SimpleGraph<V>, k: Int): Solution<V> {
  * explores the 1-neighbourhood of [solution] and if it finds a better neighbour, it stops.
  * Note that no new object is returned; only [solution] is modified to represent a new subset.
  */
-fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective : (SimpleGraph<V>, Collection<V>) -> Int) {
+fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective: (SimpleGraph<V>, Collection<V>) -> Int) {
     for (dropVertex in solution.vertices.toList()) { // needs a copy to prevent ConcurrentModificationException
         solution.vertices.remove(dropVertex)
 
