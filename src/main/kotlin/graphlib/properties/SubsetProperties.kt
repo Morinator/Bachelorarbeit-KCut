@@ -3,7 +3,7 @@ package graphlib.properties
 import graphlib.datastructures.SimpleGraph
 
 /**
- * @Runtime O( sum of degrees in [S] )  which is bounded by O( |S| * [g].delta )
+ * @Runtime O( sum of degrees in [S] )  which is bounded by O( |S| * [g].maxDegree )
  * @see <a href="https://en.wikipedia.org/wiki/Independent_set_(graph_theory)">Wikipedia page</a>
  * @return True iff [S] is an independent set of [g]
  */

@@ -152,11 +152,11 @@ internal class SimpleGraphTest {
     }
 
     @Test
-    fun deltaTest() {
-        assertEquals(2, createPath(4).delta)
-        assertEquals(1, createPath(2).delta)
-        assertEquals(2, createCycle(5).delta)
-        assertEquals(5, createClique(6).delta)
+    fun maxDegreeTest() {
+        assertEquals(2, createPath(4).maxDegree)
+        assertEquals(1, createPath(2).maxDegree)
+        assertEquals(2, createCycle(5).maxDegree)
+        assertEquals(5, createClique(6).maxDegree)
     }
 
     @Test
