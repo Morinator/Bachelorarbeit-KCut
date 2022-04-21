@@ -11,7 +11,7 @@ class SimpleGraph<V> {
     private val m = HashMap<V, MutableSet<V>>()
 
     /**
-     * Runtime: O(1)  <=>  constant
+     * Runtime: O(1)  =  constant
      */
     fun addVertex(v: V): SimpleGraph<V> = this.apply {
         if (v !in m.keys)
@@ -27,7 +27,7 @@ class SimpleGraph<V> {
     }
 
     /**
-     * Runtime: O(1)  <=>  constant
+     * Runtime: O(1)  =  constant
      */
     fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
         if (a != b) {
@@ -41,7 +41,7 @@ class SimpleGraph<V> {
 
     // TODO create alias "neighbours"
     /**
-     * Runtime: O(1)  <=>  constant; because no new set is generated,
+     * Runtime: O(1)  =  constant; because no new set is generated,
      * but you only get a view of an internally existing object.
      *
      * @return The neighbours of [v].
@@ -60,7 +60,7 @@ class SimpleGraph<V> {
     }
 
     /**
-     * Runtime: O(1)  <=>  constant
+     * Runtime: O(1)  =  constant
      * @return True iff it contains [v] as a vertex.
      */
     operator fun contains(v: V) = v in m.keys
@@ -78,6 +78,9 @@ class SimpleGraph<V> {
         return this
     }
 
+    /**
+     * Runtime: O(1)  =  constant
+     */
     fun deleteEdge(a: V, b: V): SimpleGraph<V> {
         if (a in m[b]!!) {
             m[a]!!.remove(b)
@@ -88,18 +91,24 @@ class SimpleGraph<V> {
     }
 
     /**
+     * Runtime: O(1)  =  constant
      * @return True if [a] and [b] are connected by an edge
      */
     fun areNeighbours(a: V, b: V): Boolean = a in m[b]!!
 
     /**
+     * Runtime: O(1)  =  constant
      * @return The number of vertices in the graph (isolated vertices also count)
      */
     val size get() = m.keys.size
 
+    /**
+     * Runtime: O(1)  =  constant
+     */
     fun degreeOf(v: V): Int = m[v]!!.size
 
     /**
+     * Runtime: O(|E|) because all edges are iterated
      * @return Number of edges in the graph
      */
     val edgeCount get() = m.values.sumOf { it.size } / 2
@@ -114,6 +123,9 @@ class SimpleGraph<V> {
 
     fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
+    /**
+     * Runtime: O(|V| + |E|) because all vertices and all edges appear in the string representation
+     */
     override fun toString() = vertices().joinToString("\n") { "$it: ${get(it)}" }
 
     override fun equals(other: Any?) = (other is SimpleGraph<*>) && m == other.m
@@ -123,6 +135,9 @@ class SimpleGraph<V> {
     val delta: Int // MAX-DEGREE
         get() = vertices().maxOfOrNull { degreeOf(it) } ?: 0
 
+    /**
+     * Runtime: O( |V| ) because degrees are retrieved in constant time for each vertex
+     */
     val degrees: List<Int>
         get() = vertices().map { degreeOf(it) }
 }
