@@ -1,4 +1,4 @@
-package graphlib.algorithms.heuristic
+package graphlib.heuristic
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution

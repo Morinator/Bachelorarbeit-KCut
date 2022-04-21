@@ -1,8 +1,8 @@
 package kotlin_test.graph_lib.algorithms.exploration
 
-import graphlib.algorithms.exploration.checkIfConnected
-import graphlib.algorithms.exploration.connectedComponent
-import graphlib.algorithms.exploration.listConnectedComponents
+import graphlib.exploration.checkIfConnected
+import graphlib.exploration.connectedComponent
+import graphlib.exploration.listConnectedComponents
 import graphlib.constructors.Factory.createPath
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

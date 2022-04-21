@@ -1,6 +1,6 @@
 package kotlin_test.graph_lib.algorithms.exploration
 
-import graphlib.algorithms.exploration.BFS_Level_Iterator
+import graphlib.exploration.BFS_Level_Iterator
 import graphlib.constructors.Factory.createPath
 import graphlib.datastructures.SimpleGraph
 import org.junit.jupiter.api.Test

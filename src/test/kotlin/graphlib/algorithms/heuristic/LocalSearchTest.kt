@@ -15,7 +15,7 @@ internal class LocalSearchTest {
 
         // init a bad solution
         val solution = Solution(mutableSetOf(3), cutSize(star, setOf(3)))
-        localSearchStep(star, solution, ::cutSize)
+        graphlib.heuristic.localSearchStep(star, solution, ::cutSize)
 
         assertEquals(Solution(vertices = mutableSetOf(1), value = 9), solution)
     }
@@ -23,7 +23,7 @@ internal class LocalSearchTest {
     @Test
     fun getHeuristic() {
         val g = createBipartite(2, 10)
-        val sol = getHeuristic(g, 2)
+        val sol = graphlib.heuristic.getHeuristic(g, 2)
         assertEquals(Solution(mutableSetOf(1, 2), 20), sol)
     }
 }
