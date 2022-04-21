@@ -6,6 +6,7 @@ import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
 import graphlib.datastructures.SimpleGraph
+import graphlib.properties.`is c closed`
 import graphlib.properties.hIndex
 import graphlib.properties.isTree
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -50,4 +51,31 @@ internal class GraphPropertiesTest {
             assertEquals(0, hIndex(SimpleGraph<Int>()))
         }
     }
+
+    @Nested
+    internal inner class `C Closure` {
+        @Test
+        fun star4() {
+            assertFalse(`is c closed`(createStar(4), 1))
+        }
+
+        @Test
+        fun bipartite_2_2() {
+            assertFalse(`is c closed`(createBipartite(2,2), 2))
+        }
+
+        @Test
+        fun bipartite_3_3() {
+            val g= createBipartite(3,3)
+            g.addEdge(1,2);g.addEdge(1,3);g.addEdge(2,3)
+            g.addEdge(4,5);g.addEdge(4,6);g.addEdge(5,6)
+            assertTrue(`is c closed`(g, 3))
+        }
+
+        @Test
+        fun emptyGraph() {
+            assertEquals(0, hIndex(SimpleGraph<Int>()))
+        }
+    }
+
 }
