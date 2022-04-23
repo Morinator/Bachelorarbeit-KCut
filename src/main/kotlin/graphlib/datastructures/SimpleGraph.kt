@@ -123,6 +123,13 @@ class SimpleGraph<V> {
 
     fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
+    fun edgeList() = ArrayList<Pair<V, V>>().apply {
+        for (v in vertices())
+            for (w in get(v))
+                if (v.hashCode() < w.hashCode()) // so that edge doesnt appear twice
+                    add(Pair(v, w)) // order doesn't matter
+    }
+
     /**
      * Runtime: O(|V| + |E|) because all vertices and all edges appear in the string representation
      */
