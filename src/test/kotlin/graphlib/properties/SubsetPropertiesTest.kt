@@ -52,4 +52,29 @@ internal class SubsetPropertiesTest {
             assertFalse(isVertexCover(setOf(1), g))
         }
     }
+
+    @Nested
+    internal inner class IsDominatingSet {
+
+        @Test
+        fun star() {
+            val g = createStar(10)
+            println(g)
+            assertTrue(isDominatingSet(setOf(1), g))
+            assertTrue(isVertexCover((2..10).toSet(), g))
+            assertFalse(isVertexCover(setOf(2, 4), g))
+        }
+
+        @Test
+        fun path() {
+            val g = createPath(7)
+            println(g)
+            assertFalse(isVertexCover(setOf(1, 5, 7), g))
+
+            assertTrue(isVertexCover((1..7).toSet(), g))
+            assertTrue(isVertexCover(setOf(1, 4, 7), g))
+            assertFalse(isVertexCover(setOf(1), g))
+        }
+    }
+
 }

@@ -29,6 +29,23 @@ fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
 }
 
 /**
+ * @see <a href="https://en.wikipedia.org/wiki/Dominating_set">Wikipedia page</a>
+ * @return True iff [S] is a dominating set of [g]
+ */
+fun <V> isDominatingSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
+    for (v in g.vertices() subtract S ) {
+        var hasDominatingNeighbour = false
+        for (nb in g[v])
+            if (nb in S)
+                hasDominatingNeighbour = true
+
+        if (!hasDominatingNeighbour)
+            return false
+    }
+    return true
+}
+
+/**
  * Assumes that [S] is a subset of the vertices of [g].
  */
 fun <V> cutSize(g: SimpleGraph<V>, S: Collection<V>): Int =
