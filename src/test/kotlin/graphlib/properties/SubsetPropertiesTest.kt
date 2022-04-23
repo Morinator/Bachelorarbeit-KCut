@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 internal class SubsetPropertiesTest {
 
@@ -59,7 +60,6 @@ internal class SubsetPropertiesTest {
         @Test
         fun star() {
             val g = createStar(10)
-            println(g)
             assertTrue(isDominatingSet(setOf(1), g))
             assertTrue(isVertexCover((2..10).toSet(), g))
             assertFalse(isVertexCover(setOf(2, 4), g))
@@ -74,6 +74,25 @@ internal class SubsetPropertiesTest {
             assertTrue(isVertexCover((1..7).toSet(), g))
             assertTrue(isVertexCover(setOf(1, 4, 7), g))
             assertFalse(isVertexCover(setOf(1), g))
+        }
+    }
+
+    @Nested
+    internal inner class EdgesCovered {
+
+        @Test
+        fun star() {
+            val g = createStar(10)
+            assertEquals(9, countCoveredEdges(setOf(1), g))
+            assertEquals(3, countCoveredEdges(setOf(3,6,8), g))
+        }
+
+        @Test
+        fun path() {
+            val g = createPath(7)
+            assertEquals(2, countCoveredEdges(setOf(3), g))
+            assertEquals(3, countCoveredEdges(setOf(3,4), g))
+            assertEquals(6, countCoveredEdges(setOf(2,4,6), g))
         }
     }
 

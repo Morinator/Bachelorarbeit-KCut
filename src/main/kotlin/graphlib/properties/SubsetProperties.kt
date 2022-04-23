@@ -33,7 +33,7 @@ fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
  * @return True iff [S] is a dominating set of [g]
  */
 fun <V> isDominatingSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
-    for (v in g.vertices() subtract S ) {
+    for (v in g.vertices() subtract S) {
         var hasDominatingNeighbour = false
         for (nb in g[v])
             if (nb in S)
@@ -43,6 +43,20 @@ fun <V> isDominatingSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
             return false
     }
     return true
+}
+
+/**
+ * @see <a href="https://tcs.rwth-aachen.de/~langer/pub/partial-vc-wg08.pdf">Wikipedia page</a>
+ * @return How many edges are covered by [S]
+ */
+fun <V> countCoveredEdges(S: Set<V>, g: SimpleGraph<V>): Int {
+    var counter = 0
+    // don't count edges with both ends in S twice
+    for (v in S)
+        for (w in g[v])
+            if (w !in S || (w in S && v.hashCode() < w.hashCode()))
+                counter++
+    return counter
 }
 
 /**
