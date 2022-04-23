@@ -33,6 +33,8 @@ fun <V> hIndex(g: SimpleGraph<V>): Int {
 
 /**
  * @see <a href="https://arxiv.org/pdf/1804.07431.pdf">Introductory paper</a>
+ * Reminder/Note: The higher [c] is, the more likely graphs are to be [c].closed.
+ * Note: "Triadic closure" is the special case of c=1.
  * @return True iff for any two distinct vertices v, w with at least c common neighbours, (v, w) is an edge
  */
 fun <V> `is c closed` (g: SimpleGraph<V>, c: Int): Boolean {
