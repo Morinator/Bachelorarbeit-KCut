@@ -41,9 +41,9 @@ internal class SimpleGraphTest {
     }
     @Test
     fun addEdge1() {
-        assertFalse { g.areNeighbours(1, 3) }
+        assertFalse { g.areNB(1, 3) }
         g.addEdge(1, 3)
-        assertTrue { g.areNeighbours(1, 3) }
+        assertTrue { g.areNB(1, 3) }
     }
 
     @Test
@@ -75,8 +75,8 @@ internal class SimpleGraphTest {
 
     @Test
     fun isConnected() {
-        assertTrue { g.areNeighbours(0, 1) }
-        assertTrue { g.areNeighbours(1, 2) }
+        assertTrue { g.areNB(0, 1) }
+        assertTrue { g.areNB(1, 2) }
     }
 
     @Test
@@ -88,12 +88,12 @@ internal class SimpleGraphTest {
 
     @Test
     fun deleteEdge() {
-        assertTrue { g.areNeighbours(0, 1) }
+        assertTrue { g.areNB(0, 1) }
         g.deleteEdge(0, 1)
-        assertFalse { g.areNeighbours(0, 1) }
+        assertFalse { g.areNB(0, 1) }
         assertTrue { 0 in g && 1 in g }
         g.deleteEdge(0, 1)
-        assertFalse { g.areNeighbours(0, 1) }
+        assertFalse { g.areNB(0, 1) }
     }
 
     @Test

@@ -94,7 +94,7 @@ class SimpleGraph<V> {
      * Runtime: O(1)  =  constant
      * @return True if [a] and [b] are connected by an edge
      */
-    fun areNeighbours(a: V, b: V): Boolean = a in m[b]!!
+    fun areNB(a: V, b: V): Boolean = a in m[b]!!
 
     /**
      * Runtime: O(1)  =  constant
@@ -136,8 +136,8 @@ class SimpleGraph<V> {
         get() = vertices().maxOfOrNull { degreeOf(it) } ?: 0
 
     /**
-     * Runtime: O( |V| ) because degrees are retrieved in constant time for each vertex
+     * Runtime: O( |V| * log|V| ) because the degrees are sorted
      */
-    val degrees: List<Int>
-        get() = vertices().map { degreeOf(it) }
+    val degreeSequence: List<Int>
+        get() = vertices().map { degreeOf(it) }.sorted()
 }

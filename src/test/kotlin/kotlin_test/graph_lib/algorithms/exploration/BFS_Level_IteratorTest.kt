@@ -1,8 +1,8 @@
 package kotlin_test.graph_lib.algorithms.exploration
 
-import graphlib.exploration.BFS_Level_Iterator
 import graphlib.constructors.Factory.createPath
 import graphlib.datastructures.SimpleGraph
+import graphlib.exploration.BFS_Level_Iterator
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

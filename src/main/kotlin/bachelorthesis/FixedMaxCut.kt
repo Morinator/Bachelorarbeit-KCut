@@ -30,7 +30,7 @@ fun <V> solveFastDecision(g: SimpleGraph<V>, k: Int, t: Int): Solution<V>? {
 fun <V> solveFastWithT(g: SimpleGraph<V>, k: Int): Solution<V> {
     var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
 
-    val upperBound = g.degrees.sorted().takeLast(k).sum() // sum of highest k degrees
+    val upperBound = g.degreeSequence.sorted().takeLast(k).sum() // sum of highest k degrees
 
     // TODO let t start at heuristic-value
     for (t in 1..upperBound) {

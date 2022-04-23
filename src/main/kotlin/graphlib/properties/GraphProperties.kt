@@ -37,11 +37,11 @@ fun <V> hIndex(g: SimpleGraph<V>): Int {
  * Note: "Triadic closure" is the special case of c=1.
  * @return True iff for any two distinct vertices v, w with at least c common neighbours, (v, w) is an edge
  */
-fun <V> `is c closed` (g: SimpleGraph<V>, c: Int): Boolean {
+fun <V> `is c closed`(g: SimpleGraph<V>, c: Int): Boolean {
     for (pair in CombinationIterator(g.vertices(), 2)) {
-        val (v,w) = pair.toList()
+        val (v, w) = pair.toList()
 
-        if ((g[v] intersect g[w] ).size >= c && !g.areNeighbours(v, w)) // just the definition of c-closure
+        if ((g[v] intersect g[w]).size >= c && !g.areNB(v, w)) // just the definition of c-closure
             return false // found a bad pair
     }
     return true
