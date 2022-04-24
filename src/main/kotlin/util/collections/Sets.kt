@@ -16,3 +16,12 @@ fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = run {
     val setsBySize = collection.toList().sortedBy { it.size }
     HashSet(setsBySize.first()).apply { for (i in 1 until setsBySize.size) retainAll(setsBySize[i]) }
 }
+
+/**
+ * Removes and returns a random element of the set
+ */
+fun <T> MutableSet<T>.popRandom() : T {
+    val elem = random()
+    remove(elem)
+    return elem
+}
