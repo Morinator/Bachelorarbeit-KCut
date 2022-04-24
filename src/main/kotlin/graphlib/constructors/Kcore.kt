@@ -4,7 +4,7 @@ import graphlib.datastructures.SimpleGraph
 import util.collections.popRandom
 
 fun <V> kCore(g: SimpleGraph<V>, k: Int): SimpleGraph<V> = g.copy().apply {
-    val q= HashSet(vertices()) // process-queue
+    val q = HashSet(vertices()) // process-queue
 
     while (q.isNotEmpty()) {
         val v = q.popRandom()

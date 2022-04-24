@@ -1,6 +1,7 @@
 package graphlib.properties
 
 import graphlib.datastructures.SimpleGraph
+import org.paukov.combinatorics3.Generator
 
 /**
  * @Runtime O( sum of degrees in [S] )  which is bounded by O( |S| * [g].maxDegree )
@@ -40,6 +41,14 @@ fun <V> isDominatingSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
                 hasDominatingNeighbour = true
 
         if (!hasDominatingNeighbour)
+            return false
+    }
+    return true
+}
+
+fun <V> isClique(S: Set<V>, g: SimpleGraph<V>): Boolean {
+    for ((v, w) in Generator.combination(S).simple(2)) {
+        if (!g.areNB(v, w))
             return false
     }
     return true

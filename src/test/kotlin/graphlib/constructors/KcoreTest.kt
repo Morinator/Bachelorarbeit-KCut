@@ -4,9 +4,8 @@ import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.datastructures.SimpleGraph
-import org.junit.jupiter.api.Test
-
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 internal class KCoreTest {
 

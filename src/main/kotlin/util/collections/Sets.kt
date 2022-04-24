@@ -20,7 +20,7 @@ fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = run {
 /**
  * Removes and returns a random element of the set
  */
-fun <T> MutableSet<T>.popRandom() : T {
+fun <T> MutableSet<T>.popRandom(): T {
     val elem = random()
     remove(elem)
     return elem

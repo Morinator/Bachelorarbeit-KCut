@@ -84,16 +84,27 @@ internal class SubsetPropertiesTest {
         fun star() {
             val g = createStar(10)
             assertEquals(9, countCoveredEdges(setOf(1), g))
-            assertEquals(3, countCoveredEdges(setOf(3,6,8), g))
+            assertEquals(3, countCoveredEdges(setOf(3, 6, 8), g))
         }
 
         @Test
         fun path() {
             val g = createPath(7)
             assertEquals(2, countCoveredEdges(setOf(3), g))
-            assertEquals(3, countCoveredEdges(setOf(3,4), g))
-            assertEquals(6, countCoveredEdges(setOf(2,4,6), g))
+            assertEquals(3, countCoveredEdges(setOf(3, 4), g))
+            assertEquals(6, countCoveredEdges(setOf(2, 4, 6), g))
         }
     }
 
+    @Nested
+    internal inner class IsClique {
+
+        @Test
+        fun star() {
+            val g = createStar(10)
+            assertTrue(isClique(setOf(1), g))
+            assertTrue(isClique(setOf(1, 2), g))
+            assertFalse(isClique(setOf(4, 5, 6), g))
+        }
+    }
 }
