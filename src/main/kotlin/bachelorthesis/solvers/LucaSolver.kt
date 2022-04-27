@@ -11,42 +11,39 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
 
         // variables for keeping track of the best result
         var bestCutValue = -1
-        var bestIndices = IntArray(0)
+        lateinit var bestIndices : List<Int>
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY
-        val setIndices = IntArray(k) { -1 }
-        var nextI = 0
+        val indices = ArrayList<Int>().apply { add(-1) }
         var spacesLeft = k
 
 
-        while (nextI > 0 || nextAction != NextAction.UP) {
+        while (indices.isNotEmpty()) {
             when (nextAction) {
                 NextAction.UP -> {
-                    nextI--
+                    indices.removeLast()
                     spacesLeft++
                     nextAction = NextAction.STAY
                 }
 
                 NextAction.DOWN -> {
-                    nextI++
                     spacesLeft--
-                    setIndices[nextI] = setIndices[nextI - 1]
+                    indices.add(indices.last())
                     nextAction = NextAction.STAY
                 }
 
                 NextAction.STAY -> {
-                    if (setIndices[nextI] < g.size - spacesLeft) {      // enough space left
+                    if (indices.last() < g.size - spacesLeft) {      // enough space left
                         // modify indices
-                        setIndices[nextI]++
-
-                        if (nextI == k - 1) {   // has full size
-                            val currCutValue = cutSize(g, setIndices.map { vertexList[it] })
+                        indices.incrementLast()
+                        if (indices.size == k) {   // has full size
+                            val currCutValue = cutSize(g, indices.map { vertexList[it] })
 
                             // check subset
                             if (bestCutValue == -1 || currCutValue > bestCutValue) {
                                 bestCutValue = currCutValue
-                                bestIndices = setIndices.clone()
+                                bestIndices = indices.toList() // copy
                             }
                         } else
                             nextAction = NextAction.DOWN
