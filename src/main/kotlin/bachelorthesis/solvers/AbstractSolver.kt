@@ -7,5 +7,5 @@ abstract class AbstractSolver<V>(graph: SimpleGraph<V>, val k: Int) {
 
     enum class NextAction { UP, STAY, DOWN }
 
-    lateinit var bestIndices  : IntArray
+    lateinit var bestIndices: IntArray
 }

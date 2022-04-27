@@ -3,7 +3,7 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 
-class ValueSolver {
+class ValueSolver { // TODO take arguments in constructor
 
     fun <V> calcResult(g: SimpleGraph<V>, k: Int): Solution<V> {
         var curr = Solution(mutableSetOf<V>(), Int.MIN_VALUE)

@@ -5,7 +5,7 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.MyCombinationIterator
 
-class DecisionSolver<V>(protected val g: SimpleGraph<V>,  k: Int) : AbstractSolver<V>(g, k) {
+class DecisionSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
 
     /**
      * @return A [Solution] of size [k] with a value of at least [t] if possible, or *null* otherwise.
