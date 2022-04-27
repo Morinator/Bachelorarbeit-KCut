@@ -1,6 +1,6 @@
 package util.collections
 
-class CombinationIterator<T>(elems: Collection<T>, k: Int) : Iterator<Set<T>> {
+class MyCombinationIterator<T>(elems: Collection<T>, k: Int) : Iterator<Set<T>> {
     private val li = elems.toList()
     private val idx = IntArray(k) { k - 1 - it }
     private var hasNext = true

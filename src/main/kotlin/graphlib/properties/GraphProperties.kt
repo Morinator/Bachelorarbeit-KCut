@@ -2,7 +2,7 @@ package graphlib.properties
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.exploration.checkIfConnected
-import util.collections.CombinationIterator
+import util.collections.MyCombinationIterator
 
 /**
  * @return True iff [g] is a tree, which is equivalent to being connected and cycle-free.
@@ -38,7 +38,7 @@ fun <V> hIndex(g: SimpleGraph<V>): Int {
  * @return True iff for any two distinct vertices v, w with at least c common neighbours, (v, w) is an edge
  */
 fun <V> `is c closed`(g: SimpleGraph<V>, c: Int): Boolean {
-    for (pair in CombinationIterator(g.vertices(), 2)) {
+    for (pair in MyCombinationIterator(g.vertices(), 2)) {
         val (v, w) = pair.toList()
 
         if ((g[v] intersect g[w]).size >= c && !g.areNB(v, w)) // just the definition of c-closure

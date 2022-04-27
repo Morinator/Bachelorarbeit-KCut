@@ -1,6 +1,7 @@
 package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solvers.BruteforceSolver
+import bachelorthesis.solvers.LucaSolver
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.GraphIO.graphFromPath
@@ -36,7 +37,7 @@ internal class HandcraftedSolutions {
         private val g = graphFromPath("data/graphs/small1.txt")
 
         @Test
-        fun k1() = assertEquals(Solution(mutableSetOf(3), 5), BruteforceSolver(g, 1).calcResult())
+        fun k1() = assertEquals(Solution(mutableSetOf(3), 5), LucaSolver(g, 1).calcResult())
 
         @Test
         fun k2() = assertEquals(Solution(mutableSetOf(1, 3), 7), BruteforceSolver(g, 2).calcResult())
