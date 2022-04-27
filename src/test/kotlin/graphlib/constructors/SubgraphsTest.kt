@@ -5,7 +5,7 @@ import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
 import graphlib.constructors.Factory.graphFromEdges
 import graphlib.datastructures.SimpleGraph
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class SubgraphsTest {

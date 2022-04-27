@@ -39,6 +39,7 @@ internal class SimpleGraphTest {
         assertEquals(6, g.size)
         assertEquals(2, g.edgeCount)
     }
+
     @Test
     fun addEdge1() {
         assertFalse { g.areNB(1, 3) }
