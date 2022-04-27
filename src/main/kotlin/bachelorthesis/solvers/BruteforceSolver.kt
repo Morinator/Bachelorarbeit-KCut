@@ -5,9 +5,9 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import org.paukov.combinatorics3.Generator
 
-class BruteforceSolver {
+class BruteforceSolver<V>(protected val g: SimpleGraph<V>) {
 
-    fun <V> run(g: SimpleGraph<V>, k: Int): Solution<V> {
+    fun run(k: Int): Solution<V> {
         var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
 
         for (S in Generator.combination(g.vertices()).simple(k)) {
