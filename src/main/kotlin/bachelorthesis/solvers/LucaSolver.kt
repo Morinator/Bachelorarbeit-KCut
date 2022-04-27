@@ -3,6 +3,7 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
+import util.collections.incrementLast
 
 class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
 
