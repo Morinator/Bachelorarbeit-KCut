@@ -4,6 +4,11 @@ import bachelorthesis.solvers.ValueSolver
 import graphlib.constructors.GraphIO
 import java.io.File
 
+
+/**
+ * This shouldn't have to be run often, because once there results are saved in a file,
+ * we can just use them from there.
+ */
 fun main() {
     val graphFiles = File("data/graphs").walk().filter { it.isFile }
     for (k in 1..3) {

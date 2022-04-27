@@ -10,10 +10,9 @@ class ValueSolver {
 
         val upperBound = g.degreeSequence.sorted().takeLast(k).sum() // sum of highest k degrees
 
-        // TODO let t start at heuristic-value
         for (t in 1..upperBound) {
 
-            val tmpResult = DecisionSolver().run(g, k, t)
+            val tmpResult = DecisionSolver(g, k).run(t)
             if (tmpResult == null)
                 break
             else
