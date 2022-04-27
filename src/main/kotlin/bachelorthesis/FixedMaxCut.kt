@@ -3,20 +3,7 @@ package bachelorthesis
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
-import org.paukov.combinatorics3.Generator
 import util.collections.CombinationIterator
-
-fun <V> solveBruteForce(g: SimpleGraph<V>, k: Int): Solution<V> {
-    var sol = Solution(mutableSetOf<V>(), Int.MIN_VALUE)
-    val combinations = Generator.combination(g.vertices()).simple(k)
-
-    for (S in combinations) {
-        val s = cutSize(g, S)
-        if (s > sol.value)
-            sol = Solution(S, s)
-    }
-    return sol
-}
 
 /**
  * @return A [Solution] of size [k] with a value of at least [t] if possible, or *null* otherwise.

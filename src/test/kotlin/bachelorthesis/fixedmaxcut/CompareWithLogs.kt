@@ -10,7 +10,7 @@ class CompareWithLogs {
 
     @Test // Takes 23 minutes for all instances as of 27.04.2022
     fun runTest() {
-        val nrOfInstances = Int.MAX_VALUE
+        val nrOfInstances = 55
         for (line in File("maxcut_results").readLines().take(nrOfInstances)) {
             val l = line.split("\\s+".toRegex())
             val g = graphFromPath(l[0])
