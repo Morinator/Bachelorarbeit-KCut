@@ -17,7 +17,7 @@ class CompareWithLogs {
             val k = l[1].toInt()
             val objValue = l[2].toInt()
 
-            assertEquals(objValue, ValueSolver().run(g, k).value, message = "### graphName=${l[0]}, k=$k ###")
+            assertEquals(objValue, ValueSolver().calcResult(g, k).value, message = "### graphName=${l[0]}, k=$k ###")
         }
     }
 }
