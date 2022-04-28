@@ -5,7 +5,13 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
-class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
+class TreeSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
+
+    enum class NextAction { UP, STAY, DOWN }
+
+    private val vertexList = g.vertices().toList()
+
+    var bestSolution = Solution(emptyList<V>(), Int.MIN_VALUE)
 
     fun calcResult(): Solution<V> {
 

@@ -5,7 +5,11 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import org.paukov.combinatorics3.Generator
 
-class BruteforceSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
+class BruteforceSolver<V>(protected val g: SimpleGraph<V>, val k: Int) {
+
+    private val vertexList = g.vertices().toList()
+
+    var bestSolution = Solution(emptyList<V>(), Int.MIN_VALUE)
 
     fun calcResult(): Solution<V> {
 
@@ -14,6 +18,7 @@ class BruteforceSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSol
             if (s > bestSolution.value)
                 bestSolution = Solution(S, s)
         }
+
         return bestSolution
     }
 }
