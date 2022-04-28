@@ -17,8 +17,9 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
 
         fun spacesLeft() = k - indices.size + 1
 
-        while (indices.isNotEmpty()) {
+        while (indices.isNotEmpty())
             when (nextAction) {
+
                 NextAction.UP -> {
                     indices.removeLast()
                     nextAction = NextAction.STAY
@@ -36,15 +37,15 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                         indices.incrementLast()
                         if (indices.size < k)
                             nextAction = NextAction.DOWN
-                        else {
-                            val currCutValue = cutSize(g, indices.map { vertexList[it] })
-                            if (bestSolution.value == -1 || currCutValue > bestSolution.value) // check for update
-                                bestSolution = Solution(indices.mapTo(HashSet()) { vertexList[it] }, currCutValue)
+                        else { // size == k, so subset is full
+                            val cutValue = cutSize(g, indices.map { vertexList[it] })
+                            if (bestSolution.value == -1 || cutValue > bestSolution.value)
+                                bestSolution = Solution(indices.mapTo(HashSet()) { vertexList[it] }, cutValue)
                         }
                     }
                 }
             }
-        }
+
         return bestSolution
     }
 }
