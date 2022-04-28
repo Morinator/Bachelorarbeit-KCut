@@ -34,7 +34,7 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                 }
 
                 NextAction.STAY -> {
-                    if (indices.last() < g.size - spacesLeft) {      // enough space left
+                    if (indices.last() < g.size - spacesLeft()) {      // enough space left
                         // modify indices
                         indices.incrementLast()
                         if (indices.size == k) {   // has full size
