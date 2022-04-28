@@ -9,16 +9,13 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
 
     fun calcResult(): Solution<V> {
 
-        // variables for keeping track of the best result
-        var bestCutValue = -1
-        lateinit var bestIndices: List<Int>
+        var bestSolution = Solution(emptyList<V>(), -1)
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY
         val indices = ArrayList<Int>().apply { add(-1) }
 
         fun spacesLeft() = k - indices.size + 1
-
 
         while (indices.isNotEmpty()) {
             when (nextAction) {
@@ -33,29 +30,21 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                 }
 
                 NextAction.STAY -> {
-                    if (indices.last() < g.size - spacesLeft()) {      // enough space left
-                        // modify indices
-                        indices.incrementLast()
-                        if (indices.size < k) {   // has full size
-                            nextAction = NextAction.DOWN
-                        } else {
-                            val currCutValue = cutSize(g, indices.map { vertexList[it] })
-
-                            // check subset
-                            if (bestCutValue == -1 || currCutValue > bestCutValue) {
-                                bestCutValue = currCutValue
-                                bestIndices = indices.toList() // copy
-                            }
-                        }
-                    } else
+                    if (indices.last() >= g.size - spacesLeft())
                         nextAction = NextAction.UP
+                    else {
+                        indices.incrementLast()
+                        if (indices.size < k)
+                            nextAction = NextAction.DOWN
+                        else {
+                            val currCutValue = cutSize(g, indices.map { vertexList[it] })
+                            if (bestSolution.value == -1 || currCutValue > bestSolution.value) // check for update
+                                bestSolution = Solution(indices.mapTo(HashSet()) { vertexList[it] }, currCutValue)
+                        }
+                    }
                 }
-
             }
         }
-
-        val bestSet = bestIndices.mapTo(HashSet()) { vertexList[it] }
-        return Solution(bestSet, bestCutValue)
+        return bestSolution
     }
-
 }
