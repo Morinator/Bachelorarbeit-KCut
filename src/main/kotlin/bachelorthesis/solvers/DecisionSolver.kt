@@ -5,15 +5,16 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
-class TreeSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
+class DecisionSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
 
     enum class NextAction { UP, STAY, DOWN }
 
     private val vertexList = g.vertices().toList()
 
-    var bestSolution = Solution(emptyList<V>(), Int.MIN_VALUE)
-
-    fun calcResult(): Solution<V> {
+    /**
+     * @return The solution if there is one with a value of at least t and null otherwise.
+     */
+    fun calcResult(t: Int): Solution<V>? {
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY
@@ -46,13 +47,13 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
                             nextAction = NextAction.DOWN
                         else { // size == k, so subset is full
                             val cutValue = cutSize(g, indices.map { vertexList[it] })
-                            if (bestSolution.value == Int.MIN_VALUE || cutValue > bestSolution.value)
-                                bestSolution = Solution(indices.mapTo(HashSet()) { vertexList[it] }, cutValue)
+                            if (cutValue >= t)
+                                return Solution(indices.mapTo(HashSet()) { vertexList[it] }, cutValue)
                         }
                     }
                 }
             }
 
-        return bestSolution
+        return null
     }
 }
