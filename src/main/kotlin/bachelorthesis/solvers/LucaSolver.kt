@@ -11,24 +11,23 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
 
         // variables for keeping track of the best result
         var bestCutValue = -1
-        lateinit var bestIndices : List<Int>
+        lateinit var bestIndices: List<Int>
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY
         val indices = ArrayList<Int>().apply { add(-1) }
-        var spacesLeft = k
+
+        fun spacesLeft() = k - indices.size + 1
 
 
         while (indices.isNotEmpty()) {
             when (nextAction) {
                 NextAction.UP -> {
                     indices.removeLast()
-                    spacesLeft++
                     nextAction = NextAction.STAY
                 }
 
                 NextAction.DOWN -> {
-                    spacesLeft--
                     indices.add(indices.last())
                     nextAction = NextAction.STAY
                 }
@@ -37,7 +36,9 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                     if (indices.last() < g.size - spacesLeft()) {      // enough space left
                         // modify indices
                         indices.incrementLast()
-                        if (indices.size == k) {   // has full size
+                        if (indices.size < k) {   // has full size
+                            nextAction = NextAction.DOWN
+                        } else {
                             val currCutValue = cutSize(g, indices.map { vertexList[it] })
 
                             // check subset
@@ -45,8 +46,7 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                                 bestCutValue = currCutValue
                                 bestIndices = indices.toList() // copy
                             }
-                        } else
-                            nextAction = NextAction.DOWN
+                        }
                     } else
                         nextAction = NextAction.UP
                 }
@@ -54,9 +54,7 @@ class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
             }
         }
 
-        val bestSet = HashSet<V>()
-        bestIndices.forEach { bestSet.add(vertexList[it]) }
-
+        val bestSet = bestIndices.mapTo(HashSet()) { vertexList[it] }
         return Solution(bestSet, bestCutValue)
     }
 
