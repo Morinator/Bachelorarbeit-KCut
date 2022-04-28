@@ -1,6 +1,6 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.LucaSolver
+import bachelorthesis.solvers.TreeSolver
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -17,7 +17,7 @@ class CompareWithLogs {
             val k = l[1].toInt()
             val objValue = l[2].toInt()
 
-            assertEquals(objValue, LucaSolver(g, k).calcResult().value, message = "### graphName=${l[0]}, k=$k ###")
+            assertEquals(objValue, TreeSolver(g, k).calcResult().value, message = "### graphName=${l[0]}, k=$k ###")
         }
     }
 }

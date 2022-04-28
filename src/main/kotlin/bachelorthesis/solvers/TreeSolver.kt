@@ -5,7 +5,7 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
-class LucaSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
+class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>(g, k) {
 
     fun calcResult(): Solution<V> {
 
