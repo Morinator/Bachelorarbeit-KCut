@@ -9,11 +9,12 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
 
     fun calcResult(): Solution<V> {
 
-        var bestSolution = Solution(emptyList<V>(), -1)
-
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY
         val indices = ArrayList<Int>().apply { add(-1) }
+
+        val counter: MutableMap<Int, Int> = HashMap()
+        indices.forEach { counter[it] = 0 }
 
         fun spacesLeft() = k - indices.size + 1
 
@@ -39,7 +40,7 @@ class TreeSolver<V>(protected val g: SimpleGraph<V>, k: Int) : AbstractSolver<V>
                             nextAction = NextAction.DOWN
                         else { // size == k, so subset is full
                             val cutValue = cutSize(g, indices.map { vertexList[it] })
-                            if (bestSolution.value == -1 || cutValue > bestSolution.value)
+                            if (bestSolution.value == Int.MIN_VALUE || cutValue > bestSolution.value)
                                 bestSolution = Solution(indices.mapTo(HashSet()) { vertexList[it] }, cutValue)
                         }
                     }
