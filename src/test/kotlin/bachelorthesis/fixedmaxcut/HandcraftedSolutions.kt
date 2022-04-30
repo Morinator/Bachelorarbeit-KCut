@@ -1,6 +1,6 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.ValueSolver
+import bachelorthesis.solvers.indexbased.ValueSolver
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.GraphIO.graphFromPath

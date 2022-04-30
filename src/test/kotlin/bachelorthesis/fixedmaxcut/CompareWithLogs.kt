@@ -1,6 +1,6 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.ValueSolver
+import bachelorthesis.solvers.indexbased.ValueSolver
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.Test
 import java.io.File
