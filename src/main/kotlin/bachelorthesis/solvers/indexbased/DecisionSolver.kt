@@ -14,7 +14,7 @@ class DecisionSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
     /**
      * @return The solution if there is one with a value of at least t and null otherwise.
      */
-    fun calcResult(t: Int): Solution<V>? {
+    fun run(t: Int): Solution<V>? {
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY

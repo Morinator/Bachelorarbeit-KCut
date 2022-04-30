@@ -8,13 +8,13 @@ import graphlib.datastructures.Solution
  */
 class ValueSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
 
-    fun calcResult(): Solution<V> {
+    fun run(): Solution<V> {
         var bestSolution = Solution<V>()
 
         val upperBound = g.degreeSequence.takeLast(k).sum()
 
         for (t in 0..upperBound) {
-            val result = DecisionSolver(g, k).calcResult(t)
+            val result = DecisionSolver(g, k).run(t)
             if (result == null)
                 break
             else
