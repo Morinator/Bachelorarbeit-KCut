@@ -1,7 +1,6 @@
 package bachelorthesis.solvers.extensionbased
 
-
-fun aaaa(curr: MutableList<Int>, free: MutableCollection<Int>, k: Int) {
+fun subsetTreeRecursive(curr: MutableList<Int>, free: MutableCollection<Int>, k: Int) {
 
     if (curr.size == k) {
         println(curr)
@@ -14,10 +13,10 @@ fun aaaa(curr: MutableList<Int>, free: MutableCollection<Int>, k: Int) {
         val newCurr = ArrayList(curr)
         newCurr.add(e)
 
-        aaaa(newCurr, HashSet(free), k)
+        subsetTreeRecursive(newCurr, HashSet(free), k)
     }
 }
 
 fun main() {
-    aaaa(ArrayList(), mutableListOf(1, 2, 3, 4, 5), 3)
+    subsetTreeRecursive(ArrayList(), mutableListOf(1, 2, 3, 4, 5), 3)
 }
