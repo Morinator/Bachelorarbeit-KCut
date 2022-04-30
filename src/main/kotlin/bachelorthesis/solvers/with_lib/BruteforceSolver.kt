@@ -1,4 +1,4 @@
-package bachelorthesis.solvers
+package bachelorthesis.solvers.with_lib
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution

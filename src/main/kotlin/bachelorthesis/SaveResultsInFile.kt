@@ -1,6 +1,6 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.BruteforceSolver
+import bachelorthesis.solvers.with_lib.BruteforceSolver
 import graphlib.constructors.GraphIO
 import java.io.File
 
