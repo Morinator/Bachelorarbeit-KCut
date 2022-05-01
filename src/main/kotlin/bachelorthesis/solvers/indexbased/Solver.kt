@@ -1,11 +1,12 @@
 package bachelorthesis.solvers.indexbased
 
+import bachelorthesis.solvers.DecisionSolver
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
-class DecisionSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
+class Solver<V>(protected val g: SimpleGraph<V>, private val k: Int) : DecisionSolver<V>() {
 
     enum class NextAction { UP, STAY, DOWN }
 
@@ -14,7 +15,7 @@ class DecisionSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
     /**
      * @return The solution if there is one with a value of at least t and null otherwise.
      */
-    fun run(t: Int): Solution<V>? {
+    override fun calc(t: Int): Solution<V>? {
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY

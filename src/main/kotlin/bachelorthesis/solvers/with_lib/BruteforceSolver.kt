@@ -11,7 +11,7 @@ class BruteforceSolver<V>(protected val g: SimpleGraph<V>, val k: Int) {
 
     var bestSolution = Solution(emptyList<V>(), Int.MIN_VALUE)
 
-    fun calcResult(): Solution<V> {
+    fun calc(): Solution<V> {
 
         for (S in Generator.combination(vertexList).simple(k)) {
             val s = cutSize(g, S)
