@@ -1,6 +1,7 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.with_lib.BruteforceSolver
+import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.LibSolver
 import graphlib.constructors.GraphIO
 import java.io.File
 
@@ -14,7 +15,7 @@ fun main() {
     for (k in 1..3) {
         for (file in graphFiles) {
             val g = GraphIO.graphFromPath(file)
-            val sol = BruteforceSolver(g, k).calc()
+            val sol = ValueWrapper(g, k, LibSolver()).calc()
 
             val graphAndK = file.toString().padEnd(60) + k.toString().padEnd(10)
             val logFile = File("maxcut_results")

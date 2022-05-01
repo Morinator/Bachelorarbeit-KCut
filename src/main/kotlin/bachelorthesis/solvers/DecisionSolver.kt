@@ -1,8 +1,9 @@
 package bachelorthesis.solvers
 
+import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 
-abstract class DecisionSolver<V> {
+interface DecisionSolver<V> {
 
-    abstract fun calc(t: Int): Solution<V>?
+    fun calc(t: Int ,g: SimpleGraph<V>, k: Int): Solution<V>?
 }

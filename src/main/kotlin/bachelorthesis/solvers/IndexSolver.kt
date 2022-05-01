@@ -1,21 +1,21 @@
-package bachelorthesis.solvers.indexbased
+package bachelorthesis.solvers
 
-import bachelorthesis.solvers.DecisionSolver
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
-class Solver<V>(protected val g: SimpleGraph<V>, private val k: Int) : DecisionSolver<V>() {
+class IndexSolver<V> : DecisionSolver<V> {
 
     enum class NextAction { UP, STAY, DOWN }
-
-    private val vertexList = g.vertices().toList()
 
     /**
      * @return The solution if there is one with a value of at least t and null otherwise.
      */
-    override fun calc(t: Int): Solution<V>? {
+    override fun calc(t: Int,  g: SimpleGraph<V>, k: Int): Solution<V>? {
+
+        val vertexList = g.vertices().toList()
+
 
         // variables for iterating over the subsets
         var nextAction = NextAction.STAY

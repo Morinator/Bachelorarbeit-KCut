@@ -1,4 +1,4 @@
-package bachelorthesis.solvers.extensionbased.recursive
+package bachelorthesis.solvers
 
 fun subsetTreeRecursive(curr: MutableList<Int>, free: MutableCollection<Int>, k: Int) {
 

@@ -1,6 +1,7 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.indexbased.ValueSolver
+import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.IndexSolver
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.GraphIO.graphFromPath
@@ -15,19 +16,19 @@ internal class HandcraftedSolutions {
     @Test
     fun solveA() {
         val g = createPath(5)
-        assertEquals(Solution(mutableSetOf(2, 4), 4), ValueSolver(g, 2).run())
+        assertEquals(Solution(mutableSetOf(2, 4), 4), ValueWrapper(g, 2, IndexSolver()).calc())
     }
 
     @Test
     fun solveB() {
         val g = createPath(3)
-        assertEquals(Solution(mutableSetOf(1, 3), 2), ValueSolver(g, 2).run())
+        assertEquals(Solution(mutableSetOf(1, 3), 2), ValueWrapper(g, 2, IndexSolver()).calc())
     }
 
     @Test
     fun solveC() {
         val g = createClique(6)
-        assertEquals(9, ValueSolver(g, 3).run().value) // solution is not unique
+        assertEquals(9, ValueWrapper(g, 3, IndexSolver()).calc().value) // solution is not unique
     }
 
     @Nested
@@ -36,29 +37,29 @@ internal class HandcraftedSolutions {
         private val g = graphFromPath("data/graphs/small1.txt")
 
         @Test
-        fun k1() = assertEquals(Solution(mutableSetOf(3), 5), ValueSolver(g, 1).run())
+        fun k1() = assertEquals(Solution(mutableSetOf(3), 5), ValueWrapper(g, 1, IndexSolver()).calc())
 
         @Test
-        fun k2() = assertEquals(Solution(mutableSetOf(1, 3), 7), ValueSolver(g, 2).run())
+        fun k2() = assertEquals(Solution(mutableSetOf(1, 3), 7), ValueWrapper(g, 2, IndexSolver()).calc())
 
         @Test
-        fun k3() = assertEquals(6, ValueSolver(g, 3).run().value) // vertices not unique
+        fun k3() = assertEquals(6, ValueWrapper(g, 3, IndexSolver()).calc().value) // vertices not unique
 
         @Test
-        fun k4() = assertEquals(5, ValueSolver(g, 4).run().value)
-
-        @Disabled
-        @Test
-        fun k5() = assertEquals(-123, ValueSolver(g, 5).run().value)
+        fun k4() = assertEquals(5, ValueWrapper(g, 4, IndexSolver()).calc().value)
 
         @Disabled
         @Test
-        fun k6() = assertEquals(-123, ValueSolver(g, 6).run().value)
+        fun k5() = assertEquals(-123, ValueWrapper(g, 5, IndexSolver()).calc().value)
+
+        @Disabled
+        @Test
+        fun k6() = assertEquals(-123, ValueWrapper(g, 6, IndexSolver()).calc().value)
 
         @Test
-        fun k7() = assertEquals(5, ValueSolver(g, 7).run().value)
+        fun k7() = assertEquals(5, ValueWrapper(g, 7, IndexSolver()).calc().value)
 
         @Test
-        fun k8() = assertEquals(Solution((1..8).toMutableSet(), 0), ValueSolver(g, 8).run())
+        fun k8() = assertEquals(Solution((1..8).toMutableSet(), 0), ValueWrapper(g, 8, IndexSolver()).calc())
     }
 }

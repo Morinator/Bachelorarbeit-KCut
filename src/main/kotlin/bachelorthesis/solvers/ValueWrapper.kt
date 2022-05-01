@@ -1,20 +1,22 @@
-package bachelorthesis.solvers.indexbased
+package bachelorthesis.solvers
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 
 /**
- * Uses [Solver] for increasing values of *t* to calculate the optimal value.
+ * Uses [IndexSolver] for increasing values of *t* to calculate the optimal value.
  */
-class ValueSolver<V>(protected val g: SimpleGraph<V>, private val k: Int) {
+class ValueWrapper<V>(protected val g: SimpleGraph<V>,
+                      private val k: Int,
+                      private val decider : DecisionSolver<V>) {
 
-    fun run(): Solution<V> {
+    fun calc(): Solution<V> {
         var bestSolution = Solution<V>()
 
         val upperBound = g.degreeSequence.takeLast(k).sum()
 
         for (t in 0..upperBound) {
-            val result = Solver(g, k).calc(t)
+            val result = decider.calc(t,g, k)
             if (result == null)
                 break
             else

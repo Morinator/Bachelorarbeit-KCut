@@ -1,4 +1,4 @@
-package bachelorthesis.solvers.extensionbased
+package bachelorthesis.solvers
 
 fun subsetTreeStacked(col: Collection<Int>, k: Int) {
 

@@ -1,6 +1,7 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.indexbased.ValueSolver
+import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.IndexSolver
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -17,7 +18,7 @@ class CompareWithLogs {
             val k = l[1].toInt()
             val objValue = l[2].toInt()
 
-            assertEquals(objValue, ValueSolver(g, k).run().value, message = "### graphName=${l[0]}, k=$k ###")
+            assertEquals(objValue, ValueWrapper(g, k, IndexSolver()).calc().value, message = "### graphName=${l[0]}, k=$k ###")
         }
     }
 }
