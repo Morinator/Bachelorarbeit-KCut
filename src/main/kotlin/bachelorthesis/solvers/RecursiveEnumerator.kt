@@ -1,23 +1,44 @@
 package bachelorthesis.solvers
 
-fun subsetTreeRecursive(curr: MutableList<Int>, free: MutableCollection<Int>, k: Int) {
+import graphlib.datastructures.SimpleGraph
+import graphlib.datastructures.Solution
+import graphlib.properties.cutSize
 
-    if (curr.size == k) {
-        println(curr)
-    } else {
-        for (e in free.toList().sorted()) {
-            free.remove(e)
+class RecursiveSolver : DecisionSolver<Int> {
 
-            curr.add(e)
+    override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? =
+        subsetTreeRecursive(mutableListOf(), g.vertices().toMutableList(), k, g, t)
 
-            subsetTreeRecursive(curr, HashSet(free), k)
+    private fun subsetTreeRecursive(
+        curr: MutableList<Int>,
+        free: MutableCollection<Int>,
+        k: Int,
+        g: SimpleGraph<Int>,
+        t: Int
+    ): Solution<Int>? {
+
+        if (curr.size == k) {
+            val cutSize = cutSize(g, curr)
+            if (cutSize >= t)
+                return Solution(curr, cutSize)
+        } else {
+            val freeee = free.toList().sorted()
+            for (e in freeee) {
+                free.remove(e)
+
+                curr.add(e)
+
+                val newFree = if (curr.size + 1 == k) free else HashSet(free)
+
+                val result = subsetTreeRecursive(curr, newFree, k, g, t)
+                if (result != null)
+                    return result
+            }
         }
+        if (curr.size > 0)
+            curr.removeLast()
+
+        return null
     }
 
-    if (curr.size > 0)
-        curr.removeLast()
-}
-
-fun main() {
-    subsetTreeRecursive(ArrayList(), mutableListOf(1, 2, 3, 4, 5), 3)
 }
