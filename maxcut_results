@@ -4,7 +4,6 @@ data/graphs/out.ucidata-zachary                             1         17        
 data/graphs/out.adjnoun_adjacency_adjacency                 1         49                  [18]
 data/graphs/out.arenas-email                                1         71                  [105]
 data/graphs/out.dolphins                                    1         12                  [15]
-data/graphs/coPapersCiteseer.mtx                            1         91                  [339577]
 data/graphs/inf-openflights.edges                           1         242                 [53]
 data/graphs/out.arenas-jazz                                 1         100                 [67]
 data/graphs/out.moreno_zebra_zebra                          1         14                  [13]
