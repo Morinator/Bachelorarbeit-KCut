@@ -22,8 +22,7 @@ class RecursiveSolver : DecisionSolver<Int> {
             if (cutSize >= t)
                 return Solution(curr, cutSize)
         } else {
-            val freeee = free.toList().sorted()
-            for (e in freeee) {
+            for (e in free.toList().sorted()) {
                 free.remove(e)
 
                 curr.add(e)
