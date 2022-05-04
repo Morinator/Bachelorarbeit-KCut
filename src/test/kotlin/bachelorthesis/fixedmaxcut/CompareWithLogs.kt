@@ -1,28 +1,24 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.*
+import bachelorthesis.solvers.StackSolver
+import bachelorthesis.solvers.ValueWrapper
 import graphlib.constructors.GraphIO.graphFromPath
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.RepeatedTest
+import org.junit.jupiter.api.RepetitionInfo
 import java.io.File
 import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    @Test
-    fun runTest() {
-        val nrOfInstances = 60
-        for (line in File("maxcut_results2").readLines().take(nrOfInstances)) {
-            val l = line.split("\\s+".toRegex())
-            val g = graphFromPath(l[0])
-            val k = l[1].toInt()
-            val objValue = l[2].toInt()
+    @RepeatedTest(55)
+    fun runTest(repNr: RepetitionInfo) {
+        val line = File("maxcut_results2").readLines()[repNr.currentRepetition-1]
+        val l = line.split("\\s+".toRegex())
+        val g = graphFromPath(l[0])
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
 
-            val solvers = listOf(StackSolver(), IndexSolver(), LibSolver())
-
-            for (solver in solvers) {
-                val prediction = ValueWrapper(g, k, solver).calc().value
-                assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k, solver-type=${solver::class}###")
-            }
-        }
+        val prediction = ValueWrapper(g, k, StackSolver()).calc().value
+        assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 }

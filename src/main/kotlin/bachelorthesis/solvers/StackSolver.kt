@@ -12,7 +12,7 @@ class StackSolver : DecisionSolver<Int> {
 
     override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
 
-        val extension = mutableListOf(HashSet(g.vertices()))
+        val extension = mutableListOf(g.vertices().toMutableList())
         val T: MutableList<Int> = ArrayList()
 
         while (extension.isNotEmpty())
@@ -29,7 +29,7 @@ class StackSolver : DecisionSolver<Int> {
                 extension.last().remove(newElem)
 
                 if (T.size != k-1)
-                    extension.add(HashSet(extension.last())) // duplicate last
+                    extension.add(extension.last().toMutableList()) // duplicate last
 
                 T.add(newElem)
 
