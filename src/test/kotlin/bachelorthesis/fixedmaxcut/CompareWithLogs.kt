@@ -1,9 +1,6 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.IndexSolver
-import bachelorthesis.solvers.LibSolver
-import bachelorthesis.solvers.StackSolver
-import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.*
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -13,7 +10,7 @@ class CompareWithLogs {
 
     @Test
     fun runTest() {
-        val nrOfInstances = 60 // takes ~1 minute
+        val nrOfInstances = 60
         for (line in File("maxcut_results2").readLines().take(nrOfInstances)) {
             val l = line.split("\\s+".toRegex())
             val g = graphFromPath(l[0])

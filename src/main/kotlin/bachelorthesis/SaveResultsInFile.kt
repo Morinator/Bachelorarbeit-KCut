@@ -1,10 +1,9 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.ValueWrapper
 import bachelorthesis.solvers.LibSolver
+import bachelorthesis.solvers.ValueWrapper
 import graphlib.constructors.GraphIO
 import java.io.File
-
 
 /**
  * This shouldn't have to be run often, because once there results are saved in a file,
@@ -21,6 +20,7 @@ fun main() {
             val graphAndK = file.toString().padEnd(60) + k.toString().padEnd(10)
             val logFile = File("maxcut_results2")
 
-            logFile.appendText(graphAndK + (sol.value.toString().padEnd(20) + sol.vertices + "\n"))        }
+            logFile.appendText(graphAndK + (sol.value.toString().padEnd(20) + sol.vertices + "\n"))
+        }
     }
 }

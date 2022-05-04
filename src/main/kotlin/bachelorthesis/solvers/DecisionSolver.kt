@@ -5,5 +5,5 @@ import graphlib.datastructures.Solution
 
 interface DecisionSolver<V> {
 
-    fun calc(t: Int ,g: SimpleGraph<V>, k: Int): Solution<V>?
+    fun calc(t: Int, g: SimpleGraph<V>, k: Int): Solution<V>?
 }

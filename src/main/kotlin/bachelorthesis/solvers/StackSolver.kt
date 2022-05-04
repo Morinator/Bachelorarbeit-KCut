@@ -4,41 +4,50 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 
+//TODO Contribution durch suchbaum tracken
+
+//TODO sufficient & needless
 
 class StackSolver : DecisionSolver<Int> {
 
-    override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>?{
+    override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
 
-        val free = mutableListOf(HashSet(g.vertices()))
-        val curr: MutableList<Int> = ArrayList()
+        val extension = mutableListOf(HashSet(g.vertices()))
+        val T: MutableList<Int> = ArrayList()
 
-        while (free.isNotEmpty())
-            if (curr.size < k && free.last().isNotEmpty()) { //branch
+        while (extension.isNotEmpty())
 
-                val newElem = free.last().first()
-                free.last().remove(newElem)
 
-                //if (curr.size != k-1)
-                free.add(HashSet(free.last())) // duplicate last
+            if (T.size < k && // branch
+                extension.last().isNotEmpty() &&
+                T.size + extension.last().size >= k
+            ) {
 
-                curr.add(newElem)
+                // Idee: hier Knoten nach contribution sortieren
+
+                val newElem = extension.last().random()
+                extension.last().remove(newElem)
+
+                if (T.size != k-1)
+                    extension.add(HashSet(extension.last())) // duplicate last
+
+                T.add(newElem)
+
 
             } else { // backtrack
 
-                if (curr.size == k) {
-                    val cutSize = cutSize(g, curr)
+                if (T.size == k) {
+                    val cutSize = cutSize(g, T)
                     if (cutSize >= t)
-                        return Solution(curr, cutSize)
+                        return Solution(T, cutSize)
                 }
 
-                if (curr.size > 0)
-                    curr.removeLast()
+                if (T.size != k)
+                    extension.removeLast()
 
-                //if (curr.size != k)
-                    free.removeLast()
+                if (T.size > 0)
+                    T.removeLast()
             }
-
         return null
     }
-
 }
