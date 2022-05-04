@@ -10,9 +10,9 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    @RepeatedTest(55)
+    @RepeatedTest(78) // sadly needs to be set manually to the number of files to compare
     fun runTest(repNr: RepetitionInfo) {
-        val line = File("maxcut_results2").readLines()[repNr.currentRepetition-1]
+        val line = File("maxcut_results").readLines()[repNr.currentRepetition-1]
         val l = line.split("\\s+".toRegex())
         val g = graphFromPath(l[0])
         val k = l[1].toInt()
