@@ -12,17 +12,15 @@ import java.io.File
  */
 fun main() {
     val graphFiles = File("data/graphs").walk().filter { it.isFile }
-    for (k in 1..3) {
+    for (k in 1..5) {
         for (file in graphFiles) {
+            println(file.name)
             val g = GraphIO.graphFromPath(file)
             val sol = ValueWrapper(g, k, LibSolver()).calc()
 
             val graphAndK = file.toString().padEnd(60) + k.toString().padEnd(10)
-            val logFile = File("maxcut_results")
+            val logFile = File("maxcut_results2")
 
-            if (!logFile.readLines().any { it.startsWith(file.toString().padEnd(60) + k.toString().padEnd(10)) }) {
-                logFile.appendText(graphAndK + (sol.value.toString().padEnd(20) + sol.vertices + "\n"))
-            }
-        }
+            logFile.appendText(graphAndK + (sol.value.toString().padEnd(20) + sol.vertices + "\n"))        }
     }
 }
