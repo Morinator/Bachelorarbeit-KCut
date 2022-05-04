@@ -11,16 +11,21 @@ import java.io.File
  */
 fun main() {
     val graphFiles = File("data/graphs").walk().filter { it.isFile }
-    for (k in 1..5) {
+    for (k in 1..6) {
         for (file in graphFiles) {
-            println(file.name)
+            val timeBefore = System.currentTimeMillis()
             val g = GraphIO.graphFromPath(file)
             val sol = ValueWrapper(g, k, LibSolver()).calc()
 
-            val graphAndK = file.toString().padEnd(60) + k.toString().padEnd(10)
             val logFile = File("maxcut_results2")
 
-            logFile.appendText(graphAndK + (sol.value.toString().padEnd(20) + sol.vertices + "\n"))
+            logFile.appendText(
+                file.toString().padEnd(40) +
+                        k.toString().padEnd(4) +
+                        (sol.value.toString().padEnd(10) +
+                                (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
+                                sol.vertices + "\n")
+            )
         }
     }
 }
