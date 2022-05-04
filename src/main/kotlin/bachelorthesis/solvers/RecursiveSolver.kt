@@ -4,6 +4,7 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 
+//TODO returns a wrong result when used in log-data
 class RecursiveSolver : DecisionSolver<Int> {
 
     override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? =
