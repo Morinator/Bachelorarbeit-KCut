@@ -21,5 +21,6 @@ object GraphIO {
         File(file).readLines()
             .filter { validateLine(it) }
             .map { it.split(Regex("""\s+""")) } // split vertex-IDs by whitespace between them
-            .mapTo(ArrayList()) { Pair(Integer.parseInt(it[0]), Integer.parseInt(it[1])) }
+            .map { Pair(it[0].toInt(), it[1].toInt()) }
+            .filter { it.first != it.second}
 }
