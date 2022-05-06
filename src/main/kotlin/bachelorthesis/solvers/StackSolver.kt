@@ -12,7 +12,7 @@ class StackSolver : DecisionSolver<Int> {
 
     override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
 
-        val extension = mutableListOf(g.vertices().toMutableList())
+        val extension : MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
         val T: MutableList<Int> = ArrayList()
 
         while (extension.isNotEmpty())
