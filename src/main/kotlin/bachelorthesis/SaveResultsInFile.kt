@@ -17,10 +17,10 @@ fun main() {
             val g = GraphIO.graphFromPath(file)
             val sol = ValueWrapper(g, k, LibSolver()).calc()
 
-            val logFile = File("maxcut_results_newgraphs")
+            val logFile = File("maxcut_results_40graphs")
 
             logFile.appendText(
-                file.toString().padEnd(40) +
+                file.toString().padEnd(55) +
                         k.toString().padEnd(10) +
                         (sol.value.toString().padEnd(13) +
                                 (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
