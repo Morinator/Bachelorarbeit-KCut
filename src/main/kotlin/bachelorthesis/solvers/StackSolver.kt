@@ -12,6 +12,22 @@ class StackSolver : DecisionSolver<Int> {
 
     override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
 
+
+        // stuff for annotation
+        // ###############################################################################
+        val counter : MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
+
+        fun counter(S : Collection<Int>) : Int = S.sumOf { counter[it]!! }
+
+        fun degPlusC(v : Int) = g.degreeOf(v) + counter[v]!!
+
+        /**
+         * Contribution of a vertex, as in Definition 3.1
+         */
+        fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2* (g[v] intersect T).size)
+
+        // ###############################################################################
+
         val extension : MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
         val T: MutableList<Int> = ArrayList()
 
