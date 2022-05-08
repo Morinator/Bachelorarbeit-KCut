@@ -15,17 +15,22 @@ class StackSolver : DecisionSolver<Int> {
 
         // stuff for annotation
         // ###############################################################################
+
+        //encodes removed vertices not in the solution
         val counter : MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
         fun counter(S : Collection<Int>) : Int = S.sumOf { counter[it]!! }
 
         fun degPlusC(v : Int) = g.degreeOf(v) + counter[v]!!
 
+        fun valG(S: Collection<Int>) : Int = cutSize(g, S) + counter(S)
+
         /**
          * Contribution of a vertex, as in Definition 3.1
          */
         fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2* (g[v] intersect T).size)
 
+        // stuff for annotation
         // ###############################################################################
 
         val extension : MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
@@ -39,8 +44,6 @@ class StackSolver : DecisionSolver<Int> {
                 T.size + extension.last().size >= k
             ) {
 
-                // Idee: hier Knoten nach contribution sortieren
-
                 val newElem = extension.last().random()
                 extension.last().remove(newElem)
 
@@ -53,7 +56,7 @@ class StackSolver : DecisionSolver<Int> {
             } else { // backtrack
 
                 if (T.size == k) {
-                    val cutSize = cutSize(g, T)
+                    val cutSize = valG(T)
                     if (cutSize >= t)
                         return Solution(T, cutSize)
                 }
