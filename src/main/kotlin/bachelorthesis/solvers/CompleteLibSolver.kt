@@ -13,7 +13,6 @@ class CompleteLibSolver(
     fun calc(): Solution<Int> {
         var bestSolution = Solution<Int>()
 
-
         val vertexList = g.vertices().toList()
 
         for (S in Generator.combination(vertexList).simple(k)) {
@@ -23,6 +22,5 @@ class CompleteLibSolver(
         }
 
         return bestSolution
-
     }
 }

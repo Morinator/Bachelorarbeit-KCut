@@ -22,5 +22,5 @@ object GraphIO {
             .filter { validateLine(it) }
             .map { it.split(Regex("""\s+""")) } // split vertex-IDs by whitespace between them
             .map { Pair(it[0].toInt(), it[1].toInt()) }
-            .filter { it.first != it.second}
+            .filter { it.first != it.second }
 }

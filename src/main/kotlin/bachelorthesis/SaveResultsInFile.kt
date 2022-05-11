@@ -14,16 +14,18 @@ fun main() {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val g = GraphIO.graphFromPath(file)
-            val sol = CompleteLibSolver(g,k).calc()
+            val sol = CompleteLibSolver(g, k).calc()
 
             val logFile = File("maxcut_results_40graphs")
 
             logFile.appendText(
                 file.toString().padEnd(55) +
-                        k.toString().padEnd(10) +
-                        (sol.value.toString().padEnd(13) +
-                                (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
-                                sol.vertices + "\n")
+                    k.toString().padEnd(10) +
+                    (
+                        sol.value.toString().padEnd(13) +
+                            (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
+                            sol.vertices + "\n"
+                        )
             )
         }
     }

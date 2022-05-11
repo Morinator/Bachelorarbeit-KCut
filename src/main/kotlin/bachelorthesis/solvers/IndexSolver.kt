@@ -8,14 +8,14 @@ import util.collections.incrementLast
 /**
  * Left as legacy-version for illustration purposes of how to not approach it >:/
  */
-class IndexSolver<V> : DecisionSolver<V> {
+class IndexSolver<V> {
 
     enum class NextAction { UP, STAY, DOWN }
 
     /**
      * @return The solution if there is one with a value of at least t and null otherwise.
      */
-    override fun calc(t: Int, g: SimpleGraph<V>, k: Int, counter: MutableMap<Int, Int>): Solution<V>? {
+    fun calc(t: Int, g: SimpleGraph<V>, k: Int): Solution<V>? {
 
         val vertexList = g.vertices().toList()
 
