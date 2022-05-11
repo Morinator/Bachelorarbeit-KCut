@@ -1,21 +1,27 @@
 package bachelorthesis.fixedmaxcut
 
+import bachelorthesis.solvers.IndexSolver
 import bachelorthesis.solvers.ValueWrapper
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.GraphIO.graphFromPath
 import graphlib.datastructures.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotNull
 
 internal class HandcraftedSolutions {
 
     @Test
     fun solveA() {
         val g = createPath(5)
-        assertEquals(Solution(mutableSetOf(2, 4), 4), ValueWrapper(g, 2).calc())
+        val k = 2
+        assertEquals(Solution(mutableSetOf(2, 4), 4), ValueWrapper(g, k).calc())
+        assertNotNull(IndexSolver<Int>().calc(4,g,k))
+        assertNull(IndexSolver<Int>().calc(5,g,k))
     }
 
     @Test
