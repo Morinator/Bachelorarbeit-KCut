@@ -30,7 +30,16 @@ class ValueWrapper(
 
 
         for (t in 0..upperBound) {
+
+
+
+
             val result = decider.calc(t, g, k, counter)
+
+
+
+
+
             if (result == null)
                 break
             else
