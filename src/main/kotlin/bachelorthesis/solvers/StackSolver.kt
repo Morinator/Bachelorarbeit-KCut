@@ -10,7 +10,7 @@ import graphlib.properties.cutSize
  *
  */
 
-class ValueWrapper(
+class StackSolver(
     protected val g: SimpleGraph<Int>,
     private val k: Int
 ) {
@@ -32,24 +32,25 @@ class ValueWrapper(
             g.deleteVertex(v)
         }
 
-        for (t in 0..upperBound) {
+        // ############################  stuff for annotation  ############################
+        fun counter1(S: Collection<Int>): Int = S.sumOf { counter[it]!! }
+        fun degPlusC(v: Int) = g.degreeOf(v) + counter[v]!!
+        fun valG(S: Collection<Int>): Int = cutSize(g, S) + counter1(S)
 
-            // ############################  stuff for annotation  ############################
-            fun counter1(S: Collection<Int>): Int = S.sumOf { counter[it]!! }
-            fun degPlusC(v: Int) = g.degreeOf(v) + counter[v]!!
-            fun valG(S: Collection<Int>): Int = cutSize(g, S) + counter1(S)
+        /**
+         * Contribution of a vertex, as in Definition 3.1
+         */
+        fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2 * (g[v] intersect T).size)
+        // ############################  stuff for annotation  ############################
 
-            /**
-             * Contribution of a vertex, as in Definition 3.1
-             */
-            fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2 * (g[v] intersect T).size)
-            // ############################  stuff for annotation  ############################
+        tCounter@ for (t in 0..upperBound) {
+
             val extension: MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
             val T: MutableList<Int> = ArrayList()
 
             var result1: Solution<Int>? = null
 
-            while (extension.isNotEmpty())
+            searchTree@ while (extension.isNotEmpty())
 
                 if (T.size < k && // branch
                     extension.last().isNotEmpty() &&
@@ -72,7 +73,7 @@ class ValueWrapper(
                         val cutSize = valG(T)
                         if (cutSize >= t) {
                             result1 = Solution(T, cutSize)
-                            break
+                            break@searchTree
                         }
                     }
 
@@ -85,7 +86,7 @@ class ValueWrapper(
             val result = result1
 
             if (result == null)
-                break
+                break@tCounter
             else
                 bestSolution = result
         }

@@ -1,7 +1,7 @@
 package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solvers.CompleteLibSolver
-import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.StackSolver
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
@@ -32,7 +32,7 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val prediction = ValueWrapper(g, k).calc().value
+        val prediction = StackSolver(g, k).calc().value
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 }

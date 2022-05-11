@@ -8,7 +8,7 @@ import util.collections.incrementLast
 /**
  * Left as legacy-version for illustration purposes of how to not approach it >:/
  */
-class IndexSolver<V> {
+class IndexDecider<V> {
 
     enum class NextAction { UP, STAY, DOWN }
 
