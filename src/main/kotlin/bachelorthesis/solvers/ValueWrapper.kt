@@ -18,9 +18,19 @@ class ValueWrapper(
         val upperBound = g.degreeSequence.takeLast(k).sum()
 
 
-        // TODO Reduction Rule 4.1
 
         val counter: MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
+
+        // Reduction Rule 4.1
+
+        val verticessss = g.vertices().sortedByDescending { g.degreeOf(it) + counter[it]!! }
+        val restOfList = verticessss.drop((g.maxDegree*k)+1)
+        println("size of rule 4.1: ${restOfList.size}")
+        restOfList.forEach {  v->
+            g[v].forEach {  counter[it] = counter[it]!! + 1}
+            g.deleteVertex(v)
+        }
+
 
         for (t in 0..upperBound) {
             val result = decider.calc(t, g, k, counter)
