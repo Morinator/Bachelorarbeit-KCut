@@ -3,9 +3,6 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 
-/**
- * Uses [IndexSolver] for increasing values of *t* to calculate the optimal value.
- */
 class ValueWrapper(
     protected val g: SimpleGraph<Int>,
     private val k: Int,

@@ -5,6 +5,9 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import util.collections.incrementLast
 
+/**
+ * Left as legacy-version for illustration purposes of how to not approach it >:/
+ */
 class IndexSolver<V> : DecisionSolver<V> {
 
     enum class NextAction { UP, STAY, DOWN }

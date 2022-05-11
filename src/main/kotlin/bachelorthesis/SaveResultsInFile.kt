@@ -1,7 +1,6 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.LibSolver
-import bachelorthesis.solvers.ValueWrapper
+import bachelorthesis.solvers.CompleteLibSolver
 import graphlib.constructors.GraphIO
 import java.io.File
 
@@ -15,7 +14,7 @@ fun main() {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val g = GraphIO.graphFromPath(file)
-            val sol = ValueWrapper(g, k, LibSolver()).calc()
+            val sol = CompleteLibSolver(g,k).calc()
 
             val logFile = File("maxcut_results_40graphs")
 
