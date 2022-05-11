@@ -17,6 +17,8 @@ class ValueWrapper<V>(
 
         val upperBound = g.degreeSequence.takeLast(k).sum()
 
+        // TODO Reduction Rule 4.1
+
         for (t in 0..upperBound) {
             val result = decider.calc(t, g, k)
             if (result == null)

@@ -4,19 +4,20 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 
-//TODO Contribution durch suchbaum tracken
-
 //TODO sufficient & needless
 
+
+/**
+ * Satisfactory: Da absteigend sortiert nach contribution, muss entweder der erste Knoten satisfactory sein oder keiner
+ * -> wenn er es ist und trotzdm. keine Lösung gefunden wurde, kann man dierekt nochaml backtracken.
+ *
+ */
 class StackSolver : DecisionSolver<Int> {
 
     override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
 
+        // ############################  stuff for annotation  ############################
 
-        // stuff for annotation
-        // ###############################################################################
-
-        //encodes removed vertices not in the solution
         val counter : MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
         fun counter(S : Collection<Int>) : Int = S.sumOf { counter[it]!! }
@@ -30,8 +31,7 @@ class StackSolver : DecisionSolver<Int> {
          */
         fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2* (g[v] intersect T).size)
 
-        // stuff for annotation
-        // ###############################################################################
+        // ############################  stuff for annotation  ############################
 
         val extension : MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
         val T: MutableList<Int> = ArrayList()
@@ -44,11 +44,14 @@ class StackSolver : DecisionSolver<Int> {
                 T.size + extension.last().size >= k
             ) {
 
-                val newElem = extension.last().random()
+                val newElem = extension.last().first()
                 extension.last().remove(newElem)
 
-                if (T.size != k-1)
+                if (T.size != k - 1) {
                     extension.add(extension.last().toMutableList()) // duplicate last
+                    extension.last().sortByDescending { cont(it, T) } // try vertices with high contribution first
+                    // needless rauschmeißen
+                }
 
                 T.add(newElem)
 
