@@ -7,7 +7,7 @@ import org.paukov.combinatorics3.Generator
 
 class LibSolver<V> : DecisionSolver<V> {
 
-    override fun calc(t: Int, g: SimpleGraph<V>, k: Int): Solution<V>? {
+    override fun calc(t: Int, g: SimpleGraph<V>, k: Int, counter: MutableMap<Int, Int>): Solution<V>? {
 
         val vertexList = g.vertices().toList()
 

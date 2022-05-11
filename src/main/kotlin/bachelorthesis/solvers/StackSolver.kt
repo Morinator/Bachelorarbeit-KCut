@@ -14,26 +14,24 @@ import graphlib.properties.cutSize
  */
 class StackSolver : DecisionSolver<Int> {
 
-    override fun calc(t: Int, g: SimpleGraph<Int>, k: Int): Solution<Int>? {
+    override fun calc(t: Int, g: SimpleGraph<Int>, k: Int, counter: MutableMap<Int, Int>): Solution<Int>? {
 
         // ############################  stuff for annotation  ############################
 
-        val counter : MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
+        fun counter(S: Collection<Int>): Int = S.sumOf { counter[it]!! }
 
-        fun counter(S : Collection<Int>) : Int = S.sumOf { counter[it]!! }
+        fun degPlusC(v: Int) = g.degreeOf(v) + counter[v]!!
 
-        fun degPlusC(v : Int) = g.degreeOf(v) + counter[v]!!
-
-        fun valG(S: Collection<Int>) : Int = cutSize(g, S) + counter(S)
+        fun valG(S: Collection<Int>): Int = cutSize(g, S) + counter(S)
 
         /**
          * Contribution of a vertex, as in Definition 3.1
          */
-        fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2* (g[v] intersect T).size)
+        fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2 * (g[v] intersect T).size)
 
         // ############################  stuff for annotation  ############################
 
-        val extension : MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
+        val extension: MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
         val T: MutableList<Int> = ArrayList()
 
         while (extension.isNotEmpty())

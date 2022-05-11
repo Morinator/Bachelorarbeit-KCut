@@ -36,8 +36,16 @@ internal class GraphIOTest {
 
     @Test
     fun ignoresWeightsInFile() {
-        val gRead = graphFromPath("data/graphs/small-weighted-graph.txt")
-        val gTruth = graphFromEdges(listOf(1 to 2, 1 to 3, 8 to 9))
+        val gRead = graphFromPath("data/graphs/small1.txt")
+        val gTruth = graphFromEdges(listOf(
+            1 to 2,
+            1 to 8,
+            2 to 3,
+            3 to 4,
+            3 to 5,
+            3 to 6,
+            3 to 7
+        ))
         assertEquals(gTruth, gRead)
     }
 }

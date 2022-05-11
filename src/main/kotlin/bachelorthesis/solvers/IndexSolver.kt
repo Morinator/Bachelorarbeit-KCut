@@ -12,7 +12,7 @@ class IndexSolver<V> : DecisionSolver<V> {
     /**
      * @return The solution if there is one with a value of at least t and null otherwise.
      */
-    override fun calc(t: Int, g: SimpleGraph<V>, k: Int): Solution<V>? {
+    override fun calc(t: Int, g: SimpleGraph<V>, k: Int, counter: MutableMap<Int, Int>): Solution<V>? {
 
         val vertexList = g.vertices().toList()
 
@@ -20,8 +20,8 @@ class IndexSolver<V> : DecisionSolver<V> {
         var nextAction = NextAction.STAY
         val indices = ArrayList<Int>().apply { add(-1) }
 
-        val counter: MutableMap<Int, Int> = HashMap()
-        indices.forEach { counter[it] = 0 }
+        val counterMulti: MutableMap<Int, Int> = HashMap()
+        indices.forEach { counterMulti[it] = 0 }
 
         fun spacesLeft() = k - indices.size + 1
 
