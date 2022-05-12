@@ -14,7 +14,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
     private val counter: MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
     private fun valWithCounter(S: Collection<Int>): Int = cutSize(g, S) + S.sumOf { counter[it]!! }
-    fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * (g[v] intersect T.toSet()).size)
+    private fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * (g[v] intersect T.toSet()).size)
 
     fun calc(): Solution<Int> {
 
