@@ -20,8 +20,8 @@ internal class HandcraftedSolutions {
         val g = createPath(5)
         val k = 2
         assertEquals(Solution(mutableSetOf(2, 4), 4), StackSolver(g, k).calc())
-        assertNotNull(IndexDecider<Int>().calc(4,g,k))
-        assertNull(IndexDecider<Int>().calc(5,g,k))
+        assertNotNull(IndexDecider<Int>().calc(4, g, k))
+        assertNull(IndexDecider<Int>().calc(5, g, k))
     }
 
     @Test
