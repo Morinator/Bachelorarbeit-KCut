@@ -6,8 +6,8 @@ import graphlib.constructors.Factory.createCycle
 import graphlib.constructors.Factory.createPath
 import graphlib.constructors.Factory.createStar
 import graphlib.datastructures.SimpleGraph
-import graphlib.properties.`is c closed`
 import graphlib.properties.hIndex
+import graphlib.properties.`is c closed`
 import graphlib.properties.isTree
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue

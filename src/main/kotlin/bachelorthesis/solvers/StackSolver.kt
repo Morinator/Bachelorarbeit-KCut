@@ -23,28 +23,15 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
             val T = ArrayList<Int>()
             val extension = mutableListOf(g.vertices().toMutableList())
+            val satisfactoryStack = mutableListOf<Boolean>()
 
             var tmpSolution: Solution<Int>? = null
 
             searchTree@ while (extension.isNotEmpty()) {
 
-
-                if (T.size < k && // ### branch ###
-                    T.size + extension.last().size >= k
+                if (T.size >= k || // ##### BACKTRACK #####
+                    T.size + extension.last().size < k
                 ) {
-
-                    val newElem = extension.last().first()
-                    extension.last().remove(newElem)
-
-                    if ((T.size < k - 1)) {
-                        extension.add(extension.last().toMutableList())
-                        extension.last().sortByDescending { cont(it, T) }
-                    }
-
-                    T.add(newElem)
-
-
-                } else { // ### backtrack ###
 
                     if (T.size == k) {
                         val cutSize = valWithCounter(T)
@@ -62,17 +49,25 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                     if (T.size > 0) {
                         T.removeLast()
                     }
+                } else { // ##### BRANCH #####
+
+                    val newElem = extension.last().first()
+                    extension.last().remove(newElem)
+
+                    if ((T.size < k - 1)) {
+                        extension.add(extension.last().toMutableList())
+                        extension.last().sortByDescending { cont(it, T) }
+                    }
+
+                    T.add(newElem)
                 }
             }
-
 
             if (tmpSolution == null)
                 break@tIncreaseLoop
             else
                 bestSolution = tmpSolution
         }
-
-
 
         return bestSolution
     }
