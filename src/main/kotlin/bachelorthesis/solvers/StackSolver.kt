@@ -24,31 +24,37 @@ class StackSolver(
 
         // Reduction Rule 4.1
 
-        val verticessss = g.vertices().sortedByDescending { g.degreeOf(it) + counter[it]!! }
-        val restOfList = verticessss.drop((g.maxDegree * k) + 1)
-        println("size of rule 4.1: ${restOfList.size}")
-        restOfList.forEach { v ->
+        val verticesToDrop = g.vertices()
+            .sortedByDescending { g.degreeOf(it) + counter[it]!! }
+            .drop((g.maxDegree * k) + 1)
+        println("size of rule 4.1: ${verticesToDrop.size}")
+        verticesToDrop.forEach { v ->
             g[v].forEach { counter[it] = counter[it]!! + 1 }
             g.deleteVertex(v)
         }
 
         // ############################  stuff for annotation  ############################
-        fun counter1(S: Collection<Int>): Int = S.sumOf { counter[it]!! }
+        fun counterMany(S: Collection<Int>): Int = S.sumOf { counter[it]!! }
         fun degPlusC(v: Int) = g.degreeOf(v) + counter[v]!!
-        fun valG(S: Collection<Int>): Int = cutSize(g, S) + counter1(S)
-
-        /**
-         * Contribution of a vertex, as in Definition 3.1
-         */
+        fun valWithCounter(S: Collection<Int>): Int = cutSize(g, S) + counterMany(S)
         fun cont(v: Int, T: Collection<Int>): Int = degPlusC(v) - (2 * (g[v] intersect T).size)
+
         // ############################  stuff for annotation  ############################
 
         tCounter@ for (t in 0..upperBound) {
 
             val extension: MutableList<MutableList<Int>> = mutableListOf(g.vertices().toMutableList())
+
             val T: MutableList<Int> = ArrayList()
 
-            var result1: Solution<Int>? = null
+            fun kMissing(): Int = k - T.size
+            fun tMissing(): Int = t - valWithCounter(T)
+
+            fun checkForSatisfactory(vertices: Collection<Int>) = vertices.any { v ->
+                cont(v, T) >= tMissing() / kMissing() + 2 * (k - 1)
+            }
+
+            var tmp: Solution<Int>? = null
 
             searchTree@ while (extension.isNotEmpty())
 
@@ -70,9 +76,9 @@ class StackSolver(
                 } else { // backtrack
 
                     if (T.size == k) {
-                        val cutSize = valG(T)
+                        val cutSize = valWithCounter(T)
                         if (cutSize >= t) {
-                            result1 = Solution(T, cutSize)
+                            tmp = Solution(T, cutSize)
                             break@searchTree
                         }
                     }
@@ -83,7 +89,7 @@ class StackSolver(
                     if (T.size > 0)
                         T.removeLast()
                 }
-            val result = result1
+            val result = tmp
 
             if (result == null)
                 break@tCounter
