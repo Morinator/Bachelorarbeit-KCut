@@ -18,8 +18,8 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
     fun calc(): Solution<Int> {
 
-        // TODO go to currentBest + 1 to skip a bit possibly
-        tIncreaseLoop@ for (t in 0..g.degreeSequence.takeLast(k).sum()) {
+        var t = 0
+        tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
 
             val T = ArrayList<Int>()
             val extension = mutableListOf(g.vertices().toMutableList())
@@ -50,6 +50,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                         val cutSize = valWithCounter(T)
                         if (cutSize >= t) {
                             tmpSolution = Solution(T, cutSize)
+                            t = cutSize + 1
                             break@searchTree
                         }
                     }
