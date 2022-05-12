@@ -7,17 +7,18 @@ import graphlib.constructors.Factory.createPath
 import graphlib.constructors.GraphIO.graphFromPath
 import graphlib.datastructures.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 internal class HandcraftedSolutions {
 
     @Test
     fun solveA() {
         val g = createPath(5)
+
         val k = 2
         assertEquals(Solution(mutableSetOf(2, 4), 4), StackSolver(g, k).calc())
         assertNotNull(IndexDecider<Int>().calc(4, g, k))
