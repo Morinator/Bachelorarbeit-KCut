@@ -23,7 +23,7 @@ internal class LocalSearchTest {
     @Test
     fun getHeuristic() {
         val g = createBipartite(2, 10)
-        val sol = graphlib.heuristic.getHeuristic(g, 2)
+        val sol = graphlib.heuristic.localSearchRun(g, 2)
         assertEquals(Solution(mutableSetOf(1, 2), 20), sol)
     }
 }

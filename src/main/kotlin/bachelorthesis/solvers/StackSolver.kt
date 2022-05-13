@@ -2,16 +2,14 @@ package bachelorthesis.solvers
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
-import graphlib.heuristic.getHeuristic
+import graphlib.heuristic.runHeuristic
 import graphlib.properties.cutSize
-
-// TODO auswerten wie gut Heuristik läuft
 
 // TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
 
 class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
-    private var bestSolution = (1..10).map { getHeuristic(g, k) }.maxByOrNull { it.value }!!
+    private var bestSolution = runHeuristic(g, k ,10)
 
     private val counter: MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
