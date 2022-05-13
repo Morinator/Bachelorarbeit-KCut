@@ -186,7 +186,6 @@ data/graphs/soc-karate.mtx                             6         57           86
 data/graphs/ia-southernwomen.edges                     6         43           33      [2, 4, 7, 8, 10, 14]
 data/graphs/mammalia-macaque-contact-sits.edges        6         132          968     [1, 2, 3, 4, 5, 6]
 data/graphs/mammalia-cattle-dominance.edges            6         95           801     [2, 8, 12, 14, 17, 24]
-data/graphs/out.contiguous-usa                         6         38           16490   [5, 8, 17, 30, 36, 38]
 data/graphs/insecta-ant-colony4-day37.edges            6         164          8411    [72, 79, 19, 30, 31, 34]
 data/graphs/long_path.txt                              6         12           33      [2, 4, 6, 8, 10, 12]
 data/graphs/bn-mouse_visual-cortex_1.edges             6         35           404     [2, 3, 5, 9, 10, 12]
