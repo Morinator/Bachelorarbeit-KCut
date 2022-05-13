@@ -6,6 +6,8 @@ import graphlib.properties.cutSize
 
 fun <V> getHeuristic(g: SimpleGraph<V>, k: Int): Solution<V> {
 
+    if (g.size < k) return Solution() // invalid input
+
     val randomVertices = g.vertices().toList().shuffled().take(k)
     val sol = Solution(randomVertices, cutSize(g, randomVertices))
 

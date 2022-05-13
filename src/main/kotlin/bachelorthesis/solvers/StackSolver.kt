@@ -2,6 +2,7 @@ package bachelorthesis.solvers
 
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
+import graphlib.heuristic.getHeuristic
 import graphlib.properties.cutSize
 
 // TODO auswerten wie gut Heuristik läuft
@@ -10,7 +11,8 @@ import graphlib.properties.cutSize
 
 class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
-    private var bestSolution = Solution<Int>()
+    private var bestSolution = (1..10).map { getHeuristic(g, k) }.maxByOrNull { it.value }!!
+
     private val counter: MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
     private fun valWithCounter(S: Collection<Int>): Int = cutSize(g, S) + S.sumOf { counter[it]!! }
@@ -18,12 +20,11 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
     fun calc(): Solution<Int> {
 
-        var t = 0
+        var t = bestSolution.value
         tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
 
             val T = ArrayList<Int>()
             val extension = mutableListOf(g.vertices().toMutableList())
-            val satisfactoryStack = mutableListOf<Boolean>()
 
             var tmpSolution: Solution<Int>? = null
 

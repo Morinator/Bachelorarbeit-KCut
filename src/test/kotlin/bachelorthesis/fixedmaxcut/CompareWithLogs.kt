@@ -11,8 +11,9 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
+
     @Disabled
-    @RepeatedTest(203) // sadly needs to be set manually to the number of files to compare
+    @RepeatedTest(202) // sadly needs to be set manually to the number of files to compare
     fun checkLibSolver(repNr: RepetitionInfo) {
         val line = File("maxcut_results_3").readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
@@ -24,7 +25,7 @@ class CompareWithLogs {
         assertEquals(objValue, prediction2, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(203) // sadly needs to be set manually to the number of files to compare
+    @RepeatedTest(202) // sadly needs to be set manually to the number of files to compare
     fun checkStackSolver(repNr: RepetitionInfo) {
         val line = File("maxcut_results_3").readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
