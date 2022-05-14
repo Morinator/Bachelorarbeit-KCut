@@ -3,6 +3,6 @@ package util.collections
 /**
  * Removes and returns a random element of the set
  */
-fun MutableMap<Int, Int>.increment(key: Int) {
+fun <V> MutableMap<V, Int>.increment(key: V) {
     set(key, get(key)!! + 1)
 }

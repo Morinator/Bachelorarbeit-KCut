@@ -19,8 +19,9 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
     fun calc(): Solution<Int> {
 
-        g.vertices().sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1).forEach { v ->
-            println("aabbcc")
+        val verticesWhereRuleApplies =
+            g.vertices().sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1)
+        verticesWhereRuleApplies.forEach { v ->
             g[v].forEach { counter.increment(it) }
             g.deleteVertex(v)
         }
