@@ -18,6 +18,9 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
     fun calc(): Solution<Int> {
 
+        // val verticesSortedByContribution = g.vertices().sortedByDescending {   }
+
+
         var t = bestSolution.value
         tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
 
@@ -41,22 +44,19 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                         }
                     }
 
-                    if (T.size != k) {
+                    if (T.size != k)
                         extension.removeLast()
-                    }
 
-                    if (T.size > 0) {
+                    if (T.size > 0)
                         T.removeLast()
-                    }
+
                 } else { // ##### BRANCH #####
 
                     val newElem = extension.last().first()
                     extension.last().remove(newElem)
 
-                    if ((T.size < k - 1)) {
+                    if ((T.size < k - 1))
                         extension.add(extension.last().toMutableList())
-                        extension.last().sortByDescending { cont(it, T) }
-                    }
 
                     T.add(newElem)
                 }
