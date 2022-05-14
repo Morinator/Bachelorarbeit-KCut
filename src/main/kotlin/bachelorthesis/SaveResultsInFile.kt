@@ -19,8 +19,8 @@ fun main() {
             val logFile = File("maxcut_results_40graphs")
 
             logFile.appendText(
-                file.toString().padEnd(55) +
-                    k.toString().padEnd(10) +
+                file.toString().padEnd(60) +
+                        k.toString().padEnd(10) +
                     (
                         sol.value.toString().padEnd(13) +
                             (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
