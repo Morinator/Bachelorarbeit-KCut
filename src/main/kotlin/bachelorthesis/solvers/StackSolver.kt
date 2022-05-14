@@ -4,12 +4,13 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
 import graphlib.properties.cutSize
+import util.collections.increment
 
 // TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
 
 class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
-    private var bestSolution = runHeuristic(g, k ,10)
+    private var bestSolution = runHeuristic(g, k, 10)
 
     private val counter: MutableMap<Int, Int> = g.vertices().associateWithTo(HashMap()) { 0 }
 
@@ -18,8 +19,11 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
     fun calc(): Solution<Int> {
 
-        // val verticesSortedByContribution = g.vertices().sortedByDescending {   }
-
+        g.vertices().sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1).forEach { v ->
+            println("aabbcc")
+            g[v].forEach { counter.increment(it) }
+            g.deleteVertex(v)
+        }
 
         var t = bestSolution.value
         tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
