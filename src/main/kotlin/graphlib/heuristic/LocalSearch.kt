@@ -25,7 +25,8 @@ fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
 }
 
 /**
- * explores the 1-neighbourhood of [solution] and if it finds a better neighbour, it stops.
+ * explores the 1-swap-neighbourhood of [solution] and if it finds a better neighbour, it stops immediatly (i.e. doesn't
+ * search for the best candidate, but stops at the first that is better).
  * Note that no new object is returned; only [solution] is modified to represent a new subset.
  */
 fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective: (SimpleGraph<V>, Collection<V>) -> Int) {
