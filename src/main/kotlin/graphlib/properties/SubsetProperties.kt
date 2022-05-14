@@ -34,7 +34,7 @@ fun <V> isVertexCover(S: Set<V>, g: SimpleGraph<V>): Boolean {
  * @return True iff [S] is a dominating set of [g]
  */
 fun <V> isDominatingSet(S: Set<V>, g: SimpleGraph<V>): Boolean {
-    for (v in g.vertices() subtract S) {
+    for (v in g.vertices subtract S) {
         var hasDominatingNeighbour = false
         for (nb in g[v])
             if (nb in S)

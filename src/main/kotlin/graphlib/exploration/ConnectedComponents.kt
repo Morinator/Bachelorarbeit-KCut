@@ -8,7 +8,7 @@ fun <V> connectedComponent(g: SimpleGraph<V>, v: V): Set<V> =
 fun <V> listConnectedComponents(g: SimpleGraph<V>): List<Set<V>> {
     val explored = HashSet<V>()
     return ArrayList<Set<V>>().apply {
-        for (v in g.vertices())
+        for (v in g.vertices)
             if (v !in explored) {
                 val c: Set<V> = connectedComponent(g, v)
                 explored.addAll(c)
@@ -17,4 +17,4 @@ fun <V> listConnectedComponents(g: SimpleGraph<V>): List<Set<V>> {
     }
 }
 
-fun <V> checkIfConnected(g: SimpleGraph<V>): Boolean = connectedComponent(g, g.vertices().first()) == g.vertices()
+fun <V> checkIfConnected(g: SimpleGraph<V>): Boolean = connectedComponent(g, g.vertices.first()) == g.vertices

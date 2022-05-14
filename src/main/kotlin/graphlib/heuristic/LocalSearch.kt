@@ -11,7 +11,7 @@ fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
 
     if (g.size < k) return Solution() // invalid input
 
-    val randomVertices = g.vertices().toList().shuffled().take(k)
+    val randomVertices = g.vertices.toList().shuffled().take(k)
     val sol = Solution(randomVertices, cutSize(g, randomVertices))
 
     while (true) {
@@ -33,7 +33,7 @@ fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective: (Si
     for (dropVertex in solution.vertices.toList()) { // needs a copy to prevent ConcurrentModificationException
         solution.vertices.remove(dropVertex)
 
-        for (newVertex in g.vertices().filter { it !in solution.vertices }) {
+        for (newVertex in g.vertices.filter { it !in solution.vertices }) {
             solution.vertices.add(newVertex)
 
             if (cutSize(g, solution.vertices) > solution.value) {
