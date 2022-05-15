@@ -140,7 +140,7 @@ class SimpleGraph<V> {
 
     override fun hashCode() = m.hashCode()
 
-    val maxDegree: Int // MAX-DEGREE
+    val maxDegree: Int
         get() = vertices.maxOfOrNull { degreeOf(it) } ?: 0
 
     /**

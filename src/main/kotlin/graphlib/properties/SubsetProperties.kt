@@ -72,4 +72,4 @@ fun <V> countCoveredEdges(S: Set<V>, g: SimpleGraph<V>): Int {
  * Assumes that [S] is a subset of the vertices of [g].
  */
 fun <V> cutSize(g: SimpleGraph<V>, S: Collection<V>): Int =
-    S.sumOf { g[it].filter { nb -> nb !in S }.size }
+    S.sumOf { v -> g[v].count { it !in S } }
