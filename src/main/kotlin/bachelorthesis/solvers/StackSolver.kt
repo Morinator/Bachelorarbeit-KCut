@@ -40,6 +40,7 @@ class StackSolver(
             val ext = mutableListOf(g.vertices.toMutableList())
 
             var tmpSolution: Solution<Int>? = null
+            val trackingData = TrackingData()
 
             searchTree@ while (ext.isNotEmpty()) {
 
@@ -48,6 +49,8 @@ class StackSolver(
                 ) {
 
                     if (T.size == k) {
+
+                        trackingData.subsets++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -66,6 +69,8 @@ class StackSolver(
 
                 } else { // ##### BRANCH #####
 
+                    trackingData.treeNodes++
+
                     val newElem = ext.last().random()
                     ext.last().remove(newElem)
 
@@ -82,6 +87,11 @@ class StackSolver(
                 break@tIncreaseLoop
             else
                 bestSolution = tmpSolution
+
+            println(trackingData)
+            println("t: $t")
+            println("k: $k")
+            println("\n")
         }
 
         return bestSolution
