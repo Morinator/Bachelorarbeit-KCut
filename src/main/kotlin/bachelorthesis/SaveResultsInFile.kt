@@ -10,22 +10,21 @@ import java.io.File
  */
 fun main() {
     val graphFiles = File("data/graphs").walk().filter { it.isFile }
-    for (k in 1..6) {
+    for (k in 1..7) {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val g = GraphIO.graphFromPath(file)
             val sol = CompleteLibSolver(g, k).calc()
 
-            val logFile = File("maxcut_results_40graphs")
+            val logFile = File("maxcut_results_geronimo")
 
             logFile.appendText(
-                file.toString().padEnd(60) +
+                file.name.padEnd(60) +
                         k.toString().padEnd(10) +
-                    (
                         sol.value.toString().padEnd(13) +
-                            (System.currentTimeMillis() - timeBefore).toString().padEnd(8) +
-                            sol.vertices + "\n"
-                        )
+                        (System.currentTimeMillis() - timeBefore).toString().padEnd(10) +
+                        sol.vertices + "\n"
+
             )
         }
     }
