@@ -54,7 +54,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
                     if (T.size > 0) {
 
-                        curCutValue -= g.degreeOf(T.last()) - 2 * g[T.last()].count { it in T }
+                        curCutValue -= g.degreeOf(T.last()) - (2 * T.count { g.areNB(it, T.last()) })
 
                         T.removeLast()
                     }
@@ -67,7 +67,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                     if ((T.size < k - 1)) // you're not adding a leaf to the search tree
                         ext.add(ext.last().toMutableList())
 
-                    curCutValue += g.degreeOf(newElem) - 2 * g[newElem].count { it in T }
+                    curCutValue += g.degreeOf(newElem) - (2 * T.count { g.areNB(it, newElem) })
 
                     T.add(newElem)
                 }
