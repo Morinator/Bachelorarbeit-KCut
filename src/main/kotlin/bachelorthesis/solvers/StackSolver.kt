@@ -3,14 +3,16 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
-
-
-const val useHeuristic = false
-
+import util.collections.increment
 
 // TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
 
-class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
+class StackSolver(
+    private val g: SimpleGraph<Int>,
+    private val k: Int,
+    useHeuristic: Boolean = false,
+    private val useKernel: Boolean = false
+) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
 
@@ -19,20 +21,21 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
     private fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * T.count { it in g[v] })
 
     fun calc(): Solution<Int> {
-        /**
-        val verticesToRemove = g.vertices.sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1)
-        verticesToRemove.forEach { v ->
-        g[v].forEach { counter.increment(it) }
-        g.deleteVertex(v)
+
+        if (useKernel) {
+            val verticesToRemove = g.vertices.sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1)
+            verticesToRemove.forEach { v ->
+                g[v].forEach { counter.increment(it) }
+                g.deleteVertex(v)
+            }
         }
-         */
 
         var t = bestSolution.value
         val upperBound = g.degreeSequence.takeLast(k).sum()
 
         tIncreaseLoop@ while (t <= upperBound) {
 
-            var curCutValue = 0
+            var currValue = 0
             val T = ArrayList<Int>()
             val ext = mutableListOf(g.vertices.toMutableList())
 
@@ -45,11 +48,10 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                 ) {
 
                     if (T.size == k) {
-                        val valWithCounter = curCutValue + T.sumOf { counter[it]!! }
 
-                        if (valWithCounter >= t) {
-                            tmpSolution = Solution(T, valWithCounter)
-                            t = valWithCounter + 1
+                        if (currValue >= t) {
+                            tmpSolution = Solution(T, currValue)
+                            t = currValue + 1
                             break@searchTree
                         }
                     }
@@ -58,8 +60,8 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                         ext.removeLast()
 
                     if (T.size > 0) {
-                        curCutValue -= g.degreeOf(T.last()) - (2 * T.count { g.areNB(it, T.last()) })
-                        T.removeLast()
+                        val lastElem = T.removeLast()
+                        currValue -= cont(lastElem, T)
                     }
 
                 } else { // ##### BRANCH #####
@@ -70,7 +72,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                     if ((T.size < k - 1)) // you're not adding a leaf to the search tree
                         ext.add(ext.last().toMutableList())
 
-                    curCutValue += g.degreeOf(newElem) - (2 * T.count { g.areNB(it, newElem) })
+                    currValue += cont(newElem, T)
 
                     T.add(newElem)
                 }

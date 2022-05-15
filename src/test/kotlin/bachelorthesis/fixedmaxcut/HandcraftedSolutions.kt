@@ -66,6 +66,6 @@ internal class HandcraftedSolutions {
         fun k7() = assertEquals(5, StackSolver(g, 7).calc().value)
 
         @Test
-        fun k8() = assertEquals(Solution((1..8).toMutableSet(), 0), StackSolver(g, 8).calc())
+        fun k8() = assertEquals(Solution((1..8).toMutableSet(), 0), StackSolver(g, 8, useHeuristic = false).calc())
     }
 }
