@@ -3,24 +3,29 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
-import util.collections.increment
+
+
+const val useHeuristic = false
+
 
 // TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
 
 class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
 
-    private var bestSolution = runHeuristic(g, k, 10)
+    private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
 
     private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
 
     private fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * T.count { it in g[v] })
 
     fun calc(): Solution<Int> {
+        /**
         val verticesToRemove = g.vertices.sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1)
         verticesToRemove.forEach { v ->
-            g[v].forEach { counter.increment(it) }
-            g.deleteVertex(v)
+        g[v].forEach { counter.increment(it) }
+        g.deleteVertex(v)
         }
+         */
 
         var t = bestSolution.value
         val upperBound = g.degreeSequence.takeLast(k).sum()
@@ -53,9 +58,7 @@ class StackSolver(private val g: SimpleGraph<Int>, private val k: Int) {
                         ext.removeLast()
 
                     if (T.size > 0) {
-
                         curCutValue -= g.degreeOf(T.last()) - (2 * T.count { g.areNB(it, T.last()) })
-
                         T.removeLast()
                     }
 
