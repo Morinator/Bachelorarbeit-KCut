@@ -4,8 +4,3 @@
 
 ### IntelliJ ###
 /.idea/
-
-
-
-### Code ###
-/src/main/kotlin/bachelorthesis/solvers/Main.kt

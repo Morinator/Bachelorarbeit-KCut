@@ -16,7 +16,7 @@ fun main() {
             val g = GraphIO.graphFromPath(file)
             val sol = CompleteLibSolver(g, k).calc()
 
-            val logFile = File("maxcut_results_geronimo")
+            val logFile = File("maxcut_results_nyc")
 
             logFile.appendText(
                 file.name.padEnd(60) +

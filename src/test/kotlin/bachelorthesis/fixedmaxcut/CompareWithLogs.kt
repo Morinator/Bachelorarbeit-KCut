@@ -9,9 +9,9 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    @RepeatedTest(406)
+    @RepeatedTest(1234)
     fun allWithHeuristic(repNr: RepetitionInfo) {
-        val line = File("maxcut_results_geronimo").readLines()[repNr.currentRepetition - 1]
+        val line = File("maxcut_results_nyc").readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
         val g = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
@@ -21,9 +21,9 @@ class CompareWithLogs {
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(406)
+    @RepeatedTest(1234)
     fun someWithoutHeuristic(repNr: RepetitionInfo) {
-        val line = File("maxcut_results_geronimo").readLines()[repNr.currentRepetition - 1]
+        val line = File("maxcut_results_nyc").readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
         val g = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
