@@ -3,15 +3,13 @@ package bachelorthesis.solvers
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
-import util.collections.increment
 
 // TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
 
 class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
-    useHeuristic: Boolean = false,
-    private val useKernel: Boolean = false
+    useHeuristic: Boolean = false
 ) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
@@ -21,14 +19,6 @@ class StackSolver(
     private fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * T.count { it in g[v] })
 
     fun calc(): Solution<Int> {
-
-        if (useKernel) {
-            val verticesToRemove = g.vertices.sortedByDescending { cont(it, emptySet()) }.drop(g.maxDegree * k + 1)
-            verticesToRemove.forEach { v ->
-                g[v].forEach { counter.increment(it) }
-                g.deleteVertex(v)
-            }
-        }
 
         var t = bestSolution.value
         val upperBound = g.degreeSequence.takeLast(k).sum()
