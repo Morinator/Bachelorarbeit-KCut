@@ -9,27 +9,25 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    @RepeatedTest(1267)
-    fun allWithHeuristic(repNr: RepetitionInfo) {
-        val line = File("maxcut_results_with_paths").readLines()[repNr.currentRepetition - 1]
+    fun testHelper(logFile: File, lineNr: Int, useHeuristic: Boolean) {
+        val line = logFile.readLines()[lineNr - 1]
         val l = line.split("\\s+".toRegex())
         val g = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val prediction = StackSolver(g, k, useHeuristic = true).calc().value
+        val prediction = StackSolver(g, k, useHeuristic = useHeuristic).calc().value
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
+
+    }
+
+    @RepeatedTest(1267)
+    fun allWithHeuristic(repNr: RepetitionInfo) {
+        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = true)
     }
 
     @RepeatedTest(1267)
     fun someWithoutHeuristic(repNr: RepetitionInfo) {
-        val line = File("maxcut_results_with_paths").readLines()[repNr.currentRepetition - 1]
-        val l = line.split("\\s+".toRegex())
-        val g = graphFromPath("data/graphs/${l[0]}")
-        val k = l[1].toInt()
-        val objValue = l[2].toInt()
-
-        val prediction = StackSolver(g, k).calc().value
-        assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
+        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = true)
     }
 }

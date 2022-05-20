@@ -4,8 +4,6 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
 
-// TODO Regeln finden, ob man Suchbaum frühzeitig abbrechen kann
-
 class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
