@@ -14,7 +14,6 @@ class StackSolver(
 
     private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
 
-    private fun cont(v: Int, T: Collection<Int>) = g.degreeOf(v) + counter[v]!! - (2 * T.count { it in g[v] })
 
     fun calc(): Solution<Int> {
 
@@ -29,6 +28,8 @@ class StackSolver(
 
             var tmpSolution: Solution<Int>? = null
             val trackingData = TrackingData()
+
+            fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
             searchTree@ while (ext.isNotEmpty()) {
 
@@ -52,7 +53,7 @@ class StackSolver(
 
                     if (T.size > 0) {
                         val lastElem = T.removeLast()
-                        currValue -= cont(lastElem, T)
+                        currValue -= cont(lastElem)
                     }
 
                 } else { // ##### BRANCH #####
@@ -65,7 +66,7 @@ class StackSolver(
                     if ((T.size < k - 1)) // you're not adding a leaf to the search tree
                         ext.add(ext.last().toMutableList())
 
-                    currValue += cont(newElem, T)
+                    currValue += cont(newElem)
 
                     T.add(newElem)
                 }
