@@ -7,19 +7,19 @@ import graphlib.heuristic.runHeuristic
 class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
+
     useHeuristic: Boolean = false
 ) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
-
     private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
 
 
     fun calc(): Solution<Int> {
 
         var t = bestSolution.value
-        val upperBound = g.degreeSequence.takeLast(k).sum()
 
+        val upperBound = g.degreeSequence.takeLast(k).sum()
         tIncreaseLoop@ while (t <= upperBound) {
 
             var currValue = 0
@@ -30,6 +30,13 @@ class StackSolver(
             val trackingData = TrackingData()
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
+
+            fun kMissing(): Int = k - T.size
+            fun tMissing(): Int = t - currValue
+
+            fun checkForSatisfactory(v: Int): Boolean = cont(v) >= tMissing() / kMissing() + 2 * (k - 1)
+
+
 
             searchTree@ while (ext.isNotEmpty()) {
 
