@@ -81,11 +81,12 @@ class StackSolver(
                     if (sat.size == T.size + 1)
                         sat.removeLast()
 
-                    val newElem = ext.last().random()
+                    val newElem = ext.last().first()
                     ext.last().remove(newElem)
-                    if (T.size < k - 1) // you're not adding a leaf to the search tree  (just for faster runtime)
+                    if (T.size < k - 1) { // you're not adding a leaf to the search tree  (just for faster runtime)
                         ext.add(ext.last().toMutableList())
-
+                        ext.last().sortByDescending { cont(it) }
+                    }
                     val isSatisfactory = checkForSatisfactory(newElem)
                     currValue += cont(newElem)
 
