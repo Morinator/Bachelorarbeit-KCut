@@ -28,7 +28,7 @@ class StackSolver(
             val ext = mutableListOf(g.vertices.toMutableList())
 
             var tmpSolution: Solution<Int>? = null
-            val trackingData = TrackingData()
+            val searchTreeStats = SearchTreeStats()
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
@@ -44,7 +44,7 @@ class StackSolver(
                 val doSatRule = sat.size == T.size + 1 && sat.last()
 
                 if (doSatRule)
-                    println("ALAAARM")
+                    searchTreeStats.numSatisfactoryRuleApplications++
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
@@ -53,7 +53,7 @@ class StackSolver(
 
                     if (T.size == k) {
 
-                        trackingData.subsets++
+                        searchTreeStats.numSubsets++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -76,7 +76,7 @@ class StackSolver(
 
                 } else { // ##### BRANCH #####
 
-                    trackingData.treeNodes++
+                    searchTreeStats.numTreeNodes++
 
                     if (sat.size == T.size + 1)
                         sat.removeLast()
@@ -100,7 +100,7 @@ class StackSolver(
             else
                 bestSolution = tmpSolution
 
-            println(trackingData)
+            println(searchTreeStats)
             println("t: $t")
             println("k: $k")
             println("\n")
