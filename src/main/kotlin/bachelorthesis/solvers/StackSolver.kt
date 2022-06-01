@@ -14,7 +14,6 @@ class StackSolver(
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
     private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
 
-
     fun calc(): Solution<Int> {
 
         var t = bestSolution.value
@@ -37,14 +36,16 @@ class StackSolver(
 
             fun checkForSatisfactory(v: Int): Boolean = cont(v) >= tMissing() / kMissing() + 2 * (k - 1)
 
-
+            fun hasSatValue(): Boolean = sat.size == T.size + 1
 
             searchTree@ while (ext.isNotEmpty()) {
 
-                val doSatRule = sat.size == T.size + 1 && sat.last()
+                val doSatRule = hasSatValue() && sat.last()
 
-                if (doSatRule)
+                if (doSatRule) {
                     searchTreeStats.numSatisfactoryRuleApplications++
+                    println("ALAAARM")
+                }
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
@@ -68,18 +69,15 @@ class StackSolver(
                         if (sat.isNotEmpty()) {
                             sat.removeLast()
                         }
-
                     }
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
                         currValue -= cont(T.removeLast())
-
                 } else { // ##### BRANCH #####
 
                     searchTreeStats.numTreeNodes++
 
-                    if (sat.size == T.size + 1)
-                        sat.removeLast()
+                    if (hasSatValue()) sat.removeLast()
 
                     val newElem = ext.last().first()
                     ext.last().remove(newElem)

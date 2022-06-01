@@ -4,7 +4,7 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 
-fun <V> runHeuristic(g: SimpleGraph<V>, k: Int, runs : Int) =
+fun <V> runHeuristic(g: SimpleGraph<V>, k: Int, runs: Int) =
     (1..runs).map { localSearchRun(g, k) }.maxByOrNull { it.value }!!
 
 fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
