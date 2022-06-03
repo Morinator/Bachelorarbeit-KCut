@@ -41,7 +41,7 @@ class StackSolver(
             searchTree@ while (ext.isNotEmpty()) {
 
                 val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
-                    .also { if (it) AlgoStats.numSatRule++ }
+                if (doSatRule) AlgoStats.numSatRule++
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
@@ -76,9 +76,9 @@ class StackSolver(
                     val newElem = ext.last().removeFirst()
 
                     if (T.size < k - 1)  // you're not adding a leaf to the search tree  (just for faster runtime)
-                        ext.add(ext.last().sortedByDescending { cont(it) } as MutableList<Int>)
+                        ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
 
-                    val isSatisfactory = checkIfSatisfactory(newElem)
+                    val isSatisfactory = checkIfSatisfactory(newElem) // TODO dont calc it useless
                     currValue += cont(newElem)
 
                     T.add(newElem)
