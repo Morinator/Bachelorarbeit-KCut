@@ -4,6 +4,7 @@ import AlgoStats
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
+import util.collections.Counter
 import util.collections.sortedDesc
 
 class StackSolver(
@@ -14,7 +15,7 @@ class StackSolver(
 ) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution(listOf(), 0)
-    private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
+    private val counter = Counter(g.vertices)
 
     fun calc(): Solution<Int> {
 
@@ -26,7 +27,7 @@ class StackSolver(
             var valueOfT = 0
             val T = ArrayList<Int>()
 
-            fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
+            fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * T.count { it in g[v] })
 
             val sat = ArrayList<Boolean>()
             val ext = mutableListOf(g.vertices.sortedDesc { cont(it) })

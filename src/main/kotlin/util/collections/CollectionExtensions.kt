@@ -29,7 +29,6 @@ fun <T> MutableSet<T>.popRandom(): T {
     return elem
 }
 
-
 /**
  * @return this in a new mutable list, sorted in descending order by [metric]
  */
