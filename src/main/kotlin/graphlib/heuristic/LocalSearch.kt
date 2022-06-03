@@ -9,7 +9,7 @@ fun <V> runHeuristic(g: SimpleGraph<V>, k: Int, runs: Int) =
 
 fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
 
-    if (g.size < k) return Solution() // invalid input
+    if (g.size < k) return Solution(listOf(), 0) // invalid input
 
     val randomVertices = g.vertices.toList().shuffled().take(k)
     val sol = Solution(randomVertices, cutSize(g, randomVertices))

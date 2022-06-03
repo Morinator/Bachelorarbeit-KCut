@@ -11,7 +11,7 @@ class CompleteLibSolver(
 ) {
 
     fun calc(): Solution<Int> {
-        var bestSolution = Solution<Int>()
+        var bestSolution = Solution<Int>(listOf(), 0)
 
         val vertexList = g.vertices.toList()
 

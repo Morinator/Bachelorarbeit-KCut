@@ -1,6 +1,6 @@
 package graphlib.datastructures
 
-data class Solution<V>(val vertices: MutableSet<V> = HashSet(), var value: Int = 0) {
+data class Solution<V>(val vertices: MutableSet<V>, var value: Int) {
 
     constructor(vertices: List<V>, value: Int) : this(vertices.toMutableSet(), value)
 }
