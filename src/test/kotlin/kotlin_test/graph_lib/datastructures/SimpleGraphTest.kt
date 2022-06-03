@@ -110,9 +110,9 @@ internal class SimpleGraphTest {
 
     @Test
     fun vertices() {
-        assertEquals((0..3).toSet(), g.vertices)
+        assertEquals((0..3).toSet(), g.V)
         g.addEdge(4, 5)
-        assertEquals((0..5).toSet(), g.vertices)
+        assertEquals((0..5).toSet(), g.V)
     }
 
     @Test
@@ -131,7 +131,7 @@ internal class SimpleGraphTest {
     fun copy() {
         val g1 = g.copy()
 
-        for (v in g1.vertices) assertEquals(g1[v], g[v]) // make sure content is equal
+        for (v in g1.V) assertEquals(g1[v], g[v]) // make sure content is equal
 
         g1.deleteVertex(2) // check if old graph is unaffected
         assertFalse { 2 in g1 }

@@ -13,7 +13,7 @@ class CompleteLibSolver(
     fun calc(): Solution<Int> {
         var bestSolution = Solution<Int>(listOf(), 0)
 
-        val vertexList = g.vertices.toList()
+        val vertexList = g.V.toList()
 
         for (S in Generator.combination(vertexList).simple(k)) {
             val cutSize = cutSize(g, S)

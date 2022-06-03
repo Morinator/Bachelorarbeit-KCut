@@ -18,7 +18,7 @@ fun <V> isTree(g: SimpleGraph<V>) = checkIfConnected(g) && g.edgeCount == g.size
 fun <V> hIndex(g: SimpleGraph<V>): Int {
     val arr = IntArray(g.maxDegree + 1) // Indices are: 0, 1, ...,maxDegree-1, maxDegree
 
-    for (v in g.vertices)
+    for (v in g.V)
         arr[g.degreeOf(v)] += 1 // arr[i] should contain the number of vertices with degree of exactly i
 
     for (i in 0 until g.maxDegree)
@@ -38,7 +38,7 @@ fun <V> hIndex(g: SimpleGraph<V>): Int {
  * @return True iff for any two distinct vertices v, w with at least c common neighbours, (v, w) is an edge
  */
 fun <V> `is c closed`(g: SimpleGraph<V>, c: Int): Boolean {
-    for (pair in Generator.combination(g.vertices).simple(2)) {
+    for (pair in Generator.combination(g.V).simple(2)) {
         val (v, w) = pair.toList()
 
         if ((g[v] intersect g[w]).size >= c && !g.areNB(v, w)) // just the definition of c-closure

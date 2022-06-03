@@ -12,8 +12,8 @@ import org.paukov.combinatorics3.Generator.permutation
  */
 fun <V> checkIfIsomorphic(g1: SimpleGraph<V>, g2: SimpleGraph<V>): Boolean {
 
-    val vG1 = g1.vertices.toList()
-    val vG2 = g2.vertices.toList()
+    val vG1 = g1.V.toList()
+    val vG2 = g2.V.toList()
     val permIndices = vG1.indices.toList()
 
     permutation(permIndices).simple().forEach permLoop@{ perm ->

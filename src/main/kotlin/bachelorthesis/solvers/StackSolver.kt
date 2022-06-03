@@ -3,7 +3,7 @@ package bachelorthesis.solvers
 import AlgoStats
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
-import graphlib.heuristic.runHeuristic
+import graphlib.heuristic.heuristic
 import util.collections.Counter
 import util.collections.sortedDesc
 
@@ -14,15 +14,14 @@ class StackSolver(
     useHeuristic: Boolean
 ) {
 
-    private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution(listOf(), 0)
-    private val counter = Counter(g.vertices)
+    private var bestSolution = if (useHeuristic) heuristic(g, k, 10) else Solution(listOf(), 0)
+    private val counter = Counter(g.V)
 
     fun calc(): Solution<Int> {
 
         var t = bestSolution.value
 
-        val upperBound = g.degreeSequence.takeLast(k).sum()
-        tIncreaseLoop@ while (t <= upperBound) {
+        tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) { // upper bound
 
             var valueOfT = 0
             val T = ArrayList<Int>()
@@ -30,7 +29,7 @@ class StackSolver(
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * T.count { it in g[v] })
 
             val sat = ArrayList<Boolean>()
-            val ext = mutableListOf(g.vertices.sortedDesc { cont(it) })
+            val ext = mutableListOf(g.V.sortedDesc { cont(it) })
 
             var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
 
@@ -73,12 +72,13 @@ class StackSolver(
                     val newElem = ext.last().removeFirst()
 
                     if (T.size < k - 1) // you're not adding a leaf to the search tree  (just for faster runtime)
-                        ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
+                        ext.add(ext.last().sortedDesc { cont(it) })
 
                     val isSatisfactory = checkIfSatisfactory(newElem) // TODO dont calc it useless
                     valueOfT += cont(newElem)
 
                     T.add(newElem)
+
                     if (!currentTreeNodeHasSatRule())
                         sat.add(isSatisfactory)
                 }

@@ -113,7 +113,8 @@ class SimpleGraph<V> {
      */
     val edgeCount get() = m.values.sumOf { it.size } / 2
 
-    val vertices: Set<V>
+    @Suppress("PropertyName")
+    val V: Set<V>
         get() = m.keys
 
     /**Returns the neighbour-vertices of [vertices]. This is defined as the set of all vertices *v* so that *v* has an edge
@@ -125,7 +126,7 @@ class SimpleGraph<V> {
     fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
     fun edgeList() = ArrayList<Pair<V, V>>().apply {
-        for (v in vertices)
+        for (v in V)
             for (w in get(v))
                 if (v.hashCode() < w.hashCode()) // so that edge doesnt appear twice
                     add(Pair(v, w)) // order doesn't matter
@@ -134,18 +135,18 @@ class SimpleGraph<V> {
     /**
      * Runtime: O(|V| + |E|) because all vertices and all edges appear in the string representation
      */
-    override fun toString() = vertices.joinToString("\n") { "$it: ${get(it)}" }
+    override fun toString() = V.joinToString("\n") { "$it: ${get(it)}" }
 
     override fun equals(other: Any?) = (other is SimpleGraph<*>) && m == other.m
 
     override fun hashCode() = m.hashCode()
 
     val maxDegree: Int
-        get() = vertices.maxOfOrNull { degreeOf(it) } ?: 0
+        get() = V.maxOfOrNull { degreeOf(it) } ?: 0
 
     /**
      * Runtime: O( |V| * log|V| ) because the degrees are sorted
      */
     val degreeSequence: List<Int>
-        get() = vertices.map { degreeOf(it) }.sorted()
+        get() = V.map { degreeOf(it) }.sorted()
 }
