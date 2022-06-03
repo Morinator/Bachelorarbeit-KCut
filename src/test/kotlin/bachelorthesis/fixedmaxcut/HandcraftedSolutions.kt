@@ -1,6 +1,5 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.IndexDecider
 import bachelorthesis.solvers.StackSolver
 import graphlib.constructors.Factory.createClique
 import graphlib.constructors.Factory.createPath
@@ -10,8 +9,6 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 
 internal class HandcraftedSolutions {
 
@@ -21,8 +18,6 @@ internal class HandcraftedSolutions {
 
         val k = 2
         assertEquals(Solution(mutableSetOf(2, 4), 4), StackSolver(g, k, false).calc())
-        assertNotNull(IndexDecider<Int>().calc(4, g, k))
-        assertNull(IndexDecider<Int>().calc(5, g, k))
     }
 
     @Test

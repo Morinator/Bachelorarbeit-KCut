@@ -4,6 +4,7 @@ import AlgoStats
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
+import util.collections.sortedDesc
 
 class StackSolver(
     private val g: SimpleGraph<Int>,
@@ -28,7 +29,7 @@ class StackSolver(
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
             val sat = ArrayList<Boolean>()
-            val ext = mutableListOf(g.vertices.sortedByDescending { cont(it) }.toMutableList())
+            val ext = mutableListOf(g.vertices.sortedDesc { cont(it) })
 
             var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
 

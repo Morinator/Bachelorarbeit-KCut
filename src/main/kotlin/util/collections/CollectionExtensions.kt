@@ -1,5 +1,8 @@
 package util.collections
 
+import java.util.Collections.sort
+import java.util.Comparator.comparing
+
 /** Returns the intersection of multiple sets in a new [HashSet] object.
  *
  * Let the sets you want to intersect be A_1, ..., A_n. The naive algorithm is to take a copy of A_1,
@@ -25,3 +28,13 @@ fun <T> MutableSet<T>.popRandom(): T {
     remove(elem)
     return elem
 }
+
+
+/**
+ * @return this in a new mutable list, sorted in descending order by [metric]
+ */
+fun <T, R : Comparable<R>> Collection<T>.sortedDesc(metric: (T) -> R): MutableList<T> =
+    toMutableList().apply {
+        sort(this, comparing(metric))
+        reverse() // LMAO this is ugly, but it makes the main code shorter and bloats it here, so worth I guess
+    }
