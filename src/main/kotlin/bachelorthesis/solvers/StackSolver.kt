@@ -34,15 +34,14 @@ class StackSolver(
             fun kMissing(): Int = k - T.size
             fun tMissing(): Int = t - currValue
 
-            fun checkForSatisfactory(v: Int): Boolean = cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1)
+            fun checkIfSatisfactory(v: Int): Boolean = cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1)
 
             fun currentTreeNodeHasSatRule(): Boolean = sat.size == T.size + 1
 
             searchTree@ while (ext.isNotEmpty()) {
 
                 val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
-                if (doSatRule)
-                    AlgoStats.numSatRule++
+                if (doSatRule) AlgoStats.numSatRule++
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
@@ -51,7 +50,6 @@ class StackSolver(
                 if (doBacktrack) {
 
                     if (T.size == k) {
-
                         AlgoStats.numCandidates++
 
                         if (currValue >= t) {
@@ -64,28 +62,29 @@ class StackSolver(
                     if (T.size < k) {
                         ext.removeLast()
 
-                        if (sat.isNotEmpty()) sat.removeLast()
+                        if (currentTreeNodeHasSatRule())
+                            sat.removeLast()
                     }
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
                         currValue -= cont(T.removeLast())
+
                 } else { // ##### BRANCH #####
 
                     AlgoStats.numTreeNodes++
 
-                    if (currentTreeNodeHasSatRule()) sat.removeLast()
-
                     val newElem = ext.last().removeFirst()
 
-                    if (T.size < k - 1) { // you're not adding a leaf to the search tree  (just for faster runtime)
-                        ext.add(ext.last().toMutableList())
-                        ext.last().sortByDescending { cont(it) }
-                    }
-                    val isSatisfactory = checkForSatisfactory(newElem)
+                    if (T.size < k - 1)  // you're not adding a leaf to the search tree  (just for faster runtime)
+                        ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
+
+                    val isSatisfactory = checkIfSatisfactory(newElem) // TODO dont calc it useless
                     currValue += cont(newElem)
 
                     T.add(newElem)
-                    sat.add(isSatisfactory)
+                    if (!currentTreeNodeHasSatRule()) {
+                        sat.add(isSatisfactory)
+                    }
                 }
             }
 
