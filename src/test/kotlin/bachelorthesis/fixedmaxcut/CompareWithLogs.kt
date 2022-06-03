@@ -18,7 +18,6 @@ class CompareWithLogs {
 
         val prediction = StackSolver(g, k, useHeuristic = useHeuristic).calc().value
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
-
     }
 
     @RepeatedTest(1267)

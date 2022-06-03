@@ -7,39 +7,54 @@ import graphlib.heuristic.runHeuristic
 class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
+
     useHeuristic: Boolean = false
 ) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
-
     private val counter: MutableMap<Int, Int> = g.vertices.associateWithTo(HashMap()) { 0 }
-
 
     fun calc(): Solution<Int> {
 
         var t = bestSolution.value
-        val upperBound = g.degreeSequence.takeLast(k).sum()
 
+        val upperBound = g.degreeSequence.takeLast(k).sum()
         tIncreaseLoop@ while (t <= upperBound) {
 
             var currValue = 0
             val T = ArrayList<Int>()
+            val sat = ArrayList<Boolean>()
             val ext = mutableListOf(g.vertices.toMutableList())
 
             var tmpSolution: Solution<Int>? = null
-            val trackingData = TrackingData()
+            val searchTreeStats = SearchTreeStats()
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
+            fun kMissing(): Int = k - T.size
+            fun tMissing(): Int = t - currValue
+
+            fun checkForSatisfactory(v: Int): Boolean = cont(v) >= tMissing() / kMissing() + 2 * (k - 1)
+
+            fun hasSatValue(): Boolean = sat.size == T.size + 1
+
             searchTree@ while (ext.isNotEmpty()) {
 
-                if (T.size >= k || // ##### BACKTRACK #####
-                    T.size + ext.last().size < k
-                ) {
+                val doSatRule = hasSatValue() && sat.last()
+
+                if (doSatRule) {
+                    searchTreeStats.numSatisfactoryRuleApplications++
+                    println("ALAAARM")
+                }
+
+                val doBacktrack = T.size >= k ||
+                        T.size + ext.last().size < k ||
+                        doSatRule
+                if (doBacktrack) {
 
                     if (T.size == k) {
 
-                        trackingData.subsets++
+                        searchTreeStats.numSubsets++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -48,27 +63,33 @@ class StackSolver(
                         }
                     }
 
-                    if (T.size < k)
+                    if (T.size < k) {
                         ext.removeLast()
 
-                    if (T.size > 0) {
-                        val lastElem = T.removeLast()
-                        currValue -= cont(lastElem)
+                        if (sat.isNotEmpty()) {
+                            sat.removeLast()
+                        }
                     }
 
+                    if (T.size > 0) // check needed to no throw an exception if algo is finished
+                        currValue -= cont(T.removeLast())
                 } else { // ##### BRANCH #####
 
-                    trackingData.treeNodes++
+                    searchTreeStats.numTreeNodes++
 
-                    val newElem = ext.last().random()
+                    if (hasSatValue()) sat.removeLast()
+
+                    val newElem = ext.last().first()
                     ext.last().remove(newElem)
-
-                    if ((T.size < k - 1)) // you're not adding a leaf to the search tree
+                    if (T.size < k - 1) { // you're not adding a leaf to the search tree  (just for faster runtime)
                         ext.add(ext.last().toMutableList())
-
+                        ext.last().sortByDescending { cont(it) }
+                    }
+                    val isSatisfactory = checkForSatisfactory(newElem)
                     currValue += cont(newElem)
 
                     T.add(newElem)
+                    sat.add(isSatisfactory)
                 }
             }
 
@@ -77,7 +98,7 @@ class StackSolver(
             else
                 bestSolution = tmpSolution
 
-            println(trackingData)
+            println(searchTreeStats)
             println("t: $t")
             println("k: $k")
             println("\n")
