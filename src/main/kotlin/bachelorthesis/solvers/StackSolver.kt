@@ -9,7 +9,7 @@ class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
 
-    useHeuristic: Boolean = false
+    useHeuristic: Boolean
 ) {
 
     private var bestSolution = if (useHeuristic) runHeuristic(g, k, 10) else Solution()
@@ -51,7 +51,7 @@ class StackSolver(
 
                     if (T.size == k) {
 
-                        AlgoStats.numSubsets++
+                        AlgoStats.numCandidates++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -68,15 +68,14 @@ class StackSolver(
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
                         currValue -= cont(T.removeLast())
-
                 } else { // ##### BRANCH #####
 
                     AlgoStats.numTreeNodes++
 
                     if (currentTreeNodeHasSatRule()) sat.removeLast()
 
-                    val newElem = ext.last().first()
-                    ext.last().remove(newElem)
+                    val newElem = ext.last().removeFirst()
+
                     if (T.size < k - 1) { // you're not adding a leaf to the search tree  (just for faster runtime)
                         ext.add(ext.last().toMutableList())
                         ext.last().sortByDescending { cont(it) }
@@ -93,7 +92,6 @@ class StackSolver(
                 break@tIncreaseLoop
             else
                 bestSolution = tmpSolution
-
         }
 
         AlgoStats.print()
