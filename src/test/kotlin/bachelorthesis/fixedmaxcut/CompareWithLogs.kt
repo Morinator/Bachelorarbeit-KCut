@@ -21,12 +21,12 @@ class CompareWithLogs {
     }
 
     @RepeatedTest(1267)
-    fun allWithHeuristic(repNr: RepetitionInfo) {
+    fun withHeuristic(repNr: RepetitionInfo) {
         testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = true)
     }
 
     @RepeatedTest(1267)
-    fun someWithoutHeuristic(repNr: RepetitionInfo) {
-        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = true)
+    fun withoutHeuristic(repNr: RepetitionInfo) {
+        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = false)
     }
 }
