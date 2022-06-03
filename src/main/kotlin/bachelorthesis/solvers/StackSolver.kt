@@ -1,5 +1,6 @@
 package bachelorthesis.solvers
 
+import TestingLogger
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
@@ -27,7 +28,6 @@ class StackSolver(
             val ext = mutableListOf(g.vertices.toMutableList())
 
             var tmpSolution: Solution<Int>? = null
-            val searchTreeStats = SearchTreeStats()
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
@@ -40,12 +40,8 @@ class StackSolver(
 
             searchTree@ while (ext.isNotEmpty()) {
 
-                val doSatRule = hasSatValue() && sat.last()
-
-                if (doSatRule) {
-                    searchTreeStats.numSatisfactoryRuleApplications++
-                    println("ALAAARM")
-                }
+                val doSatRule = (hasSatValue() && sat.last())
+                    .also { if (it) TestingLogger.numSatRule++ }
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
@@ -54,7 +50,7 @@ class StackSolver(
 
                     if (T.size == k) {
 
-                        searchTreeStats.numSubsets++
+                        TestingLogger.numSubsets++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -73,9 +69,10 @@ class StackSolver(
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
                         currValue -= cont(T.removeLast())
+
                 } else { // ##### BRANCH #####
 
-                    searchTreeStats.numTreeNodes++
+                    TestingLogger.numTreeNodes++
 
                     if (hasSatValue()) sat.removeLast()
 
@@ -98,11 +95,9 @@ class StackSolver(
             else
                 bestSolution = tmpSolution
 
-            println(searchTreeStats)
-            println("t: $t")
-            println("k: $k")
-            println("\n")
         }
+
+        TestingLogger.print()
 
         return bestSolution
     }

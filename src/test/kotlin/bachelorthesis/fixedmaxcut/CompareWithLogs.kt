@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    fun testHelper(logFile: File, lineNr: Int, useHeuristic: Boolean) {
+    private fun testHelper(logFile: File, lineNr: Int, useHeuristic: Boolean) {
         val line = logFile.readLines()[lineNr - 1]
         val l = line.split("\\s+".toRegex())
         val g = graphFromPath("data/graphs/${l[0]}")
