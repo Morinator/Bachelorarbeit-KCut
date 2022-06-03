@@ -1,6 +1,6 @@
 package bachelorthesis.solvers
 
-import TestingLogger
+import AlgoStats
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.runHeuristic
@@ -27,30 +27,31 @@ class StackSolver(
             val sat = ArrayList<Boolean>()
             val ext = mutableListOf(g.vertices.toMutableList())
 
-            var tmpSolution: Solution<Int>? = null
+            var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
             fun kMissing(): Int = k - T.size
             fun tMissing(): Int = t - currValue
 
-            fun checkForSatisfactory(v: Int): Boolean = cont(v) >= tMissing() / kMissing() + 2 * (k - 1)
+            fun checkForSatisfactory(v: Int): Boolean = cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1)
 
-            fun hasSatValue(): Boolean = sat.size == T.size + 1
+            fun currentTreeNodeHasSatRule(): Boolean = sat.size == T.size + 1
 
             searchTree@ while (ext.isNotEmpty()) {
 
-                val doSatRule = (hasSatValue() && sat.last())
-                    .also { if (it) TestingLogger.numSatRule++ }
+                val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
+                    .also { if (it) AlgoStats.numSatRule++ }
 
                 val doBacktrack = T.size >= k ||
                         T.size + ext.last().size < k ||
                         doSatRule
+
                 if (doBacktrack) {
 
                     if (T.size == k) {
 
-                        TestingLogger.numSubsets++
+                        AlgoStats.numSubsets++
 
                         if (currValue >= t) {
                             tmpSolution = Solution(T, currValue)
@@ -62,9 +63,7 @@ class StackSolver(
                     if (T.size < k) {
                         ext.removeLast()
 
-                        if (sat.isNotEmpty()) {
-                            sat.removeLast()
-                        }
+                        if (sat.isNotEmpty()) sat.removeLast()
                     }
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
@@ -72,9 +71,9 @@ class StackSolver(
 
                 } else { // ##### BRANCH #####
 
-                    TestingLogger.numTreeNodes++
+                    AlgoStats.numTreeNodes++
 
-                    if (hasSatValue()) sat.removeLast()
+                    if (currentTreeNodeHasSatRule()) sat.removeLast()
 
                     val newElem = ext.last().first()
                     ext.last().remove(newElem)
@@ -97,7 +96,7 @@ class StackSolver(
 
         }
 
-        TestingLogger.print()
+        AlgoStats.print()
 
         return bestSolution
     }
