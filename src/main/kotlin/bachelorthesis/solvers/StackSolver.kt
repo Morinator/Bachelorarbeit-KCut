@@ -22,29 +22,30 @@ class StackSolver(
         val upperBound = g.degreeSequence.takeLast(k).sum()
         tIncreaseLoop@ while (t <= upperBound) {
 
-            var currValue = 0
+            var valueOfT = 0
             val T = ArrayList<Int>()
-            val sat = ArrayList<Boolean>()
-            val ext = mutableListOf(g.vertices.toMutableList())
-
-            var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
 
             fun cont(v: Int) = (g.degreeOf(v) + counter[v]!!) - (2 * T.count { it in g[v] })
 
+            val sat = ArrayList<Boolean>()
+            val extOfT = mutableListOf(g.vertices.sortedByDescending { cont(it) }.toMutableList())
+
+            var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
+
             fun kMissing(): Int = k - T.size
-            fun tMissing(): Int = t - currValue
+            fun tMissing(): Int = t - valueOfT
 
             fun checkIfSatisfactory(v: Int): Boolean = cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1)
 
             fun currentTreeNodeHasSatRule(): Boolean = sat.size == T.size + 1
 
-            searchTree@ while (ext.isNotEmpty()) {
+            searchTree@ while (extOfT.isNotEmpty()) {
 
                 val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
                 if (doSatRule) AlgoStats.numSatRule++
 
                 val doBacktrack = T.size >= k ||
-                        T.size + ext.last().size < k ||
+                        T.size + extOfT.last().size < k ||
                         doSatRule
 
                 if (doBacktrack) {
@@ -52,34 +53,34 @@ class StackSolver(
                     if (T.size == k) {
                         AlgoStats.numCandidates++
 
-                        if (currValue >= t) {
-                            tmpSolution = Solution(T, currValue)
-                            t = currValue + 1
+                        if (valueOfT >= t) {
+                            tmpSolution = Solution(T, valueOfT)
+                            t = valueOfT + 1
                             break@searchTree
                         }
                     }
 
                     if (T.size < k) {
-                        ext.removeLast()
+                        extOfT.removeLast()
 
                         if (currentTreeNodeHasSatRule())
                             sat.removeLast()
                     }
 
                     if (T.size > 0) // check needed to no throw an exception if algo is finished
-                        currValue -= cont(T.removeLast())
+                        valueOfT -= cont(T.removeLast())
 
                 } else { // ##### BRANCH #####
 
                     AlgoStats.numTreeNodes++
 
-                    val newElem = ext.last().removeFirst()
+                    val newElem = extOfT.last().removeFirst()
 
                     if (T.size < k - 1)  // you're not adding a leaf to the search tree  (just for faster runtime)
-                        ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
+                        extOfT.add(extOfT.last().sortedByDescending { cont(it) }.toMutableList())
 
                     val isSatisfactory = checkIfSatisfactory(newElem) // TODO dont calc it useless
-                    currValue += cont(newElem)
+                    valueOfT += cont(newElem)
 
                     T.add(newElem)
                     if (!currentTreeNodeHasSatRule()) {
