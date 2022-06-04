@@ -80,8 +80,10 @@ class StackSolver(
 
                     T.add(newElem)
 
-                    if (!currentTreeNodeHasSatRule())
+                    if (!currentTreeNodeHasSatRule()) {
                         sat.add(isSatisfactory)
+                        AlgoStats.satVerticesCounter++
+                    }
                 }
             }
 

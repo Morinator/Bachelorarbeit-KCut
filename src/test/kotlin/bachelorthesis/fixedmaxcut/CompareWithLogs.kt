@@ -20,13 +20,13 @@ class CompareWithLogs {
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(1279)
-    fun withHeuristic(repNr: RepetitionInfo) {
-        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = true)
+    @RepeatedTest(2500)
+    fun withoutHeuristic(repNr: RepetitionInfo) {
+        testHelper(File("maxcut_results_with_paths_laplace"), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(1279)
-    fun withoutHeuristic(repNr: RepetitionInfo) {
-        testHelper(File("maxcut_results_with_paths"), repNr.currentRepetition, useHeuristic = false)
+    @RepeatedTest(2500)
+    fun withHeuristic(repNr: RepetitionInfo) {
+        testHelper(File("maxcut_results_with_paths_laplace"), repNr.currentRepetition, useHeuristic = true)
     }
 }

@@ -10,13 +10,13 @@ import java.io.File
  */
 fun main() {
     val graphFiles = File("data/graphs").walk().filter { it.isFile }
-    for (k in 1..7) {
+    for (k in 1..6) {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val g = GraphIO.graphFromPath(file)
             val sol = CompleteLibSolver(g, k).calc()
 
-            val logFile = File("maxcut_results_with_paths")
+            val logFile = File("maxcut_results_with_paths_laplace")
 
             logFile.appendText(
                 file.name.padEnd(60) +
