@@ -16,7 +16,7 @@ fun main() {
             val g = GraphIO.graphFromPath(file)
             val sol = CompleteLibSolver(g, k).calc()
 
-            val logFile = File("maxcut_results_with_paths_laplace")
+            val logFile = File("maxcut_results_with_paths_laplace2")
 
             logFile.appendText(
                 file.name.padEnd(60) +

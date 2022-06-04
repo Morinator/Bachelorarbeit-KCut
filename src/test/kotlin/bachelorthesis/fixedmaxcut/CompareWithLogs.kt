@@ -20,13 +20,15 @@ class CompareWithLogs {
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(2500)
+    private val logPath = "maxcut_results_with_paths_laplace2"
+
+    @RepeatedTest(4315)
     fun withoutHeuristic(repNr: RepetitionInfo) {
-        testHelper(File("maxcut_results_with_paths_laplace"), repNr.currentRepetition, useHeuristic = false)
+        testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(2500)
+    @RepeatedTest(4315)
     fun withHeuristic(repNr: RepetitionInfo) {
-        testHelper(File("maxcut_results_with_paths_laplace"), repNr.currentRepetition, useHeuristic = true)
+        testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 }
