@@ -5,6 +5,7 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.heuristic
 import util.collections.Counter
+import util.collections.intersectionSize
 import util.collections.sortedDesc
 
 class StackSolver(
@@ -26,7 +27,7 @@ class StackSolver(
             var valueOfT = 0
             val T = ArrayList<Int>()
 
-            fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * T.count { it in g[v] })
+            fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(T, g[v]))
 
             val sat = ArrayList<Boolean>()
             val ext = mutableListOf(g.V.sortedDesc { cont(it) })

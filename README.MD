@@ -1,15 +1,9 @@
 ## TODOs
 
-### Kernel
-
-- überhaupt korrekt implementieren
-- vor Heuristik nutzen
-
-### Satisfactory-Rule
-
-- in feature-branch versuchen
-- bei Fehlschlag eine einfache Instanz festhalten, welche Problem ist
-
 ### Paper lesen und zusammenfassen
 
-### extract sortedMutable{} 
+### Nächste Woche ist Frank weg -> Mit Christian reden?
+
+### needless rule
+
+### Kern neu probieren
