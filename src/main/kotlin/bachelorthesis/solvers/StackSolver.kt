@@ -16,13 +16,11 @@ class StackSolver(
 ) {
 
     private var bestSolution = if (useHeuristic) heuristic(g, k, 10) else Solution(listOf(), 0)
+    private var t = bestSolution.value
     private val counter = Counter(g.V)
 
     fun calc(): Solution<Int> {
-
-        var t = bestSolution.value
-
-        tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) { // upper bound
+        tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
 
             var valueOfT = 0
             val T = ArrayList<Int>()
