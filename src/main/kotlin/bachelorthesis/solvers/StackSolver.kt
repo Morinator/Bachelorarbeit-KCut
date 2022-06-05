@@ -11,7 +11,6 @@ import util.collections.sortedDesc
 class StackSolver(
     private val g: SimpleGraph<Int>,
     private val k: Int,
-
     useHeuristic: Boolean
 ) {
 
@@ -21,76 +20,74 @@ class StackSolver(
 
     fun calc(): Solution<Int> {
         while (t <= g.degreeSequence.takeLast(k).sum())
-            bestSolution = runTree() ?: break
+            bestSolution = runTree(g, k, t, counter).also { t++ } ?: break
 
         AlgoStats.print()
         return bestSolution
     }
 
-    private fun runTree(): Solution<Int>? {
-        var valueOfT = 0
-        val T = ArrayList<Int>()
+}
 
-        fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(T, g[v]))
 
-        val sat = ArrayList<Boolean>()
-        val ext = mutableListOf(g.V.sortedDesc { cont(it) })
+fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
+    var valueOfT = 0
+    val T = ArrayList<Int>()
+    val sat = ArrayList<Boolean>()
 
-        var tmpSolution: Solution<Int>? = null // is null <=> no fitting subset found yet
+    fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(T, g[v]))
 
-        fun kMissing(): Int = k - T.size
-        fun tMissing(): Int = t - valueOfT
-        fun checkIfSatisfactory(v: Int): Boolean = (cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1))
-        fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
+    val ext = mutableListOf(g.V.sortedDesc { cont(it) })
 
-        searchTree@ while (ext.isNotEmpty()) {
+    fun kMissing(): Int = k - T.size
+    fun tMissing(): Int = t - valueOfT
+    fun checkIfSatisfactory(v: Int): Boolean = (cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1))
 
-            val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
-            if (doSatRule) AlgoStats.satRuleCounter++
+    fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
 
-            val doBacktrack = T.size >= k || T.size + ext.last().size < k || doSatRule
+    while (ext.isNotEmpty()) {
 
-            if (doBacktrack) {
+        val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
+        if (doSatRule) AlgoStats.satRuleCounter++
 
-                if (T.size == k) {
-                    AlgoStats.candidateCounter++
+        val doBacktrack = T.size >= k || T.size + ext.last().size < k || doSatRule
 
-                    if (valueOfT >= t) {
-                        tmpSolution = Solution(T, valueOfT)
-                        t = valueOfT + 1
-                        break@searchTree
-                    }
-                }
+        if (doBacktrack) {
 
-                if (T.size < k)
-                    ext.removeLast()
-                if (currentTreeNodeHasSatRule())
-                    sat.removeLast()
+            if (T.size == k) {
+                AlgoStats.candidateCounter++
 
-                if (T.size > 0)
-                    valueOfT -= cont(T.removeLast())
+                if (valueOfT >= t)
+                    return Solution(T, valueOfT)
+            }
 
-            } else { // ##### BRANCH #####
+            if (T.size < k)
+                ext.removeLast()
+            if (currentTreeNodeHasSatRule())
+                sat.removeLast()
 
-                AlgoStats.treeNodeCounter++
+            if (T.size > 0)
+                valueOfT -= cont(T.removeLast())
 
-                val newElem = ext.last().removeFirst()
+        } else { // ##### BRANCH #####
 
-                if (T.size < k - 1) // you're not adding a leaf to the search tree  (just for faster runtime)
-                    ext.add(ext.last().sortedDesc { cont(it) })
+            AlgoStats.treeNodeCounter++
 
-                val isSatisfactory = checkIfSatisfactory(newElem) // TODO dont calc it useless
-                valueOfT += cont(newElem)
+            val newElem = ext.last().removeFirst()
 
-                T.add(newElem)
+            if (T.size < k - 1)
+                ext.add(ext.last().sortedDesc { cont(it) })
 
-                if (!currentTreeNodeHasSatRule()) {
-                    sat.add(isSatisfactory)
-                    AlgoStats.satVerticesCounter++
-                }
+            val isSatisfactory = checkIfSatisfactory(newElem)
+            valueOfT += cont(newElem)
+
+            T.add(newElem)
+
+            if (!currentTreeNodeHasSatRule()) {
+                sat.add(isSatisfactory)
+                AlgoStats.satVerticesCounter++
             }
         }
+    } // end while-loop
 
-        return tmpSolution
-    }
+    return null
 }
