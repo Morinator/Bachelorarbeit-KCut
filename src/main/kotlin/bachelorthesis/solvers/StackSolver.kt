@@ -20,17 +20,14 @@ class StackSolver(
     private val counter = Counter(g.V)
 
     fun calc(): Solution<Int> {
-        tIncreaseLoop@ while (t <= g.degreeSequence.takeLast(k).sum()) {
-
-            if (runTree()) break@tIncreaseLoop
-        }
+        while (t <= g.degreeSequence.takeLast(k).sum())
+            bestSolution = runTree() ?: break
 
         AlgoStats.print()
-
         return bestSolution
     }
 
-    private fun runTree(): Boolean {
+    private fun runTree(): Solution<Int>? {
         var valueOfT = 0
         val T = ArrayList<Int>()
 
@@ -94,10 +91,6 @@ class StackSolver(
             }
         }
 
-        if (tmpSolution == null)
-            return true
-        else
-            bestSolution = tmpSolution
-        return false
+        return tmpSolution
     }
 }
