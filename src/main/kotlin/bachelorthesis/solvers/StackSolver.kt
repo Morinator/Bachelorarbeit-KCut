@@ -33,17 +33,16 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
     val s = State(k = k, t = t)
 
     fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, g[v]))
-
-    val ext = mutableListOf(g.V.sortedDesc { cont(it) })
+    s.ext.add(g.V.sortedDesc { cont(it) })
 
     fun checkIfSatisfactory(v: Int) = cont(v) >= s.satBorder()
 
-    while (ext.isNotEmpty()) {
+    while (s.ext.isNotEmpty()) {
 
         val doSatRule = (s.currentTreeNodeHasSatRule() && s.sat.last())
         if (doSatRule) AlgoStats.satRuleCounter++
 
-        val doBacktrack = s.T.size >= k || s.T.size + ext.last().size < k || doSatRule
+        val doBacktrack = s.T.size >= k || s.T.size + s.ext.last().size < k || doSatRule
 
         if (doBacktrack) {
 
@@ -55,7 +54,7 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
             }
 
             if (s.T.size < k)
-                ext.removeLast()
+                s.ext.removeLast()
             if (s.currentTreeNodeHasSatRule())
                 s.sat.removeLast()
 
@@ -66,10 +65,10 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 
             AlgoStats.treeNodeCounter++
 
-            val newElem = ext.last().removeFirst()
+            val newElem = s.ext.last().removeFirst()
 
             if (s.T.size < k - 1)
-                ext.add(ext.last().sortedDesc { cont(it) })
+                s.ext.add(s.ext.last().sortedDesc { cont(it) })
 
             val isSatisfactory = checkIfSatisfactory(newElem)
             s.valueOfT += cont(newElem)
@@ -91,6 +90,7 @@ class State(
     var valueOfT: Int = 0,
     val T: MutableList<Int> = ArrayList(),
     val sat: MutableList<Boolean> = ArrayList(),
+    val ext: MutableList<MutableList<Int>> = ArrayList(),
     val k: Int,
     val t: Int
 ) {
