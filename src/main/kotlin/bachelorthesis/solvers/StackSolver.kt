@@ -30,16 +30,13 @@ class StackSolver(
 
 
 fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
-    val s = State()
+    val s = State(k = k, t = t)
 
     fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, g[v]))
 
     val ext = mutableListOf(g.V.sortedDesc { cont(it) })
 
-    fun kMissing(): Int = k - s.T.size
-    fun tMissing(): Int = t - s.valueOfT
-    fun checkIfSatisfactory(v: Int): Boolean =
-        (cont(v) >= (tMissing().toDouble() / kMissing().toDouble()) + 2 * (k - 1))
+    fun checkIfSatisfactory(v: Int) = cont(v) >= s.satBorder()
 
     while (ext.isNotEmpty()) {
 
@@ -93,8 +90,14 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 class State(
     var valueOfT: Int = 0,
     val T: MutableList<Int> = ArrayList(),
-    val sat: MutableList<Boolean> = ArrayList()
+    val sat: MutableList<Boolean> = ArrayList(),
+    val k: Int,
+    val t: Int
 ) {
 
     fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
+
+    private fun kMissing(): Double = (k - T.size).toDouble()
+    private fun tMissing(): Double = (t - valueOfT).toDouble()
+    fun satBorder() = (tMissing() / kMissing()) + 2 * (k - 1)
 }
