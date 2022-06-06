@@ -30,43 +30,40 @@ class StackSolver(
 
 
 fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
-    var valueOfT = 0
-    val T = ArrayList<Int>()
-    val sat = ArrayList<Boolean>()
+    val s = State()
 
-    fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(T, g[v]))
+    fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, g[v]))
 
     val ext = mutableListOf(g.V.sortedDesc { cont(it) })
 
-    fun kMissing(): Int = k - T.size
-    fun tMissing(): Int = t - valueOfT
-    fun checkIfSatisfactory(v: Int): Boolean = (cont(v) >= (tMissing() / kMissing()) + 2 * (k - 1))
-
-    fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
+    fun kMissing(): Int = k - s.T.size
+    fun tMissing(): Int = t - s.valueOfT
+    fun checkIfSatisfactory(v: Int): Boolean =
+        (cont(v) >= (tMissing().toDouble() / kMissing().toDouble()) + 2 * (k - 1))
 
     while (ext.isNotEmpty()) {
 
-        val doSatRule = (currentTreeNodeHasSatRule() && sat.last())
+        val doSatRule = (s.currentTreeNodeHasSatRule() && s.sat.last())
         if (doSatRule) AlgoStats.satRuleCounter++
 
-        val doBacktrack = T.size >= k || T.size + ext.last().size < k || doSatRule
+        val doBacktrack = s.T.size >= k || s.T.size + ext.last().size < k || doSatRule
 
         if (doBacktrack) {
 
-            if (T.size == k) {
+            if (s.T.size == k) {
                 AlgoStats.candidateCounter++
 
-                if (valueOfT >= t)
-                    return Solution(T, valueOfT)
+                if (s.valueOfT >= t)
+                    return Solution(s.T, s.valueOfT)
             }
 
-            if (T.size < k)
+            if (s.T.size < k)
                 ext.removeLast()
-            if (currentTreeNodeHasSatRule())
-                sat.removeLast()
+            if (s.currentTreeNodeHasSatRule())
+                s.sat.removeLast()
 
-            if (T.size > 0)
-                valueOfT -= cont(T.removeLast())
+            if (s.T.size > 0)
+                s.valueOfT -= cont(s.T.removeLast())
 
         } else { // ##### BRANCH #####
 
@@ -74,20 +71,30 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 
             val newElem = ext.last().removeFirst()
 
-            if (T.size < k - 1)
+            if (s.T.size < k - 1)
                 ext.add(ext.last().sortedDesc { cont(it) })
 
             val isSatisfactory = checkIfSatisfactory(newElem)
-            valueOfT += cont(newElem)
+            s.valueOfT += cont(newElem)
 
-            T.add(newElem)
+            s.T.add(newElem)
 
-            if (!currentTreeNodeHasSatRule()) {
-                sat.add(isSatisfactory)
-                AlgoStats.satVerticesCounter++
+            if (!s.currentTreeNodeHasSatRule()) {
+                s.sat.add(isSatisfactory)
+                if (isSatisfactory)
+                    AlgoStats.satVerticesCounter++
             }
         }
     } // end while-loop
 
     return null
+}
+
+class State(
+    var valueOfT: Int = 0,
+    val T: MutableList<Int> = ArrayList(),
+    val sat: MutableList<Boolean> = ArrayList()
+) {
+
+    fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
 }
