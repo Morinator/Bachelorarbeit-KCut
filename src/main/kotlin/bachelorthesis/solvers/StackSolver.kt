@@ -33,17 +33,33 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
     val s = State(k = k, t = t)
 
     fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, g[v]))
-    s.ext.add(g.V.sortedDesc { cont(it) })
 
-    fun checkIfSatisfactory(v: Int) = cont(v) >= s.satBorder()
+    fun needlessRule() {
+        if (s.T.size < k) { //TODO Think about what is the fitting condition here
+            val x = s.ext.last()
+            if (cont(x.first()) < s.satBorder()) {
+                val border = s.needlessBorder()
+                n@ for (i in x.indices.reversed()) {
+                    if (cont(x[i]) < border) {
+                        AlgoStats.needlessRule++
+                        x.removeLast()
+                    } else
+                        break@n
+                }
+            }
+        }
+    }
+
+    s.ext.add(g.V.sortedDesc { cont(it) })
+    needlessRule()
 
     while (s.ext.isNotEmpty()) {
 
-        if (s.doSatRule()) AlgoStats.satRuleCounter++
+        if (s.doSatRule()) AlgoStats.satRule++
         if (s.doBacktrack()) {
 
             if (s.T.size == k) {
-                AlgoStats.candidateCounter++
+                AlgoStats.candidates++
 
                 if (s.valueOfT >= t)
                     return Solution(s.T, s.valueOfT)
@@ -51,7 +67,7 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 
             if (s.T.size < k)
                 s.ext.removeLast()
-            if (s.currentTreeNodeHasSatRule())
+            if (s.satExists())
                 s.sat.removeLast()
 
             if (s.T.size > 0)
@@ -59,23 +75,27 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 
         } else { // ##### BRANCH #####
 
-            AlgoStats.treeNodeCounter++
+            AlgoStats.treeNode++
 
             val newElem = s.ext.last().removeFirst()
 
             if (s.T.size < k - 1)
                 s.ext.add(s.ext.last().sortedDesc { cont(it) })
 
-            val isSatisfactory = checkIfSatisfactory(newElem)
-            s.valueOfT += cont(newElem)
+            val cont = cont(newElem)
+            val isSatisfactory = cont >= s.satBorder()
+            s.valueOfT += cont
 
             s.T.add(newElem)
 
-            if (!s.currentTreeNodeHasSatRule()) {
+            if (!s.satExists()) {
                 s.sat.add(isSatisfactory)
                 if (isSatisfactory)
-                    AlgoStats.satVerticesCounter++
+                    AlgoStats.satVertices++
             }
+
+            // NEEDLESS-RULE
+            needlessRule()
         }
     } // end while-loop
 
@@ -98,11 +118,14 @@ class State(
 
     fun doBacktrack() = T.size >= k || T.size + ext.last().size < k || doSatRule()
 
-    internal fun doSatRule() = currentTreeNodeHasSatRule() && sat.last()
+    internal fun doSatRule() = satExists() && sat.last()
 
-    fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
+    fun satExists(): Boolean = (sat.size == T.size + 1)
 
     private fun kMissing(): Double = (k - T.size).toDouble()
     private fun tMissing(): Double = (t - valueOfT).toDouble()
+
     fun satBorder(): Double = (tMissing() / kMissing()) + 2 * (k - 1)
+
+    fun needlessBorder(): Double = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
 }
