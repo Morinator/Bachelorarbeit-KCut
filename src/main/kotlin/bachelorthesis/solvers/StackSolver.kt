@@ -39,12 +39,8 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
 
     while (s.ext.isNotEmpty()) {
 
-        val doSatRule = (s.currentTreeNodeHasSatRule() && s.sat.last())
-        if (doSatRule) AlgoStats.satRuleCounter++
-
-        val doBacktrack = s.T.size >= k || s.T.size + s.ext.last().size < k || doSatRule
-
-        if (doBacktrack) {
+        if (s.doSatRule()) AlgoStats.satRuleCounter++
+        if (s.doBacktrack()) {
 
             if (s.T.size == k) {
                 AlgoStats.candidateCounter++
@@ -86,6 +82,11 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
     return null
 }
 
+/**
+ * Saves the current state of the algorithm.
+ *
+ * Only contains query-methods, no command (i.e. no method in this class will change anything).
+ */
 class State(
     var valueOfT: Int = 0,
     val T: MutableList<Int> = ArrayList(),
@@ -95,9 +96,13 @@ class State(
     val t: Int
 ) {
 
+    fun doBacktrack() = T.size >= k || T.size + ext.last().size < k || doSatRule()
+
+    internal fun doSatRule() = currentTreeNodeHasSatRule() && sat.last()
+
     fun currentTreeNodeHasSatRule(): Boolean = (sat.size == T.size + 1)
 
     private fun kMissing(): Double = (k - T.size).toDouble()
     private fun tMissing(): Double = (t - valueOfT).toDouble()
-    fun satBorder() = (tMissing() / kMissing()) + 2 * (k - 1)
+    fun satBorder(): Double = (tMissing() / kMissing()) + 2 * (k - 1)
 }
