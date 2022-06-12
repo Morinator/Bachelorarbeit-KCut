@@ -1,5 +1,6 @@
 package bachelorthesis.fixedmaxcut
 
+import bachelorthesis.solvers.ILPSolver
 import bachelorthesis.solvers.StackSolver
 import graphlib.constructors.GraphIO.graphFromPath
 import org.junit.jupiter.api.RepeatedTest
@@ -30,5 +31,16 @@ class CompareWithLogs {
     @RepeatedTest(4315)
     fun withHeuristic(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
+    }
+
+    @RepeatedTest(4315)
+    fun withILP(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val g = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val prediction = ILPSolver(g, k).calc().value
+        assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 }
