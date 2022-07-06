@@ -36,7 +36,7 @@ fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective: (Si
         for (newVertex in g.V.filter { it !in solution.vertices }) {
             solution.vertices.add(newVertex)
 
-            if (cutSize(g, solution.vertices) > solution.value) {
+            if (objective(g, solution.vertices) > solution.value) {
                 solution.value = objective(g, solution.vertices)
                 return
             }

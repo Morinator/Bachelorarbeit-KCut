@@ -1,3 +1,4 @@
+/*
 package bachelorthesis.solvers
 
 import graphlib.datastructures.SimpleGraph
@@ -51,3 +52,5 @@ class ILPSolver(
         return Solution(emptyList(), cplex.bestObjValue.roundToInt())
     }
 }
+
+*/
