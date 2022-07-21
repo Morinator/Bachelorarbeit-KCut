@@ -4,14 +4,13 @@ import graphlib.datastructures.SimpleGraph
 
 object RandomGraphs {
 
-    fun fromRandomEdges(vertexCount: Int, edgeCount: Int): SimpleGraph<Int> {
-        val maxNumberOfEdges = vertexCount * (vertexCount - 1) / 2
-        assert(edgeCount <= maxNumberOfEdges)
+    fun fromRandomEdges(n: Int, m: Int): SimpleGraph<Int> {
+        val maxNumberOfEdges = n * (n - 1) / 2
+        assert(m <= maxNumberOfEdges)
 
-        val g = SimpleGraph<Int>()
-        while (g.edgeCount < edgeCount)
-            g.addEdge((1..vertexCount).random(), (1..vertexCount).random())
-
-        return g
+        return SimpleGraph<Int>().apply {
+            while (edgeCount < m)
+                addEdge((1..n).random(), (1..n).random())
+        }
     }
 }

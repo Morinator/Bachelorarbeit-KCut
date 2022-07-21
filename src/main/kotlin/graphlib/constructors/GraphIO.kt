@@ -6,7 +6,7 @@ import java.io.File
 object GraphIO {
 
     /**Line is not commented out (doesn't start with % or #) and is not empty.*/
-    fun validateLine(l: String) = !l.startsWith("%") && !l.startsWith("#") && l.isNotEmpty()
+    fun validateLine(line: String) = !line.startsWith("%") && !line.startsWith("#") && line.isNotEmpty()
 
     fun graphFromPath(path: String) = graphFromEdges(edgesFromPath(path))
 

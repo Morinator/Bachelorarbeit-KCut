@@ -13,8 +13,8 @@ fun main() {
     for (k in 1..6) {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
-            val g = GraphIO.graphFromPath(file)
-            val sol = CompleteLibSolver(g, k).calc()
+            val G = GraphIO.graphFromPath(file)
+            val sol = CompleteLibSolver(G, k).calc()
 
             val logFile = File("maxcut_results_with_paths_laplace2")
 
@@ -23,7 +23,7 @@ fun main() {
                         k.toString().padEnd(10) +
                         sol.value.toString().padEnd(13) +
                         (System.currentTimeMillis() - timeBefore).toString().padEnd(10) +
-                        sol.vertices + "\n"
+                        sol.V + "\n"
 
             )
         }

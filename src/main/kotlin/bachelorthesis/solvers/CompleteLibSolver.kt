@@ -6,21 +6,19 @@ import graphlib.properties.cutSize
 import org.paukov.combinatorics3.Generator
 
 class CompleteLibSolver(
-    private val g: SimpleGraph<Int>,
+    private val G: SimpleGraph<Int>,
     private val k: Int,
 ) {
 
     fun calc(): Solution<Int> {
-        var bestSolution = Solution<Int>(listOf(), 0)
+        var sol = Solution<Int>(listOf(), 0) // tracker for best solution
 
-        val vertexList = g.V.toList()
-
-        for (S in Generator.combination(vertexList).simple(k)) {
-            val cutSize = cutSize(g, S)
-            if (cutSize >= bestSolution.value)
-                bestSolution = Solution(S, cutSize)
+        for (S in Generator.combination(G.V.toList()).simple(k)) {
+            val cutSize = cutSize(G, S)
+            if (cutSize >= sol.value)
+                sol = Solution(S, cutSize) // update
         }
 
-        return bestSolution
+        return sol
     }
 }

@@ -8,11 +8,11 @@ fun main() {
         for (m in 50..150 step 10) {
             for (i in 1..10) {
 
-                val f = File("data/graphs/laplace_random_n${n}_m${m}_i$i")
-                val g = RandomGraphs.fromRandomEdges(vertexCount = n, edgeCount = m)
+                val file = File("data/graphs/laplace_random_n${n}_m${m}_i$i")
+                val G = RandomGraphs.fromRandomEdges(n = n, m = m)
 
-                for (edge in g.edgeList())
-                    f.appendText("${edge.first} ${edge.second} \n")
+                for (edge in G.edgeList())
+                    file.appendText("${edge.first} ${edge.second} \n")
             }
         }
     }

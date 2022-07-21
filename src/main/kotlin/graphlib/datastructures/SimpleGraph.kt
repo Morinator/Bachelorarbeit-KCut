@@ -5,15 +5,15 @@ package graphlib.datastructures
  * no loops
  * only single edges
  */
-class SimpleGraph<V> {
+class SimpleGraph<VType> {
 
     // The internal hashmap that maps any vertex to the set of its neighbours
-    private val m = HashMap<V, MutableSet<V>>()
+    private val m = HashMap<VType, MutableSet<VType>>()
 
     /**
      * Runtime: O(1)  =  constant
      */
-    fun addVertex(v: V): SimpleGraph<V> = this.apply {
+    fun addVertex(v: VType): SimpleGraph<VType> = this.apply {
         if (v !in m.keys)
             m[v] = HashSet()
     }
@@ -22,14 +22,14 @@ class SimpleGraph<V> {
      * Like [addVertex], but for multiple vertices.
      * Runtime: O(l) for l vertices
      */
-    fun addVertices(vertices: Collection<V>): SimpleGraph<V> = this.apply {
+    fun addVertices(vertices: Collection<VType>): SimpleGraph<VType> = this.apply {
         vertices.forEach { addVertex(it) }
     }
 
     /**
      * Runtime: O(1)  =  constant
      */
-    fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
+    fun addEdge(a: VType, b: VType): SimpleGraph<VType> = this.apply {
         if (a != b) {
             addVertex(a)
             addVertex(b)
@@ -46,16 +46,16 @@ class SimpleGraph<V> {
      *
      * @return The neighbours of [v].
      */
-    operator fun get(v: V): Set<V> = m[v]!!
+    operator fun get(v: VType): Set<VType> = m[v]!!
 
     // TODO Test
     /**
-     * @return The open neighbourhood of [vertices]
+     * @return The open neighbourhood of [S]
      */
-    fun neighbours(vertices: Set<V>): Set<V> {
-        return mutableSetOf<V>().apply {
-            vertices.map { get(it) }.forEach { addAll(it) }
-            removeAll(vertices.toSet())
+    fun neighbours(S: Set<VType>): Set<VType> {
+        return mutableSetOf<VType>().apply {
+            S.map { get(it) }.forEach { addAll(it) }
+            removeAll(S.toSet())
         }
     }
 
@@ -63,12 +63,12 @@ class SimpleGraph<V> {
      * Runtime: O(1)  =  constant
      * @return True iff it contains [v] as a vertex.
      */
-    operator fun contains(v: V) = v in m.keys
+    operator fun contains(v: VType) = v in m.keys
 
     /**
      * Runtime: O( degreeOf(v) )    because every neighbour of [v] also needs to be updated.
      */
-    fun deleteVertex(v: V): SimpleGraph<V> {
+    fun deleteVertex(v: VType): SimpleGraph<VType> {
         if (v in m.keys) {
             for (nb in m[v]!!)
                 m[nb]!!.remove(v)
@@ -81,7 +81,7 @@ class SimpleGraph<V> {
     /**
      * Runtime: O(1)  =  constant
      */
-    fun deleteEdge(a: V, b: V): SimpleGraph<V> {
+    fun deleteEdge(a: VType, b: VType): SimpleGraph<VType> {
         if (a in m[b]!!) {
             m[a]!!.remove(b)
             m[b]!!.remove(a)
@@ -94,7 +94,7 @@ class SimpleGraph<V> {
      * Runtime: O(1)  =  constant
      * @return True if [a] and [b] are connected by an edge
      */
-    fun areNB(a: V, b: V): Boolean = a in m[b]!!
+    fun areNB(a: VType, b: VType): Boolean = a in m[b]!!
 
     /**
      * Runtime: O(1)  =  constant
@@ -105,35 +105,35 @@ class SimpleGraph<V> {
     /**
      * Runtime: O(1)  =  constant
      */
-    fun degreeOf(v: V): Int = m[v]!!.size
+    fun degreeOf(v: VType): Int = m[v]!!.size
 
     /**
-     * Runtime: O(|E|) because all edges are iterated
+     * Runtime: O(m) because all edges are iterated
      * @return Number of edges in the graph
      */
     val edgeCount get() = m.values.sumOf { it.size } / 2
 
     @Suppress("PropertyName")
-    val V: Set<V>
+    val V: Set<VType>
         get() = m.keys
 
     /**Returns the neighbour-vertices of [vertices]. This is defined as the set of all vertices *v* so that *v* has an edge
      * to some vertex in [vertices], but *v* is not contained in [vertices].*/
-    operator fun get(vertices: Collection<V>): Set<V> = HashSet<V>().apply {
+    operator fun get(vertices: Collection<VType>): Set<VType> = HashSet<VType>().apply {
         for (v in vertices) addAll(get(v).filter { it !in vertices })
     }
 
-    fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
+    fun copy() = SimpleGraph<VType>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
-    fun edgeList() = ArrayList<Pair<V, V>>().apply {
+    fun edgeList() = ArrayList<Pair<VType, VType>>().apply {
         for (v in V)
             for (w in get(v))
-                if (v.hashCode() < w.hashCode()) // so that edge doesnt appear twice
+                if (v.hashCode() < w.hashCode()) // so that edge doesn't appear twice
                     add(Pair(v, w)) // order doesn't matter
     }
 
     /**
-     * Runtime: O(|V| + |E|) because all vertices and all edges appear in the string representation
+     * Runtime: O(n + m) because all vertices and all edges appear in the string representation
      */
     override fun toString() = V.joinToString("\n") { "$it: ${get(it)}" }
 
@@ -145,7 +145,7 @@ class SimpleGraph<V> {
         get() = V.maxOfOrNull { degreeOf(it) } ?: 0
 
     /**
-     * Runtime: O( |V| * log|V| ) because the degrees are sorted
+     * Runtime: O(n * log n) because the degrees are sorted
      */
     val degreeSequence: List<Int>
         get() = V.map { degreeOf(it) }.sorted()

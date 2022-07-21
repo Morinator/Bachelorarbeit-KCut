@@ -9,18 +9,21 @@ import util.collections.intersectionSize
 import util.collections.sortedDesc
 
 class StackSolver(
-    private val g: SimpleGraph<Int>,
+    private val G: SimpleGraph<Int>,
     private val k: Int,
     useHeuristic: Boolean
 ) {
 
-    private var bestSolution = if (useHeuristic) heuristic(g, k, 10) else Solution(listOf(), 0)
+    private var bestSolution = if (useHeuristic) heuristic(G, k, 10) else Solution(listOf(), 0)
     private var t = bestSolution.value
-    private val counter = Counter(g.V)
+    private val counter = Counter(G.V)
 
     fun calc(): Solution<Int> {
-        while (t <= g.degreeSequence.takeLast(k).sum())
-            bestSolution = runTree(g, k, t, counter).also { t++ } ?: break
+
+        while (t <= G.degreeSequence.takeLast(k).sum()) {
+            bestSolution = runTree(G, k, t, counter)?: break
+            t++
+        }
 
         AlgoStats.print()
         return bestSolution
@@ -29,10 +32,10 @@ class StackSolver(
 }
 
 
-fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
+fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
     val s = State(k = k, t = t)
 
-    fun cont(v: Int) = (g.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, g[v]))
+    fun cont(v: Int) = (G.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, G[v]))
 
     fun needlessRule() {
         if (s.T.size < k) { //TODO Think about what is the fitting condition here
@@ -50,7 +53,18 @@ fun runTree(g: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
         }
     }
 
-    s.ext.add(g.V.sortedDesc { cont(it) })
+    fun kTimesDeltaRule() {
+        val verticesToRemove = G.V.sortedByDescending { cont(it) }.drop(G.maxDegree * k + 1)
+        verticesToRemove.forEach { v ->
+            G[v].forEach { counter.inc(it) }
+            G.deleteVertex(v)
+            AlgoStats.kTimesDeltaRule++
+        }
+    }
+
+    // kTimesDeltaRule()
+
+    s.ext.add(G.V.sortedDesc { cont(it) })
     needlessRule()
 
     while (s.ext.isNotEmpty()) {

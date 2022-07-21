@@ -4,19 +4,19 @@ import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 
-fun <V> heuristic(g: SimpleGraph<V>, k: Int, runs: Int) =
-    (1..runs).map { localSearchRun(g, k) }.maxByOrNull { it.value }!!
+fun <VType> heuristic(G: SimpleGraph<VType>, k: Int, runs: Int) =
+    (1..runs).map { localSearchRun(G, k) }.maxByOrNull { it.value }!!
 
-fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
+fun <VType> localSearchRun(G: SimpleGraph<VType>, k: Int): Solution<VType> {
 
-    if (g.size < k) return Solution(listOf(), 0) // invalid input
+    if (G.size < k) return Solution(listOf(), 0) // invalid input
 
-    val randomVertices = g.V.toList().shuffled().take(k)
-    val sol = Solution(randomVertices, cutSize(g, randomVertices))
+    val randomVertices = G.V.toList().shuffled().take(k)
+    val sol = Solution(randomVertices, cutSize(G, randomVertices))
 
     while (true) {
         val oldVal = sol.value
-        localSearchStep(g, sol, ::cutSize)
+        localSearchStep(G, sol, ::cutSize)
         if (oldVal == sol.value)
             break
     }
@@ -25,23 +25,23 @@ fun <V> localSearchRun(g: SimpleGraph<V>, k: Int): Solution<V> {
 }
 
 /**
- * explores the 1-swap-neighbourhood of [solution] and if it finds a better neighbour, it stops immediatly (i.e. doesn't
+ * explores the 1-swap-neighbourhood of [s] and if it finds a better neighbour, it stops immediatly (i.e. doesn't
  * search for the best candidate, but stops at the first that is better).
- * Note that no new object is returned; only [solution] is modified to represent a new subset.
+ * Note that no new object is returned; only [s] is modified to represent a new subset.
  */
-fun <V> localSearchStep(g: SimpleGraph<V>, solution: Solution<V>, objective: (SimpleGraph<V>, Collection<V>) -> Int) {
-    for (dropVertex in solution.vertices.toList()) { // needs a copy to prevent ConcurrentModificationException
-        solution.vertices.remove(dropVertex)
+fun <VType> localSearchStep(G: SimpleGraph<VType>, s: Solution<VType>, f: (SimpleGraph<VType>, Collection<VType>) -> Int) {
+    for (v in s.V.toList()) { // needs a copy to prevent ConcurrentModificationException
+        s.V.remove(v)
 
-        for (newVertex in g.V.filter { it !in solution.vertices }) {
-            solution.vertices.add(newVertex)
+        for (w in G.V.filter { it !in s.V }) {
+            s.V.add(w)
 
-            if (objective(g, solution.vertices) > solution.value) {
-                solution.value = objective(g, solution.vertices)
+            if (f(G, s.V) > s.value) {
+                s.value = f(G, s.V)
                 return
             }
-            solution.vertices.remove(newVertex)
+            s.V.remove(w)
         }
-        solution.vertices.add(dropVertex)
+        s.V.add(v)
     }
 }

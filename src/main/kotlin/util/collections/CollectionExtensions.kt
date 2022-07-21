@@ -15,15 +15,19 @@ import java.util.Comparator.comparing
  *
  * For this reason, the sets are sorted by their size in ascending order, and in this order the algorithm is
  * performed. This way, the function is significantly faster.*/
-fun <T> intersectAll(collection: Collection<Set<T>>): Set<T> = run {
+fun <Type> intersectAll(collection: Collection<Set<Type>>): Set<Type> = run {
     val setsBySize = collection.toList().sortedBy { it.size }
     HashSet(setsBySize.first()).apply { for (i in 1 until setsBySize.size) retainAll(setsBySize[i]) }
+}
+
+fun<Type> unionAll(collection: Collection<Set<Type>>) : Set<Type> {
+    return HashSet<Type>().apply { collection.forEach { addAll(it) } }
 }
 
 /**
  * Removes and returns a random element of the set
  */
-fun <T> MutableSet<T>.popRandom(): T {
+fun <VType> MutableSet<VType>.popRandom(): VType {
     val elem = random()
     remove(elem)
     return elem
@@ -39,5 +43,5 @@ fun <T, R : Comparable<R>> Collection<T>.sortedDesc(metric: (T) -> R): MutableLi
     }
 
 
-fun <E> intersectionSize(a: Collection<E>, b: Collection<E>) =
+fun <Type> intersectionSize(a: Collection<Type>, b: Collection<Type>) =
     if (a.size < b.size) a.count { it in b } else b.count { it in a }

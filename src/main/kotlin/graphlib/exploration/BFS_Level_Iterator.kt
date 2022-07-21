@@ -3,17 +3,17 @@ package graphlib.exploration
 import graphlib.datastructures.SimpleGraph
 import java.util.*
 
-class BFS_Level_Iterator<V>(private val g: SimpleGraph<V>, root: V) : Iterator<List<V>> {
+class BFS_Level_Iterator<VType>(private val G: SimpleGraph<VType>, v: VType) : Iterator<List<VType>> {
 
-    private val explored = hashSetOf(root)
-    private val queue = LinkedList(listOf(root)) // init with just 1 element
+    private val explored = hashSetOf(v)
+    private val queue = LinkedList(listOf(v)) // init with just 1 element
 
-    override fun next(): List<V> {
+    override fun next(): List<VType> {
         val result = ArrayList(queue)
         queue.clear()
 
         for (v in result)
-            g[v].filter { it !in explored }.also { // non-explored neighbours
+            G[v].filter { it !in explored }.also { // non-explored neighbours
                 queue.addAll(it)
                 explored.addAll(it)
             }

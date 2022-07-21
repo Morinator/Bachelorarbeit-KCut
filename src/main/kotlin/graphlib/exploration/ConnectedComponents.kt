@@ -2,19 +2,19 @@ package graphlib.exploration
 
 import graphlib.datastructures.SimpleGraph
 
-fun <V> connectedComponent(g: SimpleGraph<V>, v: V): Set<V> =
-    BFS_Level_Iterator(g, v).asSequence().flatMapTo(HashSet()) { it }
+fun <VType> connectedComponent(G: SimpleGraph<VType>, v: VType): Set<VType> =
+    BFS_Level_Iterator(G, v).asSequence().flatMapTo(HashSet()) { it }
 
-fun <V> listConnectedComponents(g: SimpleGraph<V>): List<Set<V>> {
-    val explored = HashSet<V>()
-    return ArrayList<Set<V>>().apply {
-        for (v in g.V)
+fun <VType> listConnectedComponents(G: SimpleGraph<VType>): List<Set<VType>> {
+    val explored = HashSet<VType>()
+    return ArrayList<Set<VType>>().apply {
+        for (v in G.V)
             if (v !in explored) {
-                val c: Set<V> = connectedComponent(g, v)
+                val c: Set<VType> = connectedComponent(G, v)
                 explored.addAll(c)
                 add(c)
             }
     }
 }
 
-fun <V> checkIfConnected(g: SimpleGraph<V>): Boolean = connectedComponent(g, g.V.first()) == g.V
+fun <V> checkIfConnected(G: SimpleGraph<V>): Boolean = connectedComponent(G, G.V.first()) == G.V

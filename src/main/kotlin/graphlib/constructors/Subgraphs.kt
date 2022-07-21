@@ -2,11 +2,11 @@ package graphlib.constructors
 
 import graphlib.datastructures.SimpleGraph
 
-fun <V> inducedSubgraph(g: SimpleGraph<V>, vertices: Collection<V>): SimpleGraph<V> =
-    SimpleGraph<V>().apply {
-        vertices.forEach { addVertex(it) } // needed as vertices may get isolated
+fun <VType> inducedSubgraph(G: SimpleGraph<VType>, S: Collection<VType>): SimpleGraph<VType> =
+    SimpleGraph<VType>().apply {
+        addVertices(S)
 
-        for (v in vertices)
-            for (nb in g[v])
-                if (nb in vertices) addEdge(v, nb)
+        for (v in S)
+            for (w in G[v])
+                if (w in S) addEdge(v, w)
     }

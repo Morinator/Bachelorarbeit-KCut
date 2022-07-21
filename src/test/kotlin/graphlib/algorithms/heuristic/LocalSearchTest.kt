@@ -17,7 +17,7 @@ internal class LocalSearchTest {
         val solution = Solution(mutableSetOf(3), cutSize(star, setOf(3)))
         graphlib.heuristic.localSearchStep(star, solution, ::cutSize)
 
-        assertEquals(Solution(vertices = mutableSetOf(1), value = 9), solution)
+        assertEquals(Solution(V = mutableSetOf(1), value = 9), solution)
     }
 
     @Test

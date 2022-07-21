@@ -24,12 +24,12 @@ class CompareWithLogs {
     private val logPath = "maxcut_results_with_paths_laplace2"
 
     @RepeatedTest(4315)
-    fun withoutHeuristic(repNr: RepetitionInfo) {
+    fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
     @RepeatedTest(4315)
-    fun withHeuristic(repNr: RepetitionInfo) {
+    fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 

@@ -57,18 +57,18 @@ internal class SubsetPropertiesTest {
         fun star() {
             val g = createStar(10)
             assertTrue(isDominatingSet(setOf(1), g))
-            assertTrue(isVertexCover((2..10).toSet(), g))
-            assertFalse(isVertexCover(setOf(2, 4), g))
+            assertTrue(isDominatingSet((2..10).toSet(), g))
+            assertFalse(isDominatingSet(setOf(2, 4), g))
         }
 
         @Test
         fun path() {
             val g = createPath(7)
-            assertFalse(isVertexCover(setOf(1, 5, 7), g))
+            assertFalse(isDominatingSet(setOf(1, 5, 7), g))
 
-            assertTrue(isVertexCover((1..7).toSet(), g))
-            assertTrue(isVertexCover(setOf(1, 4, 7), g))
-            assertFalse(isVertexCover(setOf(1), g))
+            assertTrue(isDominatingSet((1..7).toSet(), g))
+            assertTrue(isDominatingSet(setOf(1, 4, 7), g))
+            assertFalse(isDominatingSet(setOf(1), g))
         }
     }
 
