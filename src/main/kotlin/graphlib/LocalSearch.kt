@@ -1,8 +1,8 @@
 package graphlib
 
-import bachelorthesis.cutSize
+import bachelorthesis.cut
 
-fun <V> heuristic(G: SimpleGraph<V>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cutSize(G, it) }!!
+fun <V> heuristic(G: SimpleGraph<V>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
 
 fun <V> localSearchRun(G: SimpleGraph<V>, k: Int): Set<V> {
 
@@ -11,9 +11,9 @@ fun <V> localSearchRun(G: SimpleGraph<V>, k: Int): Set<V> {
     val S = G.V.toList().shuffled().take(k).toMutableSet()
 
     while (true) {
-        val oldVal = cutSize(G, S)
-        localSearchStep(G, S, ::cutSize)
-        if (oldVal == cutSize(G,S))
+        val oldVal = cut(G, S)
+        localSearchStep(G, S, ::cut)
+        if (oldVal == cut(G,S))
             break
     }
 

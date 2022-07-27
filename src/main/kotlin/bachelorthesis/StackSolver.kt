@@ -5,25 +5,21 @@ package bachelorthesis
 import graphlib.SimpleGraph
 import graphlib.heuristic
 
-class StackSolver(
-    private val G: SimpleGraph<Int>,
-    private val k: Int,
-    useHeuristic: Boolean
-) {
+object StackSolver {
 
-    private var S = if (useHeuristic) heuristic(G, k, 10) else G.V.take(k).toSet()
-    private val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
+    fun calc(G: SimpleGraph<Int>, k: Int, useHeuristic: Boolean): Set<Int> {
 
-    fun calc(): Set<Int> {
-        while (cutSize(G,S) <= G.degreeSequence.takeLast(k).sum())
-            S = runTree(G, k, cutSize(G,S)+1, counter) ?: break
+        var S = if (useHeuristic) heuristic(G, k, 10) else G.V.take(k).toSet()
+        val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
+
+        while (cut(G, S) <= G.degreeSequence.takeLast(k).sum())
+            S = runTree(G, k, cut(G, S) + 1, counter) ?: break
 
         AlgoStats.print()
         return S
     }
 
 }
-
 
 fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
     val s = State(k = k, t = t)
@@ -96,11 +92,6 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<In
     return null
 }
 
-/**
- * Saves the current state of the algorithm.
- *
- * Only contains query-methods, no command (i.e. no method in this class will change anything).
- */
 class State(
     var valueOfT: Int = 0,
     val T: MutableList<Int> = ArrayList(),
@@ -124,8 +115,5 @@ class State(
     fun needlessBorder(): Double = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
 }
 
-/**
- * Assumes that [S] is a subset of the vertices of [G].
- */
-fun <VType> cutSize(G: SimpleGraph<VType>, S: Collection<VType>): Int =
+fun <VType> cut(G: SimpleGraph<VType>, S: Collection<VType>): Int =
     S.sumOf { v -> G[v].count { it !in S } }

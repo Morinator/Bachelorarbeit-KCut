@@ -2,7 +2,7 @@ package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.BruteforceSolver
 import bachelorthesis.StackSolver
-import bachelorthesis.cutSize
+import bachelorthesis.cut
 import graphlib.GraphIO.graphFromPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
@@ -19,8 +19,8 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val S = StackSolver(G, k, useHeuristic = useHeuristic).calc()
-        val prediction = cutSize(G,S)
+        val S = StackSolver.calc(G, k, useHeuristic = useHeuristic)
+        val prediction = cut(G,S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -44,11 +44,10 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val S = BruteforceSolver(G, k).calc()
-        val prediction = cutSize(G, S)
+        val S = BruteforceSolver.calc(G,k)
+        val prediction = cut(G, S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
-
 
     /*
     @RepeatedTest(4306)

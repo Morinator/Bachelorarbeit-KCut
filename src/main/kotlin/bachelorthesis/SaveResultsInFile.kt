@@ -13,14 +13,14 @@ fun main() {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val G = GraphIO.graphFromPath(file)
-            val sol = BruteforceSolver(G, k).calc()
+            val sol = BruteforceSolver.calc(G, k)
 
             val logFile = File("maxcut_results_with_paths_laplace2")
 
             logFile.appendText(
                 file.name.padEnd(60) +
                         k.toString().padEnd(10) +
-                        cutSize(G,sol).toString().padEnd(13) +
+                        cut(G,sol).toString().padEnd(13) +
                         (System.currentTimeMillis() - timeBefore).toString().padEnd(10) +
                         sol + "\n"
 
