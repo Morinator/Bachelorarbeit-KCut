@@ -1,8 +1,8 @@
 package bachelorthesis.fixedmaxcut
 
-import bachelorthesis.solvers.BruteforceSolver
-import bachelorthesis.solvers.StackSolver
-import bachelorthesis.solvers.cutSize
+import bachelorthesis.BruteforceSolver
+import bachelorthesis.StackSolver
+import bachelorthesis.cutSize
 import graphlib.GraphIO.graphFromPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest

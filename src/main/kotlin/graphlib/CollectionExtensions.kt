@@ -11,7 +11,3 @@ fun <T, R : Comparable<R>> Collection<T>.sortedDesc(metric: (T) -> R): MutableLi
         sort(this, comparing(metric))
         reverse() // this is ugly, but it makes the main code shorter and bloats it here, so worth I guess
     }
-
-
-fun <Type> intersectionSize(a: Collection<Type>, b: Collection<Type>) =
-    if (a.size < b.size) a.count { it in b } else b.count { it in a }

@@ -1,4 +1,4 @@
-package bachelorthesis.solvers
+package bachelorthesis
 
 import graphlib.SimpleGraph
 import org.paukov.combinatorics3.Generator.combination

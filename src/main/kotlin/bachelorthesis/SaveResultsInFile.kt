@@ -1,7 +1,5 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.BruteforceSolver
-import bachelorthesis.solvers.cutSize
 import graphlib.GraphIO
 import java.io.File
 

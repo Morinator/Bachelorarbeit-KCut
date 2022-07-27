@@ -1,4 +1,4 @@
-package graphlib.constructors
+package graphlib
 
 import graphlib.GraphIO.edgesFromPath
 import graphlib.GraphIO.graphFromEdges

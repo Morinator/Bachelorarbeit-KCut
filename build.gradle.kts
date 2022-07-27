@@ -16,7 +16,7 @@ dependencies {
     implementation("org.junit.jupiter:junit-jupiter:5.8.1")
     testImplementation(kotlin("test"))
     implementation("com.github.dpaukov:combinatoricslib3:3.3.3")
-
+    implementation("org.jgrapht:jgrapht-core:1.5.1")
     // implementation(files("C:\\Program Files\\IBM\\ILOG\\CPLEX_Studio221\\cplex\\lib\\cplex.jar"))
 }
 

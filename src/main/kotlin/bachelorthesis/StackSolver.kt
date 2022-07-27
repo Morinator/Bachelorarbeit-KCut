@@ -1,10 +1,8 @@
-package bachelorthesis.solvers
+package bachelorthesis
 
-import AlgoStats
 import graphlib.SimpleGraph
 import graphlib.Solution
-import graphlib.heuristic.heuristic
-import util.collections.intersectionSize
+import graphlib.heuristic
 import util.collections.sortedDesc
 
 class StackSolver(
@@ -20,7 +18,7 @@ class StackSolver(
     fun calc(): Solution<Int> {
 
         while (t <= G.degreeSequence.takeLast(k).sum()) {
-            bestSolution = runTree(G, k, t, counter)?: break
+            bestSolution = runTree(G, k, t, counter) ?: break
             t = bestSolution.value + 1
         }
 
@@ -33,7 +31,8 @@ class StackSolver(
 
 fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Solution<Int>? {
     val s = State(k = k, t = t)
-    fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * intersectionSize(s.T, G[v]))
+
+    fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * s.T.count { it in G[v] })
 
     fun needlessRule() {
         if (s.T.size < k) { //TODO Think about what is the fitting condition here
