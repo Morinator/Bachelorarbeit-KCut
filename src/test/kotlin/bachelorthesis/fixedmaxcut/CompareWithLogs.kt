@@ -3,7 +3,7 @@ package bachelorthesis.fixedmaxcut
 import bachelorthesis.solvers.BruteforceSolver
 import bachelorthesis.solvers.StackSolver
 import bachelorthesis.solvers.cutSize
-import graphlib.constructors.GraphIO.graphFromPath
+import graphlib.GraphIO.graphFromPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo

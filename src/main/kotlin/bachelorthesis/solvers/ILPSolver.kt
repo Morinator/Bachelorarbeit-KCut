@@ -1,8 +1,8 @@
 /*
 package bachelorthesis.solvers
 
-import graphlib.datastructures.SimpleGraph
-import graphlib.datastructures.Solution
+import graphlib.SimpleGraph
+import graphlib.Solution
 import ilog.cplex.IloCplex
 import util.mapGraphToRangeIndexedFromZero
 import kotlin.math.roundToInt

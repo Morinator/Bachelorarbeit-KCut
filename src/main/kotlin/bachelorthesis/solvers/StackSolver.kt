@@ -1,8 +1,8 @@
 package bachelorthesis.solvers
 
 import AlgoStats
-import graphlib.datastructures.SimpleGraph
-import graphlib.datastructures.Solution
+import graphlib.SimpleGraph
+import graphlib.Solution
 import graphlib.heuristic.heuristic
 import util.collections.intersectionSize
 import util.collections.sortedDesc

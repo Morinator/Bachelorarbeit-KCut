@@ -1,9 +1,9 @@
 package graphlib.constructors
 
-import graphlib.constructors.GraphIO.edgesFromPath
-import graphlib.constructors.GraphIO.graphFromEdges
-import graphlib.constructors.GraphIO.graphFromPath
-import graphlib.constructors.GraphIO.validateLine
+import graphlib.GraphIO.edgesFromPath
+import graphlib.GraphIO.graphFromEdges
+import graphlib.GraphIO.graphFromPath
+import graphlib.GraphIO.validateLine
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

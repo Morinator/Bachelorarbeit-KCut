@@ -1,10 +1,10 @@
 package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solvers.StackSolver
-import graphlib.constructors.Factory.createClique
-import graphlib.constructors.Factory.createPath
-import graphlib.constructors.GraphIO.graphFromPath
-import graphlib.datastructures.Solution
+import graphlib.Factory.createClique
+import graphlib.Factory.createPath
+import graphlib.GraphIO.graphFromPath
+import graphlib.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested

@@ -1,6 +1,5 @@
-package graphlib.constructors
+package graphlib
 
-import graphlib.datastructures.SimpleGraph
 import java.io.File
 
 object GraphIO {

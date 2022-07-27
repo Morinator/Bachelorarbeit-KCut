@@ -1,9 +1,9 @@
 package graphlib.algorithms.heuristic
 
 import bachelorthesis.solvers.cutSize
-import graphlib.constructors.Factory.createBipartite
-import graphlib.constructors.Factory.createStar
-import graphlib.datastructures.Solution
+import graphlib.Factory.createBipartite
+import graphlib.Factory.createStar
+import graphlib.Solution
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 

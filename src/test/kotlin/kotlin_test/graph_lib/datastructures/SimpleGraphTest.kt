@@ -1,10 +1,10 @@
 package kotlin_test.graph_lib.datastructures
 
-import graphlib.constructors.Factory.createClique
-import graphlib.constructors.Factory.createCycle
-import graphlib.constructors.Factory.createPath
-import graphlib.constructors.Factory.createStar
-import graphlib.datastructures.SimpleGraph
+import graphlib.Factory.createClique
+import graphlib.Factory.createCycle
+import graphlib.Factory.createPath
+import graphlib.Factory.createStar
+import graphlib.SimpleGraph
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

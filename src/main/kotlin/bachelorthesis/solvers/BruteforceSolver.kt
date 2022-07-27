@@ -1,6 +1,6 @@
 package bachelorthesis.solvers
 
-import graphlib.datastructures.SimpleGraph
+import graphlib.SimpleGraph
 import org.paukov.combinatorics3.Generator.combination
 
 class BruteforceSolver(private val G: SimpleGraph<Int>, private val k: Int) {
