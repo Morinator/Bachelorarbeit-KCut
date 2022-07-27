@@ -11,18 +11,16 @@ internal class LocalSearchTest {
     @Test
     fun localSearchStep() { // k := 1
         val star = createStar(10)
+        val S = mutableSetOf(3)  // init a bad solution
+        localSearchStep(star, S, ::cutSize)
 
-        // init a bad solution
-        val solution = Solution(mutableSetOf(3), cutSize(star, setOf(3)))
-        localSearchStep(star, solution, ::cutSize)
-
-        assertEquals(Solution(V = mutableSetOf(1), value = 9), solution)
+        assertEquals(mutableSetOf(1) to 9, S to cutSize(star, S))
     }
 
     @Test
     fun getHeuristic() {
-        val g = createBipartite(2, 10)
-        val sol = localSearchRun(g, 2)
-        assertEquals(Solution(mutableSetOf(1, 2), 20), sol)
+        val G = createBipartite(2, 10)
+        val S = localSearchRun(G, 2)
+        assertEquals(mutableSetOf(1, 2) to 20, S to cutSize(G, S))
     }
 }

@@ -11,7 +11,10 @@ class StackSolver(
     useHeuristic: Boolean
 ) {
 
-    private var bestSolution = if (useHeuristic) heuristic(G, k, 10) else Solution(listOf(), 0)
+    private var bestSolution = if (useHeuristic) {
+        val S = heuristic(G, k, 10)
+        Solution(S.toList(), cutSize(G, S))
+    } else Solution(listOf(), 0)
     private var t = bestSolution.value
     private val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
 

@@ -2,44 +2,35 @@ package graphlib
 
 import bachelorthesis.cutSize
 
-fun <VType> heuristic(G: SimpleGraph<VType>, k: Int, runs: Int) =
-    (1..runs).map { localSearchRun(G, k) }.maxByOrNull { it.value }!!
+fun <V> heuristic(G: SimpleGraph<V>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cutSize(G, it) }!!
 
-fun <VType> localSearchRun(G: SimpleGraph<VType>, k: Int): Solution<VType> {
+fun <V> localSearchRun(G: SimpleGraph<V>, k: Int): Set<V> {
 
-    if (G.size < k) return Solution(listOf(), 0) // invalid input
+    if (G.size < k) return setOf()
 
-    val randomVertices = G.V.toList().shuffled().take(k)
-    val sol = Solution(randomVertices, cutSize(G, randomVertices))
+    val S = G.V.toList().shuffled().take(k).toMutableSet()
 
     while (true) {
-        val oldVal = sol.value
-        localSearchStep(G, sol, ::cutSize)
-        if (oldVal == sol.value)
+        val oldVal = cutSize(G, S)
+        localSearchStep(G, S, ::cutSize)
+        if (oldVal == cutSize(G,S))
             break
     }
 
-    return sol
+    return S
 }
 
-/**
- * explores the 1-swap-neighbourhood of [s] and if it finds a better neighbour, it stops immediatly (i.e. doesn't
- * search for the best candidate, but stops at the first that is better).
- * Note that no new object is returned; only [s] is modified to represent a new subset.
- */
-fun <VType> localSearchStep(G: SimpleGraph<VType>, s: Solution<VType>, f: (SimpleGraph<VType>, Collection<VType>) -> Int) {
-    for (v in s.V.toList()) { // needs a copy to prevent ConcurrentModificationException
-        s.V.remove(v)
+fun <V> localSearchStep(G: SimpleGraph<V>, S: MutableSet<V>, f: (SimpleGraph<V>, Collection<V>) -> Int) {
+    val oldVal = f(G, S)
+    for (v in S.toList()) { // copy prevents ConcurrentModificationException
+        S.remove(v)
 
-        for (w in G.V.filter { it !in s.V }) {
-            s.V.add(w)
-
-            if (f(G, s.V) > s.value) {
-                s.value = f(G, s.V)
-                return
-            }
-            s.V.remove(w)
+        for (w in G.V.filter { it !in S }) {
+            S.add(w)
+            if (f(G, S) > oldVal) return // better S found!
+            S.remove(w)
         }
-        s.V.add(v)
+
+        S.add(v)
     }
 }
