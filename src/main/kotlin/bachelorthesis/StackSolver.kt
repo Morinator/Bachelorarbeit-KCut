@@ -1,9 +1,9 @@
+@file:Suppress("PrivatePropertyName")
+
 package bachelorthesis
 
 import graphlib.SimpleGraph
-import graphlib.Solution
 import graphlib.heuristic
-import util.collections.sortedDesc
 
 class StackSolver(
     private val G: SimpleGraph<Int>,
@@ -11,28 +11,21 @@ class StackSolver(
     useHeuristic: Boolean
 ) {
 
-    private var bestSolution = if (useHeuristic) {
-        val S = heuristic(G, k, 10)
-        Solution(S.toList(), cutSize(G, S))
-    } else Solution(listOf(), 0)
-    private var t = bestSolution.value
+    private var S = if (useHeuristic) heuristic(G, k, 10) else G.V.take(k).toSet()
     private val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
 
-    fun calc(): Solution<Int> {
-
-        while (t <= G.degreeSequence.takeLast(k).sum()) {
-            bestSolution = runTree(G, k, t, counter) ?: break
-            t = bestSolution.value + 1
-        }
+    fun calc(): Set<Int> {
+        while (cutSize(G,S) <= G.degreeSequence.takeLast(k).sum())
+            S = runTree(G, k, cutSize(G,S)+1, counter) ?: break
 
         AlgoStats.print()
-        return bestSolution
+        return S
     }
 
 }
 
 
-fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Solution<Int>? {
+fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
     val s = State(k = k, t = t)
 
     fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * s.T.count { it in G[v] })
@@ -53,7 +46,7 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Soluti
         }
     }
 
-    s.ext.add(G.V.sortedDesc { cont(it) })
+    s.ext.add(G.V.sortedBy { cont(it) }.reversed().toMutableList())
     needlessRule()
 
     while (s.ext.isNotEmpty()) {
@@ -65,7 +58,7 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Soluti
                 AlgoStats.candidates++
 
                 if (s.valueOfT >= t)
-                    return Solution(s.T, s.valueOfT)
+                    return s.T.toSet()
             }
 
             if (s.T.size < k)
@@ -83,7 +76,7 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Soluti
             val newElem = s.ext.last().removeFirst()
 
             if (s.T.size < k - 1)
-                s.ext.add(s.ext.last().sortedDesc { cont(it) })
+                s.ext.add(s.ext.last().sortedBy { cont(it) }.reversed().toMutableList())
 
             val cont = cont(newElem)
             val isSatisfactory = cont >= s.satBorder()

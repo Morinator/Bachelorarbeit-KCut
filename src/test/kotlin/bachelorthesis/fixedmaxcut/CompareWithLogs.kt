@@ -15,11 +15,12 @@ class CompareWithLogs {
     private fun testHelper(logFile: File, lineNr: Int, useHeuristic: Boolean) {
         val line = logFile.readLines()[lineNr - 1]
         val l = line.split("\\s+".toRegex())
-        val g = graphFromPath("data/graphs/${l[0]}")
+        val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val prediction = StackSolver(g, k, useHeuristic = useHeuristic).calc().value
+        val S = StackSolver(G, k, useHeuristic = useHeuristic).calc()
+        val prediction = cutSize(G,S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
