@@ -2,8 +2,9 @@ package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.solvers.BruteforceSolver
 import bachelorthesis.solvers.StackSolver
+import bachelorthesis.solvers.cutSize
 import graphlib.constructors.GraphIO.graphFromPath
-import graphlib.properties.cutSize
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
 import java.io.File
@@ -35,14 +36,15 @@ class CompareWithLogs {
     }
 
     @RepeatedTest(4306)
+    @Disabled
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
-        val g = graphFromPath("data/graphs/${l[0]}")
+        val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val S = BruteforceSolver(g, k).calc()
-        val prediction = cutSize(g, S)
+        val S = BruteforceSolver(G, k).calc()
+        val prediction = cutSize(G, S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 

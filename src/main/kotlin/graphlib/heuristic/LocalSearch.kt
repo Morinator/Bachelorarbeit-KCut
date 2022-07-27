@@ -1,8 +1,8 @@
 package graphlib.heuristic
 
+import bachelorthesis.solvers.cutSize
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
-import graphlib.properties.cutSize
 
 fun <VType> heuristic(G: SimpleGraph<VType>, k: Int, runs: Int) =
     (1..runs).map { localSearchRun(G, k) }.maxByOrNull { it.value }!!

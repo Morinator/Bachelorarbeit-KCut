@@ -128,3 +128,9 @@ class State(
 
     fun needlessBorder(): Double = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
 }
+
+/**
+ * Assumes that [S] is a subset of the vertices of [G].
+ */
+fun <VType> cutSize(G: SimpleGraph<VType>, S: Collection<VType>): Int =
+    S.sumOf { v -> G[v].count { it !in S } }
