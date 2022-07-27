@@ -2,6 +2,7 @@ package bachelorthesis
 
 import bachelorthesis.solvers.BruteforceSolver
 import graphlib.constructors.GraphIO
+import graphlib.properties.cutSize
 import java.io.File
 
 /**
@@ -21,9 +22,9 @@ fun main() {
             logFile.appendText(
                 file.name.padEnd(60) +
                         k.toString().padEnd(10) +
-                        sol.value.toString().padEnd(13) +
+                        cutSize(G,sol).toString().padEnd(13) +
                         (System.currentTimeMillis() - timeBefore).toString().padEnd(10) +
-                        sol.V + "\n"
+                        sol + "\n"
 
             )
         }

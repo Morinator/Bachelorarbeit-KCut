@@ -1,24 +1,15 @@
 package bachelorthesis.solvers
 
 import graphlib.datastructures.SimpleGraph
-import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
-import org.paukov.combinatorics3.Generator
+import org.paukov.combinatorics3.Generator.combination
 
-class BruteforceSolver(
-    private val G: SimpleGraph<Int>,
-    private val k: Int,
-) {
+class BruteforceSolver(private val G: SimpleGraph<Int>, private val k: Int) {
 
-    fun calc(): Solution<Int> {
-        var sol = Solution<Int>(listOf(), 0) // tracker for best solution
+    fun calc(): Collection<Int> {
 
-        for (S in Generator.combination(G.V.toList()).simple(k)) {
-            val cutSize = cutSize(G, S)
-            if (cutSize >= sol.value)
-                sol = Solution(S, cutSize) // update
-        }
+        if (k !in 1..G.size) throw IllegalArgumentException("Illegal value for k")
 
-        return sol
+        return combination(G.V).simple(k).maxByOrNull { cutSize(G, it) }!!
     }
 }

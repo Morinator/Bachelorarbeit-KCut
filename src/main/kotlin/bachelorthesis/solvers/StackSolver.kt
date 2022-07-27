@@ -4,7 +4,6 @@ import AlgoStats
 import graphlib.datastructures.SimpleGraph
 import graphlib.datastructures.Solution
 import graphlib.heuristic.heuristic
-import util.collections.Counter
 import util.collections.intersectionSize
 import util.collections.sortedDesc
 
@@ -16,7 +15,7 @@ class StackSolver(
 
     private var bestSolution = if (useHeuristic) heuristic(G, k, 10) else Solution(listOf(), 0)
     private var t = bestSolution.value
-    private val counter = Counter(G.V)
+    private val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
 
     fun calc(): Solution<Int> {
 
@@ -32,9 +31,9 @@ class StackSolver(
 }
 
 
-fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
+fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Solution<Int>? {
     val s = State(k = k, t = t)
-    fun cont(v: Int) = (G.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, G[v]))
+    fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * intersectionSize(s.T, G[v]))
 
     fun needlessRule() {
         if (s.T.size < k) { //TODO Think about what is the fitting condition here
