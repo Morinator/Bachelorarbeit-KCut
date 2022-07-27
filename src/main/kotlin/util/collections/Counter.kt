@@ -6,7 +6,7 @@ class Counter<E>(from: Collection<E>) {
 
     operator fun get(e: E): Int = m[e]!!
 
-    fun inc(e: E) {
+    fun increment(e: E) {
         m[e] = m[e]!! + 1
     }
 }

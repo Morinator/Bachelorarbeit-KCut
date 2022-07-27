@@ -70,8 +70,8 @@ class SimpleGraph<VType> {
      */
     fun deleteVertex(v: VType): SimpleGraph<VType> {
         if (v in m.keys) {
-            for (nb in m[v]!!)
-                m[nb]!!.remove(v)
+            for (w in m[v]!!)
+                m[w]!!.remove(v)
             m.remove(v)
         }
 

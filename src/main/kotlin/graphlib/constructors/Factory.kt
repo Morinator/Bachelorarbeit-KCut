@@ -33,10 +33,7 @@ object Factory {
     /**
      * @return A [SimpleGraph] of the form:
      */
-    fun createStar(n: Int) = SimpleGraph<Int>().apply {
-        for (i in 2..n)
-            addEdge(1, i)
-    }
+    fun createStar(n: Int) = createBipartite(1, n-1)
 
     /**@return A bipartite graph, whose vertex partition has sizes [sizeA] and [sizeB]. Any two vertices of from
      * different sides in the graph are connected, thus there are [sizeA] * [sizeB] edges in total.*/

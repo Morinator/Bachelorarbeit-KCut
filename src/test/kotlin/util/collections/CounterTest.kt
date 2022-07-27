@@ -12,10 +12,10 @@ internal class CounterTest {
 
         s.forEach { assertEquals(0, ctr[it]) }
 
-        ctr.inc('b')
+        ctr.increment('b')
         assertEquals(1, ctr['b'])
 
-        ctr.inc('b')
+        ctr.increment('b')
         assertEquals(2, ctr['b'])
     }
 }

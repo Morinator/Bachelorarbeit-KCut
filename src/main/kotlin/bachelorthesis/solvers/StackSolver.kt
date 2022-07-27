@@ -22,7 +22,7 @@ class StackSolver(
 
         while (t <= G.degreeSequence.takeLast(k).sum()) {
             bestSolution = runTree(G, k, t, counter)?: break
-            t++
+            t = bestSolution.value + 1
         }
 
         AlgoStats.print()
@@ -34,7 +34,6 @@ class StackSolver(
 
 fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solution<Int>? {
     val s = State(k = k, t = t)
-
     fun cont(v: Int) = (G.degreeOf(v) + counter[v]) - (2 * intersectionSize(s.T, G[v]))
 
     fun needlessRule() {
@@ -52,17 +51,6 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
             }
         }
     }
-
-    fun kTimesDeltaRule() {
-        val verticesToRemove = G.V.sortedByDescending { cont(it) }.drop(G.maxDegree * k + 1)
-        verticesToRemove.forEach { v ->
-            G[v].forEach { counter.inc(it) }
-            G.deleteVertex(v)
-            AlgoStats.kTimesDeltaRule++
-        }
-    }
-
-    // kTimesDeltaRule()
 
     s.ext.add(G.V.sortedDesc { cont(it) })
     needlessRule()
@@ -107,8 +95,6 @@ fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Counter<Int>): Solutio
                 if (isSatisfactory)
                     AlgoStats.satVertices++
             }
-
-            // NEEDLESS-RULE
             needlessRule()
         }
     } // end while-loop
