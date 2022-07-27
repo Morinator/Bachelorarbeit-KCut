@@ -1,6 +1,6 @@
 package bachelorthesis
 
-import bachelorthesis.solvers.CompleteLibSolver
+import bachelorthesis.solvers.BruteforceSolver
 import graphlib.constructors.GraphIO
 import java.io.File
 
@@ -14,7 +14,7 @@ fun main() {
         for (file in graphFiles) {
             val timeBefore = System.currentTimeMillis()
             val G = GraphIO.graphFromPath(file)
-            val sol = CompleteLibSolver(G, k).calc()
+            val sol = BruteforceSolver(G, k).calc()
 
             val logFile = File("maxcut_results_with_paths_laplace2")
 

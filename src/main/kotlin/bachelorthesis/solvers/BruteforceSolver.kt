@@ -5,7 +5,7 @@ import graphlib.datastructures.Solution
 import graphlib.properties.cutSize
 import org.paukov.combinatorics3.Generator
 
-class CompleteLibSolver(
+class BruteforceSolver(
     private val G: SimpleGraph<Int>,
     private val k: Int,
 ) {
