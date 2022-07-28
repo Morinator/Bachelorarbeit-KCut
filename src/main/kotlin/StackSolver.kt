@@ -39,20 +39,15 @@ object StackSolver {
         fun cont(v: V) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
 
         fun _trimNeedlessExt() {
-            if (T.size < k) { //TODO Think about what is the fitting condition here
-                val x = ext.last()
-                if (cont(x.first()) < satBorder()) {
-                    val border = (t - cut).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
-                    for (i in x.indices.reversed())
-                        if (cont(x[i]) < border) {
-                            AlgoStats.needlessRule++
-                            x.removeLast()
-                        } else
-                            break
-                }
+            val e = ext.last()
+            if (T.size >= k || cont(e.first()) >= satBorder()) return
+            val border = (t - cut).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
+            for (child in e.reversed()) {
+                if (cont(child) >= border) break
+                AlgoStats.needlessRule++
+                e.removeLast()
             }
         }
-
 
         ext.add(G.vertexSet().sortedBy { cont(it) }.reversed().toMutableList())
         _trimNeedlessExt()
