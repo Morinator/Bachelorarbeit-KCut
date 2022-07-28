@@ -38,7 +38,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val S = BruteforceSolver.calc(G,k)
+        val S = BruteforceSolver.calc(G, k)
         val prediction = cut(G, S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }

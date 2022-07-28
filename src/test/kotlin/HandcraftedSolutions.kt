@@ -12,28 +12,28 @@ import org.junit.jupiter.api.Test
 internal class HandcraftedSolutions {
 
     @Test
-    fun solveA() {
+    fun optA() {
         val G = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
         LinearGraphGenerator<Int, DefaultEdge>(5).generateGraph(G) // 0 - 1 - 2 - 3 - 4
 
         val k = 2
         val S = StackSolver.calc(G, k, false)
-        assertEquals(mutableSetOf(1, 3), S )
+        assertEquals(mutableSetOf(1, 3), S)
         assertEquals(4, cut(G, S))
     }
 
     @Test
-    fun solveB() {
+    fun optB() {
         val G = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
         LinearGraphGenerator<Int, DefaultEdge>(3).generateGraph(G) // 0 - 1 - 2
 
         val S = StackSolver.calc(G, 2, false)
-        assertEquals(mutableSetOf(0,2), S)
+        assertEquals(mutableSetOf(0, 2), S)
         assertEquals(2, cut(G, S))
     }
 
     @Test
-    fun solveC() {
+    fun optC() {
         val G = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
         CompleteGraphGenerator<Int, DefaultEdge>(6).generateGraph(G)
 
@@ -48,7 +48,7 @@ internal class HandcraftedSolutions {
         @Test
         fun k1() {
             val S = StackSolver.calc(G, 1, false)
-            assertEquals(mutableSetOf(3) , S)
+            assertEquals(mutableSetOf(3), S)
             assertEquals(5, cut(G, S))
         }
 
@@ -85,8 +85,8 @@ internal class HandcraftedSolutions {
     }
 
     @Test
-    fun cutSize1() {
-        val G  = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
+    fun cut1() {
+        val G = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
         LinearGraphGenerator<Int, DefaultEdge>(4).generateGraph(G)
 
         assertEquals(2, cut(G, setOf(2)))

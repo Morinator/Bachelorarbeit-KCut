@@ -27,7 +27,7 @@ internal class LocalSearchTest {
         CompleteBipartiteGraphGenerator<Int, DefaultEdge>(2, 10).generateGraph(G)
 
         val S = localSearchRun(G, 2)
-        assertEquals(mutableSetOf(0, 1) , S )
-        assertEquals( 20, cut(G, S))
+        assertEquals(mutableSetOf(0, 1), S)
+        assertEquals(20, cut(G, S))
     }
 }

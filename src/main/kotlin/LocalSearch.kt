@@ -3,21 +3,24 @@ import org.jgrapht.graph.SimpleGraph
 
 fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
 
-    if (G.vertexSet().size < k) return setOf()
+    if (G.n() < k) throw IllegalArgumentException()
 
-    val S = G.vertexSet().toList().shuffled().take(k).toMutableSet()
+    val S = G.vertexSet().shuffled().take(k).toMutableSet()
 
     while (true) {
         val oldVal = cut(G, S)
         localSearchStep(G, S, ::cut)
-        if (oldVal == cut(G, S))
-            break
+        if (oldVal == cut(G, S)) break
     }
 
     return S
 }
 
-fun <V> localSearchStep(G: SimpleGraph<V, DefaultEdge>, S: MutableSet<V>, f: (SimpleGraph<V, DefaultEdge>, Collection<V>) -> Int) {
+fun <V> localSearchStep(
+    G: SimpleGraph<V, DefaultEdge>,
+    S: MutableSet<V>,
+    f: (SimpleGraph<V, DefaultEdge>, Collection<V>) -> Int
+) {
     val oldVal = f(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)

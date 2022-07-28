@@ -9,11 +9,13 @@ object StackSolver {
 
         var S = if (useHeuristic) {
             (1..10).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
-        } else G.vertexSet().take(k).toSet()
+        } else
+            G.vertexSet().take(k).toSet()
 
-        val counter = HashMap<Int, Int>().apply { for (v in G.vertexSet()) put(v, 0) }
+        val counter = G.vertexSet().associateWith { 0 }
 
         val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
+
         while (cut(G, S) <= upperBound)
             S = runTree(G, k, cut(G, S) + 1, counter)?.toSet() ?: break
 
@@ -24,16 +26,14 @@ object StackSolver {
     private fun runTree(G: SimpleGraph<Int, DefaultEdge>, k: Int, t: Int, counter: Map<Int, Int>): List<Int>? {
 
         val T: MutableList<Int> = ArrayList()
-        var cutSize = 0
+        var cut = 0
 
         val sat: MutableList<Boolean> = ArrayList()
         val ext: MutableList<MutableList<Int>> = ArrayList()
 
         fun satExists(): Boolean = (sat.size == T.size + 1)
         fun doSatRule() = satExists() && sat.last()
-        fun kMissing(): Double = (k - T.size).toDouble()
-        fun tMissing(): Double = (t - cutSize).toDouble()
-        fun satBorder(): Double = (tMissing() / kMissing()) + 2 * (k - 1)
+        fun satBorder(): Double = ((t - cut).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
 
         fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
 
@@ -41,7 +41,7 @@ object StackSolver {
             if (T.size < k) { //TODO Think about what is the fitting condition here
                 val x = ext.last()
                 if (cont(x.first()) < satBorder()) {
-                    val border = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
+                    val border = (t - cut).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
                     n@ for (i in x.indices.reversed())
                         if (cont(x[i]) < border) {
                             AlgoStats.needlessRule++
@@ -64,7 +64,7 @@ object StackSolver {
                 if (T.size == k) {
                     AlgoStats.candidates++
 
-                    if (cutSize >= t)
+                    if (cut >= t)
                         return T
                 }
 
@@ -74,7 +74,7 @@ object StackSolver {
                     sat.removeLast()
 
                 if (T.size > 0)
-                    cutSize -= cont(T.removeLast())
+                    cut -= cont(T.removeLast())
 
             } else { // ##### BRANCH #####
 
@@ -87,7 +87,7 @@ object StackSolver {
 
                 val cont = cont(newElem)
                 val isSatisfactory = cont >= satBorder()
-                cutSize += cont
+                cut += cont
 
                 T.add(newElem)
 
