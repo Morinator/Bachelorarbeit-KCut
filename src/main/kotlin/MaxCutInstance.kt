@@ -4,9 +4,9 @@ import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
 
-object StackSolver {
+class MaxCutInstance<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
 
-    fun <V,E> calc(G: SimpleGraph<V, E>, k: Int, useHeuristic: Boolean): Set<V> {
+    fun opt(): Set<V> {
 
         var S = if (useHeuristic) bestRun(G, k, 30) else G.vertexSet().take(k).toSet()
         val startVal = cut(G, S)
@@ -16,14 +16,14 @@ object StackSolver {
         val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
         while (cutWithCtr(G, S, counter) < upperBound)
-            S = runTree(G, k, cutWithCtr(G, S, counter) + 1, counter)?.toSet() ?: break
+            S = runTree( cutWithCtr(G, S, counter) + 1, counter)?.toSet() ?: break
 
         Stats.print()
         if (useHeuristic && startVal == cutWithCtr(G, S, counter)) println("Heuristic was optimal")
         return S
     }
 
-    private fun <V, E> runTree(G: SimpleGraph<V, E>, k: Int, t: Int, counter: Map<V, Int>): List<V>? {
+    private fun runTree(t: Int, counter: Map<V, Int>): List<V>? {
 
         val T: MutableList<V> = ArrayList()
         var `val` = 0

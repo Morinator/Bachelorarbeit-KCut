@@ -13,7 +13,7 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val S = StackSolver.calc(G, k, useHeuristic = useHeuristic)
+        val S = MaxCutInstance(G, k, useHeuristic = useHeuristic).opt()
         val prediction = cut(G, S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
