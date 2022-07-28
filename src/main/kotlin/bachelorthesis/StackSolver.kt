@@ -1,18 +1,18 @@
-@file:Suppress("PrivatePropertyName")
-
 package bachelorthesis
 
-import graphlib.MyGraph
 import graphlib.heuristic
+import org.jgrapht.Graphs.neighborSetOf
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 
 object StackSolver {
 
-    fun calc(G: MyGraph<Int>, k: Int, useHeuristic: Boolean): Set<Int> {
+    fun calc(G: SimpleGraph<Int, DefaultEdge>, k: Int, useHeuristic: Boolean): Set<Int> {
 
-        var S = if (useHeuristic) heuristic(G, k, 10) else G.V.take(k).toSet()
-        val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
+        var S = if (useHeuristic) heuristic(G, k, 10) else G.vertexSet().take(k).toSet()
+        val counter = HashMap<Int, Int>().apply { for (v in G.vertexSet()) put(v, 0) }
 
-        while (cut(G, S) <= G.V.map { G.degreeOf(it) }.sorted().takeLast(k).sum())
+        while (cut(G, S) <= G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum())
             S = runTree(G, k, cut(G, S) + 1, counter) ?: break
 
         AlgoStats.print()
@@ -21,10 +21,10 @@ object StackSolver {
 
 }
 
-fun runTree(G: MyGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
+fun runTree(G: SimpleGraph<Int, DefaultEdge>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
     val s = State(k = k, t = t)
 
-    fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * s.T.count { it in G[v] })
+    fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * s.T.count { it in neighborSetOf(G, v) })
 
     fun needlessRule() {
         if (s.T.size < k) { //TODO Think about what is the fitting condition here
@@ -42,7 +42,7 @@ fun runTree(G: MyGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? 
         }
     }
 
-    s.ext.add(G.V.sortedBy { cont(it) }.reversed().toMutableList())
+    s.ext.add(G.vertexSet().sortedBy { cont(it) }.reversed().toMutableList())
     needlessRule()
 
     while (s.ext.isNotEmpty()) {
@@ -115,5 +115,5 @@ class State(
     fun needlessBorder(): Double = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
 }
 
-fun <VType> cut(G: MyGraph<VType>, S: Collection<VType>): Int =
-    S.sumOf { v -> G[v].count { it !in S } }
+fun <V> cut(G: SimpleGraph<V, DefaultEdge>, S: Collection<V>): Int =
+    S.sumOf { v -> neighborSetOf(G,v).count { it !in S } }

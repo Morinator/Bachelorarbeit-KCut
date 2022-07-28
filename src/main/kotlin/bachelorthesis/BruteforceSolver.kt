@@ -1,14 +1,15 @@
 package bachelorthesis
 
-import graphlib.MyGraph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import org.paukov.combinatorics3.Generator.combination
 
 object BruteforceSolver {
 
-    fun calc(G: MyGraph<Int>, k: Int): Collection<Int> {
+    fun calc(G: SimpleGraph<Int, DefaultEdge>, k: Int): Collection<Int> {
 
-        if (k !in 1..G.size) throw IllegalArgumentException("Illegal value for k")
+        if (k !in 1..G.vertexSet().size) throw IllegalArgumentException("Illegal value for k")
 
-        return combination(G.V).simple(k).maxByOrNull { cut(G, it) }!!
+        return combination(G.vertexSet()).simple(k).maxByOrNull { cut(G, it) }!!
     }
 }

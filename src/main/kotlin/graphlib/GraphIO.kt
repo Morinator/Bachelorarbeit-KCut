@@ -1,5 +1,8 @@
 package graphlib
 
+import org.jgrapht.Graphs.addEdgeWithVertices
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import java.io.File
 
 object GraphIO {
@@ -11,8 +14,8 @@ object GraphIO {
 
     fun graphFromPath(path: File) = graphFromPath(path.toString()) // cast wrapper
 
-    fun graphFromEdges(edges: List<Pair<Int, Int>>) = MyGraph<Int>().apply {
-        edges.forEach { addEdge(it.first, it.second) }
+    fun graphFromEdges(edges: List<Pair<Int, Int>>) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java).apply {
+        edges.forEach { addEdgeWithVertices(this, it.first, it.second) }
     }
 
     /**Reads in the graph at [file] and returns a list of edges, where each edge is in the format <VertexID, VertexID, Weight>.*/

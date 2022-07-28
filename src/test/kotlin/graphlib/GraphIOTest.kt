@@ -4,6 +4,7 @@ import graphlib.GraphIO.edgesFromPath
 import graphlib.GraphIO.graphFromEdges
 import graphlib.GraphIO.graphFromPath
 import graphlib.GraphIO.validateLine
+import org.jgrapht.Graphs.neighborListOf
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -32,10 +33,10 @@ internal class GraphIOTest {
         val gRead = graphFromPath("data/graphs/small1.txt")
         val gTruth = graphFromEdges(edgesSmall1)
 
-        assertEquals(gTruth.V.size, gRead.V.size)
-        for (v in gTruth.V)
-            for (w in gTruth[v])
-                assertTrue(gRead.areNB(v,w))
+        assertEquals(gTruth.vertexSet().size, gRead.vertexSet().size)
+        for (v in gTruth.vertexSet())
+            for (w in neighborListOf(gTruth,v))
+                assertTrue(gRead.containsEdge(v,w))
     }
 
     @Test
@@ -53,9 +54,9 @@ internal class GraphIOTest {
             )
         )
 
-        assertEquals(gTruth.V.size, gRead.V.size)
-        for (v in gTruth.V)
-            for (w in gTruth[v])
-                assertTrue(gRead.areNB(v,w))
+        assertEquals(gTruth.vertexSet().size, gRead.vertexSet().size)
+        for (v in gTruth.vertexSet())
+            for (w in neighborListOf(gTruth,v))
+                assertTrue(gRead.containsEdge(v,w))
     }
 }
