@@ -2,9 +2,9 @@ package graphlib
 
 import bachelorthesis.cut
 
-fun <V> heuristic(G: SimpleGraph<V>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
+fun <V> heuristic(G: MyGraph<V>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
 
-fun <V> localSearchRun(G: SimpleGraph<V>, k: Int): Set<V> {
+fun <V> localSearchRun(G: MyGraph<V>, k: Int): Set<V> {
 
     if (G.size < k) return setOf()
 
@@ -20,7 +20,7 @@ fun <V> localSearchRun(G: SimpleGraph<V>, k: Int): Set<V> {
     return S
 }
 
-fun <V> localSearchStep(G: SimpleGraph<V>, S: MutableSet<V>, f: (SimpleGraph<V>, Collection<V>) -> Int) {
+fun <V> localSearchStep(G: MyGraph<V>, S: MutableSet<V>, f: (MyGraph<V>, Collection<V>) -> Int) {
     val oldVal = f(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)

@@ -11,7 +11,7 @@ object GraphIO {
 
     fun graphFromPath(path: File) = graphFromPath(path.toString()) // cast wrapper
 
-    fun graphFromEdges(edges: List<Pair<Int, Int>>) = SimpleGraph<Int>().apply {
+    fun graphFromEdges(edges: List<Pair<Int, Int>>) = MyGraph<Int>().apply {
         edges.forEach { addEdge(it.first, it.second) }
     }
 

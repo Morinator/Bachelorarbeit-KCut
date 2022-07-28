@@ -2,17 +2,17 @@
 
 package bachelorthesis
 
-import graphlib.SimpleGraph
+import graphlib.MyGraph
 import graphlib.heuristic
 
 object StackSolver {
 
-    fun calc(G: SimpleGraph<Int>, k: Int, useHeuristic: Boolean): Set<Int> {
+    fun calc(G: MyGraph<Int>, k: Int, useHeuristic: Boolean): Set<Int> {
 
         var S = if (useHeuristic) heuristic(G, k, 10) else G.V.take(k).toSet()
         val counter = HashMap<Int, Int>().apply { for (v in G.V) put(v, 0) }
 
-        while (cut(G, S) <= G.degreeSequence.takeLast(k).sum())
+        while (cut(G, S) <= G.V.map { G.degreeOf(it) }.sorted().takeLast(k).sum())
             S = runTree(G, k, cut(G, S) + 1, counter) ?: break
 
         AlgoStats.print()
@@ -21,7 +21,7 @@ object StackSolver {
 
 }
 
-fun runTree(G: SimpleGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
+fun runTree(G: MyGraph<Int>, k: Int, t: Int, counter: Map<Int, Int>): Set<Int>? {
     val s = State(k = k, t = t)
 
     fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * s.T.count { it in G[v] })
@@ -115,5 +115,5 @@ class State(
     fun needlessBorder(): Double = tMissing() / kMissing() - 2 * (k - 1) * (k - 1)
 }
 
-fun <VType> cut(G: SimpleGraph<VType>, S: Collection<VType>): Int =
+fun <VType> cut(G: MyGraph<VType>, S: Collection<VType>): Int =
     S.sumOf { v -> G[v].count { it !in S } }

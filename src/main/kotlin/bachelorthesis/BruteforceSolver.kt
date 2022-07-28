@@ -1,11 +1,11 @@
 package bachelorthesis
 
-import graphlib.SimpleGraph
+import graphlib.MyGraph
 import org.paukov.combinatorics3.Generator.combination
 
 object BruteforceSolver {
 
-    fun calc(G: SimpleGraph<Int>, k: Int): Collection<Int> {
+    fun calc(G: MyGraph<Int>, k: Int): Collection<Int> {
 
         if (k !in 1..G.size) throw IllegalArgumentException("Illegal value for k")
 

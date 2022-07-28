@@ -1,19 +1,19 @@
 package graphlib
 
-class SimpleGraph<V> {
+class MyGraph<V> {
 
     private val m = HashMap<V, MutableSet<V>>()
 
-    fun addVertex(v: V): SimpleGraph<V> = this.apply {
+    fun addVertex(v: V): MyGraph<V> = this.apply {
         if (v !in m.keys)
             m[v] = HashSet()
     }
 
-    fun addVertices(vertices: Collection<V>): SimpleGraph<V> = this.apply {
+    fun addVertices(vertices: Collection<V>): MyGraph<V> = this.apply {
         vertices.forEach { addVertex(it) }
     }
 
-    fun addEdge(a: V, b: V): SimpleGraph<V> = this.apply {
+    fun addEdge(a: V, b: V): MyGraph<V> = this.apply {
         if (a != b) {
             addVertex(a)
             addVertex(b)
@@ -27,7 +27,7 @@ class SimpleGraph<V> {
 
     operator fun contains(v: V) = v in m.keys
 
-    fun deleteVertex(v: V): SimpleGraph<V> {
+    fun deleteVertex(v: V): MyGraph<V> {
         if (v in m.keys) {
             for (w in m[v]!!)
                 m[w]!!.remove(v)
@@ -37,7 +37,7 @@ class SimpleGraph<V> {
         return this
     }
 
-    fun deleteEdge(a: V, b: V): SimpleGraph<V> {
+    fun deleteEdge(a: V, b: V): MyGraph<V> {
         if (a in m[b]!!) {
             m[a]!!.remove(b)
             m[b]!!.remove(a)
@@ -67,18 +67,12 @@ class SimpleGraph<V> {
         for (v in vertices) addAll(get(v).filter { it !in vertices })
     }
 
-    fun copy() = SimpleGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
+    fun copy() = MyGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
 
     override fun toString() = V.joinToString("\n") { "$it: ${get(it)}" }
 
-    override fun equals(other: Any?) = (other is SimpleGraph<*>) && m == other.m
+    override fun equals(other: Any?) = (other is MyGraph<*>) && m == other.m
 
     override fun hashCode() = m.hashCode()
 
-    val maxDegree: Int
-        get() = V.maxOfOrNull { degreeOf(it) } ?: 0
-
-
-    val degreeSequence: List<Int>
-        get() = V.map { degreeOf(it) }.sorted()
 }

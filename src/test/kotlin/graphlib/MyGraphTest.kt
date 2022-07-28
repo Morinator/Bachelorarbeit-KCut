@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-internal class SimpleGraphTest {
+internal class MyGraphTest {
 
-    private val g = SimpleGraph<Int>() // looks like:       0-1-2  3
+    private val g = MyGraph<Int>() // looks like:       0-1-2  3
 
     @BeforeEach
     fun setUp() {
@@ -48,7 +48,7 @@ internal class SimpleGraphTest {
 
     @Test
     fun addEdge2() {
-        val g2 = SimpleGraph<Int>() // is empty
+        val g2 = MyGraph<Int>() // is empty
         g2.addEdge(1, 1)
         assertEquals(0, g2.size)
     }
@@ -149,14 +149,6 @@ internal class SimpleGraphTest {
             assertEquals(createPath(i).hashCode(), createPath(i).hashCode())
             assertEquals(createCycle(i).hashCode(), createCycle(i).hashCode())
         }
-    }
-
-    @Test
-    fun maxDegreeTest() {
-        assertEquals(2, createPath(4).maxDegree)
-        assertEquals(1, createPath(2).maxDegree)
-        assertEquals(2, createCycle(5).maxDegree)
-        assertEquals(5, createClique(6).maxDegree)
     }
 
     @Test
