@@ -3,6 +3,7 @@ package graphlib
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -36,15 +37,14 @@ internal class MyGraphTest {
     @Test
     fun addEdge2() {
         val g2 = MyGraph<Int>() // is empty
-        g2.addEdge(1, 1)
-        assertEquals(0, g2.size)
+        assertThrows<java.lang.IllegalArgumentException> {g2.addEdge(1, 1)  }
     }
 
     @Test
     fun get() {
-        assertEquals(setOf(0, 2), g[1])
+        assertEquals(setOf(0, 2), g[1].toSet())
         g.addEdge(1, 3)
-        assertEquals(setOf(0, 2, 3), g[1])
+        assertEquals(setOf(0, 2, 3), g[1].toSet())
     }
 
     @Test
@@ -57,7 +57,7 @@ internal class MyGraphTest {
         assertTrue { 2 in g.V }
         g.deleteVertex(2)
         assertFalse { 2 in g.V }
-        assertEquals(setOf(0), g[1]) // it's not a neighbour of vertex 1 anymore
+        assertEquals(setOf(0), g[1].toSet()) // it's not a neighbour of vertex 1 anymore
     }
 
     @Test

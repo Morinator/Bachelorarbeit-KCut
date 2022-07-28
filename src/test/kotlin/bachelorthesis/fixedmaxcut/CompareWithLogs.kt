@@ -26,17 +26,17 @@ class CompareWithLogs {
 
     private val logPath = "maxcut_results_with_paths_laplace2"
 
-    @RepeatedTest(4306)
+    @RepeatedTest(3300)
     fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(4306)
+    @RepeatedTest(3300)
     fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 
-    @RepeatedTest(4306)
+    @RepeatedTest(3300)
     @Disabled
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
@@ -50,7 +50,7 @@ class CompareWithLogs {
     }
 
     /*
-    @RepeatedTest(4306)
+    @RepeatedTest(3000)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())

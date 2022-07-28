@@ -1,51 +1,39 @@
 package graphlib
 
+import org.jgrapht.Graphs
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
+
 class MyGraph<V> {
 
-    private val m = HashMap<V, MutableSet<V>>()
+    private val m = SimpleGraph<V, DefaultEdge>(DefaultEdge::class.java)
 
     fun addVertex(v: V) {
-        if (v !in m.keys)
-            m[v] = HashSet()
+        m.addVertex(v)
     }
 
     fun addEdge(a: V, b: V) {
-        if (a != b) {
-            addVertex(a)
-            addVertex(b)
+Graphs.addEdgeWithVertices(m, a,b)    }
 
-            m[a]!!.add(b)
-            m[b]!!.add(a)
-        }
-    }
-
-    operator fun get(v: V): Set<V> = m[v]!!
+    operator fun get(v: V): List<V> = Graphs.neighborListOf(m,v)
 
     fun deleteVertex(v: V) {
-        if (v in m.keys) {
-            for (w in m[v]!!)
-                m[w]!!.remove(v)
-            m.remove(v)
-        }
+        m.removeVertex(v)
     }
 
     fun deleteEdge(a: V, b: V) {
-        if (a in m[b]!!) {
-            m[a]!!.remove(b)
-            m[b]!!.remove(a)
-        }
+        m.removeEdge(a,b)
     }
 
-    fun areNB(a: V, b: V): Boolean = a in m[b]!!
+    fun areNB(a: V, b: V): Boolean = m.containsEdge(a,b)
 
-    val size get() = m.keys.size
+    val size get() = m.vertexSet().size
 
-    fun degreeOf(v: V): Int = m[v]!!.size
+    fun degreeOf(v: V): Int = m.degreeOf(v)
 
-    val edgeCount get() = m.values.sumOf { it.size } / 2
+    val edgeCount get() = m.edgeSet().size
 
     @Suppress("PropertyName")
     val V: Set<V>
-        get() = m.keys
-
+        get() = m.vertexSet()
 }

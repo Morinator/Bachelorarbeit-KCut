@@ -2,7 +2,6 @@ package graphlib
 
 import graphlib.Factory.createBipartite
 import graphlib.Factory.createClique
-import graphlib.Factory.createCycle
 import graphlib.Factory.createPath
 import graphlib.Factory.createStar
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,16 +21,6 @@ internal class FactoryTest {
         assertTrue { g.areNB(3, 4) }
     }
 
-    @Test
-    fun createCycle1() {
-        val g = createCycle(5)
-        assertEquals(5, g.size)
-        assertTrue { g.areNB(1, 2) }
-        assertTrue { g.areNB(2, 3) }
-        assertTrue { g.areNB(3, 4) }
-        assertTrue { g.areNB(4, 5) }
-        assertTrue { g.areNB(5, 1) }
-    }
 
     @Test
     fun createClique1() {

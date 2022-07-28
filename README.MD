@@ -7,3 +7,11 @@ Common parameters
 - m: Number of edges
 - k: Some natural number
 - v: A single vertex
+
+
+### Format of the lines in the log-file:
+- filename
+- k
+- val
+- time in millis
+- S

@@ -2,39 +2,18 @@ package graphlib
 
 object Factory {
 
-    /**
-     * @return A [MyGraph] of the form:          (1) - (2) - ... - (n-1) - (n)
-     */
     fun createPath(n: Int) = MyGraph<Int>().apply {
         for (i in 1 until n) addEdge(i, i + 1)
     }
 
-    /**                                               #-------------------------#
-     *                                                |                         |
-     * @return A [MyGraph] of the form:          (1) - (2) - ... - (n-1) - (n)
-     */
-    fun createCycle(n: Int) = MyGraph<Int>().apply {
-        for (i in 1 until n)
-            addEdge(i, i + 1)
-        addEdge(1, n)
-    }
-
-    /**
-     * @return A [MyGraph] of the form:
-     */
     fun createClique(n: Int) = MyGraph<Int>().apply {
         for (i in 1..n)
             for (j in 1..n)
                 if (i != j) addEdge(i, j)
     }
 
-    /**
-     * @return A [MyGraph] of the form:
-     */
     fun createStar(n: Int) = createBipartite(1, n-1)
 
-    /**@return A bipartite graph, whose vertex partition has sizes [sizeA] and [sizeB]. Any two vertices of from
-     * different sides in the graph are connected, thus there are [sizeA] * [sizeB] edges in total.*/
     fun createBipartite(sizeA: Int, sizeB: Int) = MyGraph<Int>().apply {
         for (i in 1..sizeA)
             for (j in sizeA + 1..sizeA + sizeB)

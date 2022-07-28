@@ -27,7 +27,7 @@ fun <V> localSearchStep(G: MyGraph<V>, S: MutableSet<V>, f: (MyGraph<V>, Collect
 
         for (w in G.V.filter { it !in S }) {
             S.add(w)
-            if (f(G, S) > oldVal) return // better S found!
+            if (f(G, S) > oldVal) return
             S.remove(w)
         }
 
