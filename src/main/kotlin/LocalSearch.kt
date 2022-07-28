@@ -12,20 +12,20 @@ fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
 
     while (true) {
         val oldVal = cut(G, S)
-        _localSearchStep(G, S, ::cut)
+        _localSearchStep(G, S)
         if (oldVal == cut(G, S)) break
     }
 
     return S
 }
 
-fun <V, E> _localSearchStep(G: SimpleGraph<V, E>, S: MutableSet<V>, f: (SimpleGraph<V, E>, Collection<V>) -> Int) {
-    val oldVal = f(G, S)
+fun <V, E> _localSearchStep(G: SimpleGraph<V, E>, S: MutableSet<V>) {
+    val oldVal = cut(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)
         for (w in G.vertexSet().filter { it !in S }) {
             S.add(w)
-            if (f(G, S) > oldVal) return
+            if (cut(G, S) > oldVal) return
             S.remove(w)
         }
         S.add(v)
