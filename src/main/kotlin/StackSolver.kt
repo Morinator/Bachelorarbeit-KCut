@@ -6,18 +6,16 @@ import org.jgrapht.graph.SimpleGraph
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
 
     init {
-        if (G.n() < k) throw IllegalArgumentException()
+        if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
     }
 
+    private val ctr = G.V().associateWith { 0 }
 
-    private val ctr = G.vertexSet().associateWith { 0 }
-
-    private var S = if (useHeuristic) (1..30).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
-    else randomSubset(G.vertexSet(), k)
+    private var S = if (useHeuristic) (1..30).map { heuristic(G, k) }.maxByOrNull { cut(G, it) }!! else randomSubset(G.V(), k)
 
     private val valueOfStartingSolution = cutWithCtr()
 
-    private val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
+    private val upperBound = G.V().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
     fun opt(): Set<V> {
         while (cutWithCtr() < upperBound)
@@ -55,7 +53,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             }
         }
 
-        ext.add(G.vertexSet().sortedBy { cont(it) }.reversed().toMutableList())
+        ext.add(G.V().sortedBy { cont(it) }.reversed().toMutableList())
         _trimNeedlessExt()
 
         while (ext.isNotEmpty()) {
@@ -105,14 +103,14 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return null
     }
 
-    private fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
-        val S = randomSubset(G.vertexSet(), k)
+    private fun <V, E> heuristic(G: SimpleGraph<V, E>, k: Int): Set<V> {
+        val S = randomSubset(G.V(), k)
 
         stepLoop@ while (true) {
             val oldVal = cut(G, S)
             for (v in S.toList()) {
                 S.remove(v)
-                for (w in G.vertexSet().filter { it !in S }) {
+                for (w in G.V().filter { it !in S }) {
                     S.add(w)
                     if (cut(G, S) > oldVal) continue@stepLoop
                     S.remove(w)

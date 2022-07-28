@@ -1,8 +1,11 @@
+@file:Suppress("FunctionName")
+
 import org.jgrapht.Graphs
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import java.io.File
 
+fun <V, E> SimpleGraph<V, E>.V(): MutableSet<V> = vertexSet()
 fun <V, E> SimpleGraph<V, E>.n() = vertexSet().size
 
 fun graphFromPath(path: String) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java).apply {
