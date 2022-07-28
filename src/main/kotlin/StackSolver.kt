@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
@@ -36,24 +38,24 @@ object StackSolver {
 
         fun cont(v: V) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
 
-        fun needlessRule() {
+        fun _trimNeedlessExt() {
             if (T.size < k) { //TODO Think about what is the fitting condition here
                 val x = ext.last()
                 if (cont(x.first()) < satBorder()) {
                     val border = (t - cut).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
-                    n@ for (i in x.indices.reversed())
+                    for (i in x.indices.reversed())
                         if (cont(x[i]) < border) {
                             AlgoStats.needlessRule++
                             x.removeLast()
                         } else
-                            break@n
+                            break
                 }
             }
         }
 
 
         ext.add(G.vertexSet().sortedBy { cont(it) }.reversed().toMutableList())
-        needlessRule()
+        _trimNeedlessExt()
 
         while (ext.isNotEmpty()) {
 
@@ -95,7 +97,7 @@ object StackSolver {
                     if (isSatisfactory)
                         AlgoStats.satVertices++
                 }
-                needlessRule()
+                _trimNeedlessExt()
             }
         } // end while-loop
 
