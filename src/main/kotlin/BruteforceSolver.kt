@@ -1,10 +1,9 @@
-import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import org.paukov.combinatorics3.Generator
 
 object BruteforceSolver {
 
-    fun calc(G: SimpleGraph<Int, DefaultEdge>, k: Int): Collection<Int> {
+    fun <V, E> calc(G: SimpleGraph<V, E>, k: Int): Collection<V> {
 
         if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
 

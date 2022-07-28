@@ -1,11 +1,10 @@
 import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
-import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
 object StackSolver {
 
-    fun calc(G: SimpleGraph<Int, DefaultEdge>, k: Int, useHeuristic: Boolean): Set<Int> {
+    fun <V,E> calc(G: SimpleGraph<V, E>, k: Int, useHeuristic: Boolean): Set<V> {
 
         var S = if (useHeuristic) {
             (1..10).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
@@ -23,19 +22,19 @@ object StackSolver {
         return S
     }
 
-    private fun runTree(G: SimpleGraph<Int, DefaultEdge>, k: Int, t: Int, counter: Map<Int, Int>): List<Int>? {
+    private fun <V, E> runTree(G: SimpleGraph<V, E>, k: Int, t: Int, counter: Map<V, Int>): List<V>? {
 
-        val T: MutableList<Int> = ArrayList()
+        val T: MutableList<V> = ArrayList()
         var cut = 0
 
         val sat: MutableList<Boolean> = ArrayList()
-        val ext: MutableList<MutableList<Int>> = ArrayList()
+        val ext: MutableList<MutableList<V>> = ArrayList()
 
         fun satExists(): Boolean = (sat.size == T.size + 1)
         fun doSatRule() = satExists() && sat.last()
         fun satBorder(): Double = ((t - cut).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
 
-        fun cont(v: Int) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
+        fun cont(v: V) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
 
         fun needlessRule() {
             if (T.size < k) { //TODO Think about what is the fitting condition here
@@ -104,5 +103,5 @@ object StackSolver {
     }
 }
 
-fun <V> cut(G: SimpleGraph<V, DefaultEdge>, S: Collection<V>): Int =
+fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>): Int =
     S.sumOf { v -> neighborListOf(G, v).count { it !in S } }

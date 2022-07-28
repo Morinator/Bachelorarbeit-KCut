@@ -85,7 +85,7 @@ internal class HandcraftedSolutions {
     }
 
     @Test
-    fun cut1() {
+    fun cutA() {
         val G = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
         LinearGraphGenerator<Int, DefaultEdge>(4).generateGraph(G)
 

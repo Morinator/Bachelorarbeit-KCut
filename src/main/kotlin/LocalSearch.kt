@@ -1,7 +1,6 @@
-import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
-fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
+fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
 
     if (G.n() < k) throw IllegalArgumentException()
 
@@ -16,11 +15,7 @@ fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
     return S
 }
 
-fun <V> localSearchStep(
-    G: SimpleGraph<V, DefaultEdge>,
-    S: MutableSet<V>,
-    f: (SimpleGraph<V, DefaultEdge>, Collection<V>) -> Int
-) {
+fun <V, E> localSearchStep(G: SimpleGraph<V, E>, S: MutableSet<V>, f: (SimpleGraph<V, E>, Collection<V>) -> Int) {
     val oldVal = f(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)
