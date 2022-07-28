@@ -1,4 +1,4 @@
-package bachelorthesis/*
+/*
 package bachelorthesis.solvers
 
 import graphlib.SimpleGraph

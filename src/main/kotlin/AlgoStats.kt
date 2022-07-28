@@ -1,5 +1,3 @@
-package bachelorthesis
-
 object AlgoStats {
 
     var candidates: Long = 0

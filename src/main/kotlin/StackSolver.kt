@@ -1,6 +1,4 @@
-package bachelorthesis
-
-import graphlib.heuristic
+import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
@@ -116,4 +114,4 @@ class State(
 }
 
 fun <V> cut(G: SimpleGraph<V, DefaultEdge>, S: Collection<V>): Int =
-    S.sumOf { v -> neighborSetOf(G,v).count { it !in S } }
+    S.sumOf { v -> neighborListOf(G,v).count { it !in S } }

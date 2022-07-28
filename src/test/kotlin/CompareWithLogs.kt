@@ -1,9 +1,4 @@
-package bachelorthesis.fixedmaxcut
-
-import bachelorthesis.BruteforceSolver
-import bachelorthesis.StackSolver
-import bachelorthesis.cut
-import graphlib.GraphIO.graphFromPath
+import GraphIO.graphFromPath
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
@@ -20,23 +15,23 @@ class CompareWithLogs {
         val objValue = l[2].toInt()
 
         val S = StackSolver.calc(G, k, useHeuristic = useHeuristic)
-        val prediction = cut(G,S)
+        val prediction = cut(G, S)
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    private val logPath = "maxcut_results_with_paths_laplace2"
+    private val logPath = "maxcut_results"
 
-    @RepeatedTest(3300)
+    @RepeatedTest(3250)
     fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(3300)
+    @RepeatedTest(3250)
     fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 
-    @RepeatedTest(3300)
+    @RepeatedTest(3250)
     @Disabled
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
@@ -50,7 +45,7 @@ class CompareWithLogs {
     }
 
     /*
-    @RepeatedTest(3000)
+    @RepeatedTest(3250)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())

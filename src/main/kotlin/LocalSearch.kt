@@ -1,10 +1,12 @@
-package graphlib
-
-import bachelorthesis.cut
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
-fun <V> heuristic(G: SimpleGraph<V, DefaultEdge>, k: Int, runs: Int) = (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
+fun <V> heuristic(G: SimpleGraph<V, DefaultEdge>, k: Int, runs: Int) = (1..runs).map {
+    localSearchRun(
+        G,
+        k
+    )
+}.maxByOrNull { cut(G, it) }!!
 
 fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
 
@@ -15,7 +17,7 @@ fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
     while (true) {
         val oldVal = cut(G, S)
         localSearchStep(G, S, ::cut)
-        if (oldVal == cut(G,S))
+        if (oldVal == cut(G, S))
             break
     }
 
@@ -26,13 +28,11 @@ fun <V> localSearchStep(G: SimpleGraph<V, DefaultEdge>, S: MutableSet<V>, f: (Si
     val oldVal = f(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)
-
         for (w in G.vertexSet().filter { it !in S }) {
             S.add(w)
             if (f(G, S) > oldVal) return
             S.remove(w)
         }
-
         S.add(v)
     }
 }
