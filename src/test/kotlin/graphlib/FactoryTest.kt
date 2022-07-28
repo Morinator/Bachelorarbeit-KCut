@@ -1,7 +1,6 @@
 package graphlib
 
 import graphlib.Factory.createBipartite
-import graphlib.Factory.createClique
 import graphlib.Factory.createPath
 import graphlib.Factory.createStar
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -19,17 +18,6 @@ internal class FactoryTest {
         assertTrue { g.containsEdge(1, 2) }
         assertTrue { g.containsEdge(2, 3) }
         assertTrue { g.containsEdge(3, 4) }
-    }
-
-
-    @Test
-    fun createClique1() {
-        val g = createClique(5)
-        assertEquals(10, g.edgeSet().size)
-        for (i in 1..5)
-            for (j in 1..5)
-                if (i != j)
-                    assertTrue { g.containsEdge(i, j) }
     }
 
     @Test

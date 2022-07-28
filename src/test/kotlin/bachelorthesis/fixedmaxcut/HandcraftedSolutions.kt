@@ -2,9 +2,13 @@ package bachelorthesis.fixedmaxcut
 
 import bachelorthesis.StackSolver
 import bachelorthesis.cut
-import graphlib.Factory.createClique
 import graphlib.Factory.createPath
 import graphlib.GraphIO.graphFromPath
+import org.jgrapht.generate.CompleteGraphGenerator
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
+import org.jgrapht.util.SupplierUtil.DEFAULT_EDGE_SUPPLIER
+import org.jgrapht.util.SupplierUtil.createIntegerSupplier
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Nested
@@ -32,7 +36,9 @@ internal class HandcraftedSolutions {
 
     @Test
     fun solveC() {
-        val g = createClique(6)
+        val g = SimpleGraph(createIntegerSupplier(), DEFAULT_EDGE_SUPPLIER, false)
+        CompleteGraphGenerator<Int, DefaultEdge>(6).generateGraph(g)
+
         assertEquals(9, cut(g,StackSolver.calc(g, 3, false))) // solution is not unique
     }
 

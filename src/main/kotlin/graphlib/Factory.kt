@@ -10,12 +10,6 @@ object Factory {
         for (i in 1 until n) addEdgeWithVertices(this, i, i+1)
     }
 
-    fun createClique(n: Int) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java).apply {
-        for (i in 1..n)
-            for (j in 1..n)
-                if (i != j) addEdgeWithVertices(this, i, j)
-    }
-
     fun createStar(n: Int) = createBipartite(1, n-1)
 
     fun createBipartite(sizeA: Int, sizeB: Int) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::class.java).apply {
