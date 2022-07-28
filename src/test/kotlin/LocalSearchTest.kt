@@ -15,7 +15,7 @@ internal class LocalSearchTest {
         StarGraphGenerator<Int, DefaultEdge>(10).generateGraph(G)
 
         val S = mutableSetOf(3)
-        localSearchStep(G, S, ::cut)
+        _localSearchStep(G, S, ::cut)
 
         assertEquals(setOf(0), S)
         assertEquals(9, cut(G, S))

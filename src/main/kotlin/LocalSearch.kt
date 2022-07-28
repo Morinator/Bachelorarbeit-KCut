@@ -1,5 +1,9 @@
+@file:Suppress("FunctionName")
+
 import org.jgrapht.graph.SimpleGraph
 
+
+fun <V, E> bestRun(G: SimpleGraph<V, E>, k: Int, runs: Int) =  (1..runs).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
 fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
 
     if (G.n() < k) throw IllegalArgumentException()
@@ -8,14 +12,14 @@ fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
 
     while (true) {
         val oldVal = cut(G, S)
-        localSearchStep(G, S, ::cut)
+        _localSearchStep(G, S, ::cut)
         if (oldVal == cut(G, S)) break
     }
 
     return S
 }
 
-fun <V, E> localSearchStep(G: SimpleGraph<V, E>, S: MutableSet<V>, f: (SimpleGraph<V, E>, Collection<V>) -> Int) {
+fun <V, E> _localSearchStep(G: SimpleGraph<V, E>, S: MutableSet<V>, f: (SimpleGraph<V, E>, Collection<V>) -> Int) {
     val oldVal = f(G, S)
     for (v in S.toList()) { // copy prevents ConcurrentModificationException
         S.remove(v)

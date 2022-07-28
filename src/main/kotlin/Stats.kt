@@ -1,4 +1,4 @@
-object AlgoStats {
+object Stats {
 
     var candidates: Long = 0
     var treeNode: Long = 0

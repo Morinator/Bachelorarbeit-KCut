@@ -8,43 +8,40 @@ object StackSolver {
 
     fun <V,E> calc(G: SimpleGraph<V, E>, k: Int, useHeuristic: Boolean): Set<V> {
 
-        var S = if (useHeuristic) {
-            (1..10).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
-        } else
-            G.vertexSet().take(k).toSet()
+        var S = if (useHeuristic) bestRun(G, k, 10) else G.vertexSet().take(k).toSet()
 
         val counter = G.vertexSet().associateWith { 0 }
 
         val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
-        while (cut(G, S) <= upperBound)
-            S = runTree(G, k, cut(G, S) + 1, counter)?.toSet() ?: break
+        while (cutWithCtr(G, S, counter) <= upperBound)
+            S = runTree(G, k, cutWithCtr(G, S, counter) + 1, counter)?.toSet() ?: break
 
-        AlgoStats.print()
+        Stats.print()
         return S
     }
 
     private fun <V, E> runTree(G: SimpleGraph<V, E>, k: Int, t: Int, counter: Map<V, Int>): List<V>? {
 
         val T: MutableList<V> = ArrayList()
-        var cut = 0
+        var `val` = 0
 
-        val sat: MutableList<Boolean> = ArrayList()
         val ext: MutableList<MutableList<V>> = ArrayList()
+        val sat: MutableList<Boolean> = ArrayList()
 
         fun satExists(): Boolean = (sat.size == T.size + 1)
         fun doSatRule() = satExists() && sat.last()
-        fun satBorder(): Double = ((t - cut).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
+        fun satBorder(): Double = ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
 
         fun cont(v: V) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
 
         fun _trimNeedlessExt() {
             val e = ext.last()
             if (T.size >= k || cont(e.first()) >= satBorder()) return
-            val border = (t - cut).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
+            val border = (t - `val`).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
             for (child in e.reversed()) {
                 if (cont(child) >= border) break
-                AlgoStats.needlessRule++
+                Stats.needlessRule++
                 e.removeLast()
             }
         }
@@ -54,13 +51,13 @@ object StackSolver {
 
         while (ext.isNotEmpty()) {
 
-            if (doSatRule()) AlgoStats.satRule++
+            if (doSatRule()) Stats.satRule++
             if (T.size >= k || T.size + ext.last().size < k || doSatRule()) {
 
                 if (T.size == k) {
-                    AlgoStats.candidates++
+                    Stats.candidates++
 
-                    if (cut >= t)
+                    if (`val` >= t)
                         return T
                 }
 
@@ -70,11 +67,11 @@ object StackSolver {
                     sat.removeLast()
 
                 if (T.size > 0)
-                    cut -= cont(T.removeLast())
+                    `val` -= cont(T.removeLast())
 
             } else { // ##### BRANCH #####
 
-                AlgoStats.treeNode++
+                Stats.treeNode++
 
                 val newElem = ext.last().removeFirst()
 
@@ -83,14 +80,14 @@ object StackSolver {
 
                 val cont = cont(newElem)
                 val isSatisfactory = cont >= satBorder()
-                cut += cont
+                `val` += cont
 
                 T.add(newElem)
 
                 if (!satExists()) {
                     sat.add(isSatisfactory)
                     if (isSatisfactory)
-                        AlgoStats.satVertices++
+                        Stats.satVertices++
                 }
                 _trimNeedlessExt()
             }
@@ -100,5 +97,8 @@ object StackSolver {
     }
 }
 
-fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>): Int =
+fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>) =
     S.sumOf { v -> neighborListOf(G, v).count { it !in S } }
+
+fun <V, E> cutWithCtr(G: SimpleGraph<V, E>, S: Collection<V>, ctr:Map<V, Int>)  =
+    cut(G, S) + S.sumOf { ctr[it]!! }
