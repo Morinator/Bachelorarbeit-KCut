@@ -31,7 +31,11 @@ internal class GraphIOTest {
     fun graphFromFile1() {
         val gRead = graphFromPath("data/graphs/small1.txt")
         val gTruth = graphFromEdges(edgesSmall1)
-        assertEquals(gTruth, gRead)
+
+        assertEquals(gTruth.V.size, gRead.V.size)
+        for (v in gTruth.V)
+            for (w in gTruth[v])
+                assertTrue(gRead.areNB(v,w))
     }
 
     @Test
@@ -48,6 +52,10 @@ internal class GraphIOTest {
                 3 to 7
             )
         )
-        assertEquals(gTruth, gRead)
+
+        assertEquals(gTruth.V.size, gRead.V.size)
+        for (v in gTruth.V)
+            for (w in gTruth[v])
+                assertTrue(gRead.areNB(v,w))
     }
 }

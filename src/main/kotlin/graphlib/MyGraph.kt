@@ -4,16 +4,12 @@ class MyGraph<V> {
 
     private val m = HashMap<V, MutableSet<V>>()
 
-    fun addVertex(v: V): MyGraph<V> = this.apply {
+    fun addVertex(v: V) {
         if (v !in m.keys)
             m[v] = HashSet()
     }
 
-    fun addVertices(vertices: Collection<V>): MyGraph<V> = this.apply {
-        vertices.forEach { addVertex(it) }
-    }
-
-    fun addEdge(a: V, b: V): MyGraph<V> = this.apply {
+    fun addEdge(a: V, b: V) {
         if (a != b) {
             addVertex(a)
             addVertex(b)
@@ -25,54 +21,31 @@ class MyGraph<V> {
 
     operator fun get(v: V): Set<V> = m[v]!!
 
-    operator fun contains(v: V) = v in m.keys
-
-    fun deleteVertex(v: V): MyGraph<V> {
+    fun deleteVertex(v: V) {
         if (v in m.keys) {
             for (w in m[v]!!)
                 m[w]!!.remove(v)
             m.remove(v)
         }
-
-        return this
     }
 
-    fun deleteEdge(a: V, b: V): MyGraph<V> {
+    fun deleteEdge(a: V, b: V) {
         if (a in m[b]!!) {
             m[a]!!.remove(b)
             m[b]!!.remove(a)
         }
-
-        return this
     }
-
 
     fun areNB(a: V, b: V): Boolean = a in m[b]!!
 
-
     val size get() = m.keys.size
 
-
     fun degreeOf(v: V): Int = m[v]!!.size
-
 
     val edgeCount get() = m.values.sumOf { it.size } / 2
 
     @Suppress("PropertyName")
     val V: Set<V>
         get() = m.keys
-
-
-    operator fun get(vertices: Collection<V>): Set<V> = HashSet<V>().apply {
-        for (v in vertices) addAll(get(v).filter { it !in vertices })
-    }
-
-    fun copy() = MyGraph<V>().also { it.m.putAll(this.m) } // SHALLOW COPY
-
-    override fun toString() = V.joinToString("\n") { "$it: ${get(it)}" }
-
-    override fun equals(other: Any?) = (other is MyGraph<*>) && m == other.m
-
-    override fun hashCode() = m.hashCode()
 
 }

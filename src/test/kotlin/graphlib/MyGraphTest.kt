@@ -1,9 +1,5 @@
 package graphlib
 
-import graphlib.Factory.createClique
-import graphlib.Factory.createCycle
-import graphlib.Factory.createPath
-import graphlib.Factory.createStar
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -23,20 +19,11 @@ internal class MyGraphTest {
 
     @Test
     fun addVertex() {
-        assertFalse { 4 in g }
+        assertFalse { 4 in g.V }
         g.addVertex(4)
-        assertTrue { 4 in g }
+        assertTrue { 4 in g.V }
         g.addVertex(4)
-        assertTrue { 4 in g }
-    }
-
-    @Test
-    fun addVertices() {
-        assertFalse { 4 in g }
-        g.addVertices(listOf(5, 6))
-        assertTrue { 5 in g && 6 in g }
-        assertEquals(6, g.size)
-        assertEquals(2, g.edgeCount)
+        assertTrue { 4 in g.V }
     }
 
     @Test
@@ -62,14 +49,14 @@ internal class MyGraphTest {
 
     @Test
     fun contains() {
-        for (i in 0..3) assertTrue { i in g }
+        for (i in 0..3) assertTrue { i in g.V }
     }
 
     @Test
     fun deleteVertex() {
-        assertTrue { 2 in g }
+        assertTrue { 2 in g.V }
         g.deleteVertex(2)
-        assertFalse { 2 in g }
+        assertFalse { 2 in g.V }
         assertEquals(setOf(0), g[1]) // it's not a neighbour of vertex 1 anymore
     }
 
@@ -91,7 +78,7 @@ internal class MyGraphTest {
         assertTrue { g.areNB(0, 1) }
         g.deleteEdge(0, 1)
         assertFalse { g.areNB(0, 1) }
-        assertTrue { 0 in g && 1 in g }
+        assertTrue { 0 in g.V && 1 in g.V }
         g.deleteEdge(0, 1)
         assertFalse { g.areNB(0, 1) }
     }
@@ -126,39 +113,4 @@ internal class MyGraphTest {
         assertEquals(1, g.degreeOf(4))
     }
 
-    @Test
-    fun copy() {
-        val g1 = g.copy()
-
-        for (v in g1.V) assertEquals(g1[v], g[v]) // make sure content is equal
-
-        g1.deleteVertex(2) // check if old graph is unaffected
-        assertFalse { 2 in g1 }
-        assertTrue { 2 in g }
-    }
-
-    @Test
-    fun equalsTest() {
-        assertEquals(createPath(100), createPath(100))
-        assertTrue { createPath(42) == createPath(42) } // check if "==" Operator works
-    }
-
-    @Test
-    fun hashCodeTest() {
-        for (i in 1..20) {
-            assertEquals(createPath(i).hashCode(), createPath(i).hashCode())
-            assertEquals(createCycle(i).hashCode(), createCycle(i).hashCode())
-        }
-    }
-
-    @Test
-    fun neighboursA() {
-        assertEquals(setOf(3, 4), createClique(5)[setOf(1, 2, 5)])
-        assertEquals(setOf(4, 8), createPath(10)[setOf(5, 6, 7)])
-        assertEquals(setOf(1, 3, 4, 6), createPath(10)[setOf(2, 5)])
-        assertEquals(setOf(4, 8), createCycle(10)[setOf(5, 6, 7)])
-        assertEquals(setOf(2, 10, 5, 7), createCycle(10)[setOf(1, 6)])
-        assertEquals(setOf(3, 5), createStar(5)[setOf(1, 2, 4)])
-        assertEquals(setOf(1), createStar(5)[setOf(2, 3, 4, 5)])
-    }
 }
