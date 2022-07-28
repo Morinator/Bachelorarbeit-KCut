@@ -21,7 +21,6 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         while (cutWithCtr() < upperBound)
             S = runTree(cutWithCtr() + 1, ctr)?.toSet() ?: break
 
-
         if (useHeuristic && valueOfStartingSolution == cutWithCtr()) Stats.optimalHeuristics++
 
         Stats.print()
@@ -53,7 +52,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             }
         }
 
-        ext.add(G.V().sortedBy { cont(it) }.reversed().toMutableList())
+        ext.add(G.V().sortedByDescending { cont(it) }.toMutableList())
         _trimNeedlessExt()
 
         while (ext.isNotEmpty()) {
@@ -83,7 +82,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
                 val newElem = ext.last().removeFirst()
 
                 if (T.size < k - 1)
-                    ext.add(ext.last().sortedBy { cont(it) }.reversed().toMutableList())
+                    ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
 
                 val cont = cont(newElem)
                 val isSatisfactory = cont >= satBorder()
