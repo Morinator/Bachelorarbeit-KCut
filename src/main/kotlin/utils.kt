@@ -12,3 +12,9 @@ fun graphFromPath(path: String) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::cla
         .map { Pair(it[0].toInt(), it[1].toInt()) }
         .filter { it.first != it.second }.forEach { Graphs.addEdgeWithVertices(this, it.first, it.second) }
 }
+
+fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>) =
+    S.sumOf { v -> Graphs.neighborListOf(G, v).count { it !in S } }
+
+fun <T> randomSubset(elements : Collection<T>, size : Int) : MutableSet<T> =
+    elements.toList().shuffled().take(size).toMutableSet()

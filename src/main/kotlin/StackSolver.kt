@@ -1,25 +1,32 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "PrivatePropertyName")
 
-import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
 
-class MaxCutInstance<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
+class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
+
+    init {
+        if (G.n() < k) throw IllegalArgumentException()
+    }
+
+
+    private val ctr = G.vertexSet().associateWith { 0 }
+
+    private var S = if (useHeuristic) (1..30).map { localSearchRun(G, k) }.maxByOrNull { cut(G, it) }!!
+    else randomSubset(G.vertexSet(), k)
+
+    private val valueOfStartingSolution = cutWithCtr()
+
+    private val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
     fun opt(): Set<V> {
+        while (cutWithCtr() < upperBound)
+            S = runTree(cutWithCtr() + 1, ctr)?.toSet() ?: break
 
-        var S = if (useHeuristic) bestRun(G, k, 30) else G.vertexSet().take(k).toSet()
-        val startVal = cut(G, S)
 
-        val counter = G.vertexSet().associateWith { 0 }
-
-        val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
-
-        while (cutWithCtr(G, S, counter) < upperBound)
-            S = runTree( cutWithCtr(G, S, counter) + 1, counter)?.toSet() ?: break
+        if (useHeuristic && valueOfStartingSolution == cutWithCtr()) Stats.optimalHeuristics++
 
         Stats.print()
-        if (useHeuristic && startVal == cutWithCtr(G, S, counter)) println("Heuristic was optimal")
         return S
     }
 
@@ -97,10 +104,27 @@ class MaxCutInstance<V, E>(private val G: SimpleGraph<V, E>, private val k: Int,
 
         return null
     }
+
+    private fun <V, E> localSearchRun(G: SimpleGraph<V, E>, k: Int): Set<V> {
+        val S = randomSubset(G.vertexSet(), k)
+
+        stepLoop@ while (true) {
+            val oldVal = cut(G, S)
+            for (v in S.toList()) {
+                S.remove(v)
+                for (w in G.vertexSet().filter { it !in S }) {
+                    S.add(w)
+                    if (cut(G, S) > oldVal) continue@stepLoop
+                    S.remove(w)
+                }
+                S.add(v)
+            }
+            break@stepLoop
+        }
+
+        return S
+    }
+
+    private fun cutWithCtr() =
+        cut(G, S) + S.sumOf { ctr[it]!! }
 }
-
-fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>) =
-    S.sumOf { v -> neighborListOf(G, v).count { it !in S } }
-
-fun <V, E> cutWithCtr(G: SimpleGraph<V, E>, S: Collection<V>, ctr:Map<V, Int>)  =
-    cut(G, S) + S.sumOf { ctr[it]!! }
