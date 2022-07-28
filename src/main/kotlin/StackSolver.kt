@@ -8,16 +8,18 @@ object StackSolver {
 
     fun <V,E> calc(G: SimpleGraph<V, E>, k: Int, useHeuristic: Boolean): Set<V> {
 
-        var S = if (useHeuristic) bestRun(G, k, 10) else G.vertexSet().take(k).toSet()
+        var S = if (useHeuristic) bestRun(G, k, 30) else G.vertexSet().take(k).toSet()
+        val startVal = cut(G, S)
 
         val counter = G.vertexSet().associateWith { 0 }
 
         val upperBound = G.vertexSet().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
-        while (cutWithCtr(G, S, counter) <= upperBound)
+        while (cutWithCtr(G, S, counter) < upperBound)
             S = runTree(G, k, cutWithCtr(G, S, counter) + 1, counter)?.toSet() ?: break
 
         Stats.print()
+        if (useHeuristic && startVal == cutWithCtr(G, S, counter)) println("Heuristic was optimal")
         return S
     }
 
