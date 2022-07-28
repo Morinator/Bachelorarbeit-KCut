@@ -1,13 +1,6 @@
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 
-fun <V> heuristic(G: SimpleGraph<V, DefaultEdge>, k: Int, runs: Int) = (1..runs).map {
-    localSearchRun(
-        G,
-        k
-    )
-}.maxByOrNull { cut(G, it) }!!
-
 fun <V> localSearchRun(G: SimpleGraph<V, DefaultEdge>, k: Int): Set<V> {
 
     if (G.vertexSet().size < k) return setOf()

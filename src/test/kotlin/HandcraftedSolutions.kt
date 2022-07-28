@@ -1,4 +1,3 @@
-import GraphIO.graphFromPath
 import org.jgrapht.generate.CompleteGraphGenerator
 import org.jgrapht.generate.LinearGraphGenerator
 import org.jgrapht.graph.DefaultEdge
