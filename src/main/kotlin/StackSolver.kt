@@ -2,25 +2,19 @@
 
 import org.jgrapht.graph.SimpleGraph
 
-class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
-
-    init {
-        if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
-    }
+class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
     private val ctr = G.V().associateWith { 0 }
 
-    private var S = if (useHeuristic) (1..30).map { heuristic(G, k) }.maxByOrNull { cut(G, it) }!! else randomSubset(G.V(), k)
-
-    private val valueOfStartingSolution = valS()
-
-    private val upperBound = G.V().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
-
     fun opt(): Set<V> {
-        while (valS() < upperBound)
-            S = runTree(valS() + 1)?.toSet() ?: break
+        var S = if (doHeuristic) (1..30).map { heuristic(G, k) }.maxBy { cut(G, it) }!! else randSubset(G.V(), k)
+        val valueStart = cut(G, S) + ctr[S]
 
-        if (useHeuristic && valueOfStartingSolution == valS()) Stats.optimalHeuristics++
+        val upperBound = G.V().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
+        while (cut(G, S) + ctr[S] < upperBound)
+            S = runTree(cut(G, S) + ctr[S] + 1)?.toSet() ?: break
+
+        if (doHeuristic && valueStart == cut(G, S) + ctr[S]) Stats.optimalHeuristics++
 
         Stats.print()
         return S
@@ -28,14 +22,13 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
     private fun runTree(t: Int): List<V>? {
 
-        val T: MutableList<V> = ArrayList()
+        val T = ArrayList<V>()
         var `val` = 0
 
-        val ext: MutableList<MutableList<V>> = ArrayList()
-        val sat: MutableList<Boolean> = ArrayList()
+        val ext = ArrayList<MutableList<V>>()
+        val sat = ArrayList<Boolean>()
 
         fun satExists(): Boolean = (sat.size == T.size + 1)
-        fun doSatRule() = satExists() && sat.last()
         fun satBorder(): Double = ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
 
         fun cont(v: V) = (G.degreeOf(v) + ctr[v]!!) - (2 * T.count { G.containsEdge(it, v) })
@@ -56,8 +49,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         while (ext.isNotEmpty()) {
 
-            if (doSatRule()) Stats.satRule++
-            if (T.size >= k || T.size + ext.last().size < k || doSatRule()) {
+            if (satExists() && sat.last()) Stats.satRule++
+            if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last()) {
 
                 if (T.size == k) {
                     Stats.candidates++
@@ -102,15 +95,15 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     }
 
     private fun heuristic(G: SimpleGraph<V, E>, k: Int): Set<V> {
-        val C = randomSubset(G.V(), k) // Candidate
+        val C = randSubset(G.V(), k) // Candidate
 
         stepLoop@ while (true) {
-            val oldVal = cut(G, C) + C.sumOf { ctr[it]!! }
+            val oldVal = cut(G, C) + ctr[C]
             for (v in C.toList()) {
                 C.remove(v)
                 for (w in G.V().filter { it !in C }) {
                     C.add(w)
-                    if (cut(G, C) + C.sumOf { ctr[it]!! } > oldVal) continue@stepLoop
+                    if (cut(G, C) + ctr[C] > oldVal) continue@stepLoop
                     C.remove(w)
                 }
                 C.add(v)
@@ -121,6 +114,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return C
     }
 
-    private fun valS() =
-        cut(G, S) + S.sumOf { ctr[it]!! }
+    init {
+        if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
+    }
+
 }
