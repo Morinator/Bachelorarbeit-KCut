@@ -7,6 +7,6 @@ object BruteforceSolver {
 
         if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
 
-        return Generator.combination(G.vertexSet()).simple(k).maxByOrNull { cut(G, it) }!!
+        return Generator.combination(G.V()).simple(k).maxByOrNull { cut(G, it) }!!
     }
 }
