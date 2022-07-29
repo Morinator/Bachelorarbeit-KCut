@@ -12,9 +12,8 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val S = StackSolver(G, k, doHeuristic = useHeuristic).opt()
-        val prediction = cut(G, S)
-        assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
+        val (_, value) = StackSolver(G, k, doHeuristic = useHeuristic).opt()
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
     private val logPath = "maxcut_results"
@@ -36,9 +35,8 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val S = BruteforceSolver.calc(G, k)
-        val prediction = cut(G, S)
-        assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
+        val (_, value) = BruteforceSolver.calc(G, k)
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
     /*

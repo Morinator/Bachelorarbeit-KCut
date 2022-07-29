@@ -6,7 +6,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
     private val ctr = G.V().associateWith { 0 }
 
-    fun opt(): Set<V> {
+    fun opt(): Pair<Set<V>, Int> {
         var S = if (doHeuristic) (1..30).map { heuristic(G, k) }.maxBy { cut(G, it) }!! else randSubset(G.V(), k)
         val valueStart = cut(G, S) + ctr[S]
 
@@ -17,7 +17,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         if (doHeuristic && valueStart == cut(G, S) + ctr[S]) Stats.optimalHeuristics++
 
         Stats.print()
-        return S
+        return S to cut(G, S) + ctr[S]
     }
 
     private fun runTree(t: Int): List<V>? {
