@@ -60,7 +60,7 @@ internal class HandcraftedSolutions {
         }
 
         @Test
-        fun k3() = assertEquals(6, cut(G, StackSolver(G, 3, false).opt())) // vertices not unique
+        fun k3() = assertEquals(6, cut(G, StackSolver(G, 3, false).opt()))
 
         @Test
         fun k4() = assertEquals(5, cut(G, StackSolver(G, 4, false).opt()))

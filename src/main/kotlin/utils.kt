@@ -1,6 +1,7 @@
 @file:Suppress("FunctionName")
 
 import org.jgrapht.Graphs
+import org.jgrapht.Graphs.neighborListOf
 import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import java.io.File
@@ -20,4 +21,4 @@ fun graphFromPath(path: String) = SimpleGraph<Int, DefaultEdge>(DefaultEdge::cla
 }
 
 fun <V, E> cut(G: SimpleGraph<V, E>, S: Collection<V>) =
-    S.sumOf { v -> Graphs.neighborListOf(G, v).count { it !in S } }
+    S.sumOf { v -> neighborListOf(G, v).count { it !in S } }

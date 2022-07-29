@@ -1,4 +1,3 @@
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
 import java.io.File
@@ -20,18 +19,17 @@ class CompareWithLogs {
 
     private val logPath = "maxcut_results"
 
-    @RepeatedTest(3150)
+    @RepeatedTest(3250)
     fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(3150)
+    @RepeatedTest(3250)
     fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 
-    @RepeatedTest(3150)
-    @Disabled
+    @RepeatedTest(3250)
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
@@ -44,7 +42,7 @@ class CompareWithLogs {
     }
 
     /*
-    @RepeatedTest(3150)
+    @RepeatedTest(3250)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())

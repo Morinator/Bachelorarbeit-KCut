@@ -1,6 +1,5 @@
 @file:Suppress("FunctionName", "PrivatePropertyName")
 
-import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
 
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val useHeuristic: Boolean) {
@@ -13,21 +12,21 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
     private var S = if (useHeuristic) (1..30).map { heuristic(G, k) }.maxByOrNull { cut(G, it) }!! else randomSubset(G.V(), k)
 
-    private val valueOfStartingSolution = cutWithCtr()
+    private val valueOfStartingSolution = valS()
 
     private val upperBound = G.V().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
 
     fun opt(): Set<V> {
-        while (cutWithCtr() < upperBound)
-            S = runTree(cutWithCtr() + 1, ctr)?.toSet() ?: break
+        while (valS() < upperBound)
+            S = runTree(valS() + 1)?.toSet() ?: break
 
-        if (useHeuristic && valueOfStartingSolution == cutWithCtr()) Stats.optimalHeuristics++
+        if (useHeuristic && valueOfStartingSolution == valS()) Stats.optimalHeuristics++
 
         Stats.print()
         return S
     }
 
-    private fun runTree(t: Int, counter: Map<V, Int>): List<V>? {
+    private fun runTree(t: Int): List<V>? {
 
         val T: MutableList<V> = ArrayList()
         var `val` = 0
@@ -39,7 +38,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         fun doSatRule() = satExists() && sat.last()
         fun satBorder(): Double = ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
 
-        fun cont(v: V) = (G.degreeOf(v) + counter[v]!!) - (2 * T.count { it in neighborSetOf(G, v) })
+        fun cont(v: V) = (G.degreeOf(v) + ctr[v]!!) - (2 * T.count { G.containsEdge(it, v) })
 
         fun _trimNeedlessExt() {
             val e = ext.last()
@@ -102,26 +101,26 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return null
     }
 
-    private fun <V, E> heuristic(G: SimpleGraph<V, E>, k: Int): Set<V> {
-        val S = randomSubset(G.V(), k)
+    private fun heuristic(G: SimpleGraph<V, E>, k: Int): Set<V> {
+        val C = randomSubset(G.V(), k) // Candidate
 
         stepLoop@ while (true) {
-            val oldVal = cut(G, S)
-            for (v in S.toList()) {
-                S.remove(v)
-                for (w in G.V().filter { it !in S }) {
-                    S.add(w)
-                    if (cut(G, S) > oldVal) continue@stepLoop
-                    S.remove(w)
+            val oldVal = cut(G, C) + C.sumOf { ctr[it]!! }
+            for (v in C.toList()) {
+                C.remove(v)
+                for (w in G.V().filter { it !in C }) {
+                    C.add(w)
+                    if (cut(G, C) + C.sumOf { ctr[it]!! } > oldVal) continue@stepLoop
+                    C.remove(w)
                 }
-                S.add(v)
+                C.add(v)
             }
             break@stepLoop
         }
 
-        return S
+        return C
     }
 
-    private fun cutWithCtr() =
+    private fun valS() =
         cut(G, S) + S.sumOf { ctr[it]!! }
 }
