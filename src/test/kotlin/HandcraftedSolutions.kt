@@ -56,7 +56,7 @@ internal class HandcraftedSolutions {
         fun k4() = assertEquals(5, StackSolver(G, 4, false).opt().second)
 
         @Test
-        fun k7() = assertEquals(5,  StackSolver(G, 7, false).opt().second)
+        fun k7() = assertEquals(5, StackSolver(G, 7, false).opt().second)
 
         @Test
         fun k8() {

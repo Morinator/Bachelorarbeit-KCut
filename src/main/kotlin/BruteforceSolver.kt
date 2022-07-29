@@ -5,9 +5,9 @@ object BruteforceSolver {
 
     fun <V, E> calc(G: SimpleGraph<V, E>, k: Int): Pair<Set<V>, Int> {
 
-        if (k !in 1..G.n()) throw IllegalArgumentException("Illegal value for k")
+        if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
 
         val S = Generator.combination(G.V()).simple(k).maxByOrNull { cut(G, it) }!!.toSet()
-        return S to cut(G, S)
+        return Pair(S, cut(G, S))
     }
 }

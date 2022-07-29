@@ -1,8 +1,8 @@
 object Stats {
 
     var optimalHeuristics: Long = 0
-    var candidates: Long = 0
     var treeNode: Long = 0
+    var candidates: Long = 0
     var satRule: Long = 0
     var satVertices: Long = 0
     var needlessRule: Long = 0
