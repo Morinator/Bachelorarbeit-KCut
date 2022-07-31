@@ -4,26 +4,27 @@ import org.jgrapht.graph.SimpleGraph
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
     private val ctr = G.V().associateWith { 0 }.toMutableMap()
-    private fun degPlusCtr(v:V) = G.degreeOf(v) + ctr[v]!!
+    private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
 
     fun opt(): Pair<Set<V>, Int> {
 
-        fun kernel() {
-            while (true) {
-                val vSorted = G.V().sortedBy { degPlusCtr(it) }
+        fun doKernel() : Boolean { // return true if it had an effect
+            val vSorted = G.V().sortedByDescending { degPlusCtr(it) }
+            val delta = G.V().maxOf { G.degreeOf(it) }
+            val numToKeep = (delta + 1) * (k - 1) + 1
+            val hasRemovedVertex = G.V().size > numToKeep
 
-                val delta = G.V().maxOf { G.degreeOf(it) }
-                if (vSorted.size > (delta + 1) * (k-1   ) + 1) {
-                    val v = vSorted.first()
-                    for (w in neighborSetOf(G, v))
-                        ctr[w] = ctr[w]!! + 1
-                    G.removeVertex(v)
-
-                    Stats.kTimesDeltaRule++
-                } else break
+            for (v in vSorted.drop(numToKeep)) {
+                neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
+                G.removeVertex(v)
+                Stats.kernelDeletions++
             }
+
+            return hasRemovedVertex
         }
-        kernel()
+
+        while (doKernel())
+            Stats.kernelRuns++
 
         var S: Set<V> = if (doHeuristic)
             (1..30).map { heuristic(G, k) }.maxByOrNull { it.second }!!.first
@@ -56,7 +57,10 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         fun cont(v: V) = (G.degreeOf(v) + ctr[v]!!) - (2 * T.count { G.containsEdge(it, v) })
 
         fun trimNeedlessExt() {
-            if (T.size >= k || cont(ext.last().first()) >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)) return
+            if (T.size >= k || cont(
+                    ext.last().first()
+                ) >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
+            ) return
             val needlessBorder = (t - `val`).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
             for (child in ext.last().reversed()) {
                 if (cont(child) >= needlessBorder) break
@@ -85,7 +89,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
                 if (satExists())
                     sat.removeLast()
 
-                if (T.size > 0){
+                if (T.size > 0) {
                     val v = T.removeLast()
                     `val` -= cont(v)
                 }
@@ -134,10 +138,10 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             break@run // didn't find better neighbour
         }
 
-        return Pair(C, cutPlusCtr(C) )
+        return Pair(C, cutPlusCtr(C))
     }
 
-    private fun cutPlusCtr(X : Set<V>) = cut(G,X) + X.sumOf { ctr[it]!! }
+    private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
