@@ -1,44 +1,46 @@
+import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
 
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
     private val ctr = G.V().associateWith { 0 }.toMutableMap()
+    private fun degPlusCtr(v:V) = G.degreeOf(v) + ctr[v]!!
 
     fun opt(): Pair<Set<V>, Int> {
 
-        // Kernel 4.1 ##################################################
-        /*
-        val vSorted = G.V().sortedBy { G.degreeOf(it) + ctr[it]!! }
+        fun kernel() {
+            while (true) {
+                val vSorted = G.V().sortedBy { degPlusCtr(it) }
 
-        if (vSorted.size > G.V().maxOf { G.degreeOf(it) } * k + 1) {
-            val v = vSorted.first()
-            for (w in neighborSetOf(G, v))
-                ctr[w] = ctr[w]!! + 1
-            G.removeVertex(v)
-            Stats.kTimesDeltaRule++
+                val delta = G.V().maxOf { G.degreeOf(it) }
+                if (vSorted.size > (delta + 1) * (k-1   ) + 1) {
+                    val v = vSorted.first()
+                    for (w in neighborSetOf(G, v))
+                        ctr[w] = ctr[w]!! + 1
+                    G.removeVertex(v)
+
+                    Stats.kTimesDeltaRule++
+                } else break
+            }
         }
-        */
-        // Kernel 4.1 ##################################################
+        kernel()
 
         var S: Set<V> = if (doHeuristic)
             (1..30).map { heuristic(G, k) }.maxByOrNull { it.second }!!.first
         else
-            G.V().shuffled().take(k).toMutableSet()
+            G.V().take(k).toMutableSet()
 
-        val valueStart = cut(G, S) + S.sumOf { ctr[it]!! }
+        val valueStart = cutPlusCtr(S)
 
-        val upperBound = G.V().map { G.degreeOf(it) }.sorted().takeLast(k).sum()
+        val upperBound = G.V().map { degPlusCtr(it) }.sorted().takeLast(k).sum()
 
+        while (cutPlusCtr(S) < upperBound)
+            S = runTree(cutPlusCtr(S) + 1)?.toSet() ?: break
 
-
-        while (cut(G, S) + S.sumOf { ctr[it]!! } < upperBound)
-            S = runTree(cut(G, S) + S.sumOf { ctr[it]!! } + 1)?.toSet() ?: break
-
-
-        if (doHeuristic && valueStart == cut(G, S) + S.sumOf { ctr[it]!! }) Stats.optimalHeuristics++
+        if (doHeuristic && valueStart == cutPlusCtr(S)) Stats.optimalHeuristics++
 
         Stats.print()
-        return S to cut(G, S) + S.sumOf { ctr[it]!! }
+        return S to cutPlusCtr(S)
     }
 
     private fun runTree(t: Int): List<V>? {
@@ -54,15 +56,12 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         fun cont(v: V) = (G.degreeOf(v) + ctr[v]!!) - (2 * T.count { G.containsEdge(it, v) })
 
         fun trimNeedlessExt() {
-            if (T.size >= k || cont(
-                    ext.last().first()
-                ) >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
-            ) return
-            val border = (t - `val`).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
+            if (T.size >= k || cont(ext.last().first()) >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)) return
+            val needlessBorder = (t - `val`).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
             for (child in ext.last().reversed()) {
-                if (cont(child) >= border) break
-                Stats.needlessRule++
+                if (cont(child) >= needlessBorder) break
                 ext.last().removeLast()
+                Stats.needlessRule++
             }
         }
 
@@ -122,12 +121,12 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         val C = G.V().shuffled().take(k).toMutableSet() // Init random Candidate
 
         run@ while (true) {
-            val oldVal = cut(G, C) + C.sumOf { ctr[it]!! }
+            val oldVal = cutPlusCtr(C)
             for (v in C.toList()) {
                 C.remove(v)
                 for (w in G.V().filter { it !in C }) {
                     C.add(w)
-                    if (cut(G, C) + C.sumOf { ctr[it]!! } > oldVal) continue@run
+                    if (cutPlusCtr(C) > oldVal) continue@run
                     C.remove(w)
                 }
                 C.add(v)
@@ -135,8 +134,10 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             break@run // didn't find better neighbour
         }
 
-        return Pair(C, cut(G, C) + C.sumOf { ctr[it]!! } )
+        return Pair(C, cutPlusCtr(C) )
     }
+
+    private fun cutPlusCtr(X : Set<V>) = cut(G,X) + X.sumOf { ctr[it]!! }
 
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
