@@ -38,7 +38,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             S = runTree(cutPlusCtr(S) + 1)?.toSet() ?: break
 
         if (doHeuristic && valueStart == cutPlusCtr(S)) Stats.optimalHeuristics++
-
+        if (upperBound == cutPlusCtr(S)) Stats.optimalUpperBounds++
         Stats.print()
         return S to cutPlusCtr(S)
     }
