@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class CompareWithLogs {
 
-    private val logPath = "logs_from_july_29"
+    private val logPath = "logs_from_july_31"
 
     private fun testHelper(logFile: File, lineNr: Int, useHeuristic: Boolean) {
         val line = logFile.readLines()[lineNr - 1]
@@ -18,17 +18,17 @@ class CompareWithLogs {
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(3630)
+    @RepeatedTest(3_800)
     fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(3630)
+    @RepeatedTest(3_800)
     fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 
-    @RepeatedTest(3630)
+    @RepeatedTest(3_800)
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
@@ -40,7 +40,7 @@ class CompareWithLogs {
     }
 
     /*
-    @RepeatedTest(3630)
+    @RepeatedTest(3_800)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
