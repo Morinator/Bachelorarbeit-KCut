@@ -8,7 +8,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
     fun opt(): Pair<Set<V>, Int> {
 
-        fun doKernel() : Boolean { // return true if it had an effect
+        fun doKernel(): Boolean { // return true if it had an effect
             val vSorted = G.V().sortedByDescending { degPlusCtr(it) }
             val delta = G.V().maxOf { G.degreeOf(it) }
             val numToKeep = (delta + 1) * (k - 1) + 1
