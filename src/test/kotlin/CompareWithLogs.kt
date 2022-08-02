@@ -18,17 +18,17 @@ class CompareWithLogs {
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    @RepeatedTest(2115)
+    @RepeatedTest(2326)
     fun heuristicNo(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = false)
     }
 
-    @RepeatedTest(2115)
+    @RepeatedTest(2326)
     fun heuristicYes(repNr: RepetitionInfo) {
         testHelper(File(logPath), repNr.currentRepetition, useHeuristic = true)
     }
 
-    @RepeatedTest(2115)
+    @RepeatedTest(2326)
     fun bruteforceSolver(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
@@ -40,7 +40,7 @@ class CompareWithLogs {
     }
 
     /*
-    @RepeatedTest(2115)
+    @RepeatedTest(2326)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
@@ -50,5 +50,5 @@ class CompareWithLogs {
         val prediction = ILPSolver(g, k).calc().value
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
-     */
+    */
 }
