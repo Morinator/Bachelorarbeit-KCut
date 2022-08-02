@@ -11,6 +11,7 @@ object Stats {
     var optimalHeuristics: Long = 0
     var kernelDeletions: Long = 0
     var kernelRuns: Long = 0
+    var newExclusionRule : Long = 0
 
     // WITHIN TREE
     var satRule: Long = 0
@@ -26,6 +27,7 @@ object Stats {
         println("optimalHeuristics    " + optimalHeuristics.toString().padStart(padding))
         println("kernelApplications:  " + kernelDeletions.toString().padStart(padding))
         println("kernelRuns:          " + kernelRuns.toString().padStart(padding))
+        println("newExclusionRule:    " + newExclusionRule.toString().padStart(padding))
         println("satRule:             " + satRule.toString().padStart(padding) + "   WITHIN TREE")
         println("satVertices:         " + satVertices.toString().padStart(padding))
         println("needlessRule:        " + needlessRule.toString().padStart(padding))

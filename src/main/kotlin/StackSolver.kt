@@ -12,24 +12,39 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         while (doKernel())
             Stats.kernelRuns++
 
-        var S: Set<V> = if (doHeuristic)
+        var currS: Set<V> = if (doHeuristic)
             (1..30).map { heuristic(G, k) }.maxByOrNull { it.second }!!.first
         else
             G.V().take(k).toMutableSet()
+        var currVal = cutPlusCtr(currS)
 
-        val valueStart = cutPlusCtr(S)
+        val valueStart = currVal
 
         val upperBound = getUpperBound()
 
-        while (cutPlusCtr(S) < upperBound) {
-            println("another tree")
-            S = runTree(cutPlusCtr(S) + 1)?.toSet() ?: break
+        while (currVal < upperBound) {
+
+            newExclusionRule(currVal)
+
+
+            currS = runTree(currVal + 1)?.toSet() ?: break
+            currVal = cutPlusCtr(currS)
         }
 
-        if (doHeuristic && valueStart == cutPlusCtr(S)) Stats.optimalHeuristics++
-        if (upperBound == cutPlusCtr(S)) Stats.optimalUpperBounds++
+        if (doHeuristic && valueStart == currVal) Stats.optimalHeuristics++
+        if (upperBound == currVal) Stats.optimalUpperBounds++
         Stats.print()
-        return S to cutPlusCtr(S)
+        return Pair(currS, currVal)
+    }
+
+    private fun newExclusionRule(currVal: Int) {
+        for (v in G.V().toList()) {
+            val delta = G.V().maxOf { degPlusCtr(it) }
+            if (degPlusCtr(v) + (k - 1) * delta <= currVal) {
+                applyExclusionRule(v)
+                Stats.newExclusionRule++
+            }
+        }
     }
 
 
