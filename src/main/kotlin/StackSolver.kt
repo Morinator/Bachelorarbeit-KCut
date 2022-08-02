@@ -21,8 +21,10 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         val upperBound = getUpperBound()
 
-        while (cutPlusCtr(S) < upperBound)
+        while (cutPlusCtr(S) < upperBound) {
+            println("another tree")
             S = runTree(cutPlusCtr(S) + 1)?.toSet() ?: break
+        }
 
         if (doHeuristic && valueStart == cutPlusCtr(S)) Stats.optimalHeuristics++
         if (upperBound == cutPlusCtr(S)) Stats.optimalUpperBounds++
@@ -135,8 +137,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         val hasRemovedVertex = G.V().size > numToKeep
 
         for (v in vSorted.drop(numToKeep)) {
-            neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
-            G.removeVertex(v)
+            applyExclusionRule(v)
             Stats.kernelDeletions++
         }
 
@@ -154,6 +155,11 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
+
+    private fun applyExclusionRule(v: V) {
+        neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
+        G.removeVertex(v)
+    }
 
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
