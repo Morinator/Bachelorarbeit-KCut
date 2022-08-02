@@ -45,6 +45,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     }
 
     private fun runTree(t: Int): List<V>? {
+        Stats.numTrees++
 
         val T = ArrayList<V>()
         var `val` = 0

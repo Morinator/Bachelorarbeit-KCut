@@ -2,6 +2,7 @@ object Stats {
 
     const val padding = 10
 
+    var numTrees : Long = 0
     var treeNode: Long = 0
     var candidates: Long = 0
 
@@ -18,7 +19,8 @@ object Stats {
 
     fun print() {
         println("\n######### TESTING LOGGER #########\n")
-        println("treeNode:            " + treeNode.toString().padStart(padding) + "   TREE-STATS")
+        println("numTrees:            " + numTrees.toString().padStart(padding) + "   TREE-STATS")
+        println("treeNode:            " + treeNode.toString().padStart(padding))
         println("candidates:          " + candidates.toString().padStart(padding))
         println("optimalUpperBounds   " + optimalUpperBounds.toString().padStart(padding) + "   OUTSIDE TREE")
         println("optimalHeuristics    " + optimalHeuristics.toString().padStart(padding))
