@@ -17,6 +17,7 @@ object Stats {
     var satRule: Long = 0
     var satVertices: Long = 0
     var needlessRule: Long = 0
+    var newRule : Long = 0
 
     fun print() {
         println("\n######### TESTING LOGGER #########\n")
@@ -31,5 +32,6 @@ object Stats {
         println("satRule:             " + satRule.toString().padStart(padding) + "   WITHIN TREE")
         println("satVertices:         " + satVertices.toString().padStart(padding))
         println("needlessRule:        " + needlessRule.toString().padStart(padding))
+        println("newRule:             " + newRule.toString().padStart(padding))
     }
 }

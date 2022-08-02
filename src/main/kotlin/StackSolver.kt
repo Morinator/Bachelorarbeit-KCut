@@ -1,40 +1,44 @@
+@file:Suppress("PrivatePropertyName")
+
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
-import org.paukov.combinatorics3.Generator
 
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
     private val ctr = G.V().associateWith { 0 }.toMutableMap()
     private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
 
+    private var S: Set<V> = emptySet()
+    private var SVal : Int = 0
+
     fun opt(): Pair<Set<V>, Int> {
 
         while (doKernel())
             Stats.kernelRuns++
 
-        var currS: Set<V> = if (doHeuristic)
+        S  = if (doHeuristic)
             (1..30).map { heuristic(G, k) }.maxByOrNull { it.second }!!.first
         else
             G.V().take(k).toMutableSet()
-        var currVal = cutPlusCtr(currS)
+        SVal = cutPlusCtr(S)
 
-        val valueStart = currVal
+        val valueStart = SVal
 
-        val upperBound = getUpperBound()
+        val upperBound = getUpperBoundOfExt(0, G.V())
 
-        while (currVal < upperBound) {
+        while (SVal < upperBound) {
 
-            newExclusionRule(currVal)
+            newExclusionRule(SVal)
 
 
-            currS = runTree(currVal + 1)?.toSet() ?: break
-            currVal = cutPlusCtr(currS)
+            S = runTree(SVal + 1)?.toSet() ?: break
+            SVal = cutPlusCtr(S)
         }
 
-        if (doHeuristic && valueStart == currVal) Stats.optimalHeuristics++
-        if (upperBound == currVal) Stats.optimalUpperBounds++
+        if (doHeuristic && valueStart == SVal) Stats.optimalHeuristics++
+        if (upperBound == SVal) Stats.optimalUpperBounds++
         Stats.print()
-        return Pair(currS, currVal)
+        return Pair(S, SVal)
     }
 
     private fun newExclusionRule(currVal: Int) {
@@ -52,7 +56,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         Stats.numTrees++
 
         val T = ArrayList<V>()
-        var `val` = 0
+        var TVal = 0
 
         val ext = ArrayList<MutableList<V>>()
         val sat = ArrayList<Boolean>()
@@ -64,9 +68,9 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         fun trimNeedlessExt() {
             if (T.size >= k || cont(
                     ext.last().first()
-                ) >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
+                ) >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
             ) return
-            val needlessBorder = (t - `val`).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
+            val needlessBorder = (t - TVal).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
             for (child in ext.last().reversed()) {
                 if (cont(child) >= needlessBorder) break
                 ext.last().removeLast()
@@ -80,12 +84,15 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         while (ext.isNotEmpty()) {
 
             if (satExists() && sat.last()) Stats.satRule++
-            if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last()) {
+            val newRule = TVal +  getUpperBoundOfExt(T.size, ext.last()) <= SVal
+            if (newRule) Stats.newRule++
+
+            if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last() || newRule) {
 
                 if (T.size == k) {
                     Stats.candidates++
 
-                    if (`val` >= t)
+                    if (TVal >= t)
                         return T
                 }
 
@@ -96,7 +103,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
                 if (T.size > 0) {
                     val v = T.removeLast()
-                    `val` -= cont(v)
+                    TVal -= cont(v)
                 }
 
             } else { // ##### BRANCH #####
@@ -109,8 +116,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
                     ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
 
                 val cont = cont(newElem)
-                val isSatisfactory = cont >= ((t - `val`).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
-                `val` += cont
+                val isSatisfactory = cont >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
+                TVal += cont
 
                 T.add(newElem)
 
@@ -159,15 +166,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return hasRemovedVertex
     }
 
-    private fun getUpperBound(): Int {
-        val vSorted: List<V> = G.V().sortedByDescending { degPlusCtr(it) }
-        val sum = vSorted.take(k).sumOf { degPlusCtr(it) }
-        val myVert = vSorted.takeWhile { degPlusCtr(it) >= degPlusCtr(vSorted.take(k).last()) }
-        if (myVert.size > k +4) return sum // would take too long, so we don't do extended check
-        val x: Int = Generator.combination(myVert).simple(k).maxOf { cutPlusCtr(it.toSet()) }
-
-        return if (x == sum) sum else sum-1
-    }
+    private fun getUpperBoundOfExt(currSize : Int,  ext : Collection<V>): Int =
+        ext.sortedByDescending { degPlusCtr(it) }.take(k - currSize).sumOf { degPlusCtr(it) }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 
