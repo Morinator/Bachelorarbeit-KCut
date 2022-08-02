@@ -1,5 +1,6 @@
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
+import org.paukov.combinatorics3.Generator
 
 class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
@@ -7,21 +8,6 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
 
     fun opt(): Pair<Set<V>, Int> {
-
-        fun doKernel(): Boolean { // return true if it had an effect
-            val vSorted = G.V().sortedByDescending { degPlusCtr(it) }
-            val delta = G.V().maxOf { G.degreeOf(it) }
-            val numToKeep = (delta + 1) * (k - 1) + 1
-            val hasRemovedVertex = G.V().size > numToKeep
-
-            for (v in vSorted.drop(numToKeep)) {
-                neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
-                G.removeVertex(v)
-                Stats.kernelDeletions++
-            }
-
-            return hasRemovedVertex
-        }
 
         while (doKernel())
             Stats.kernelRuns++
@@ -33,7 +19,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         val valueStart = cutPlusCtr(S)
 
-        val upperBound = G.V().map { degPlusCtr(it) }.sorted().takeLast(k).sum()
+        val upperBound = getUpperBound()
 
         while (cutPlusCtr(S) < upperBound)
             S = runTree(cutPlusCtr(S) + 1)?.toSet() ?: break
@@ -43,6 +29,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         Stats.print()
         return S to cutPlusCtr(S)
     }
+
 
     private fun runTree(t: Int): List<V>? {
         Stats.numTrees++
@@ -121,7 +108,6 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         return null
     }
-
     private fun heuristic(G: SimpleGraph<V, E>, k: Int): Pair<Set<V>, Int> {
         val C = G.V().shuffled().take(k).toMutableSet() // Init random Candidate
 
@@ -140,6 +126,31 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         }
 
         return Pair(C, cutPlusCtr(C))
+    }
+
+    private fun doKernel(): Boolean { // return true if it had an effect
+        val vSorted = G.V().sortedByDescending { degPlusCtr(it) }
+        val delta = G.V().maxOf { G.degreeOf(it) }
+        val numToKeep = (delta + 1) * (k - 1) + 1
+        val hasRemovedVertex = G.V().size > numToKeep
+
+        for (v in vSorted.drop(numToKeep)) {
+            neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
+            G.removeVertex(v)
+            Stats.kernelDeletions++
+        }
+
+        return hasRemovedVertex
+    }
+
+    private fun getUpperBound(): Int {
+        val vSorted: List<V> = G.V().sortedByDescending { degPlusCtr(it) }
+        val sum = vSorted.take(k).sumOf { degPlusCtr(it) }
+        val myVert = vSorted.takeWhile { degPlusCtr(it) >= degPlusCtr(vSorted.take(k).last()) }
+        if (myVert.size > k +4) return sum // would take too long, so we don't do extended check
+        val x: Int = Generator.combination(myVert).simple(k).maxOf { cutPlusCtr(it.toSet()) }
+
+        return if (x == sum) sum else sum-1
     }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
