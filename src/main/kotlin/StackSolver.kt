@@ -9,14 +9,14 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
 
     private var S: Set<V> = emptySet()
-    private var SVal : Int = 0
+    private var SVal: Int = 0
 
     fun opt(): Pair<Set<V>, Int> {
 
         while (doKernel())
             Stats.kernelRuns++
 
-        S  = if (doHeuristic)
+        S = if (doHeuristic)
             (1..30).map { heuristic(G, k) }.maxByOrNull { it.second }!!.first
         else
             G.V().take(k).toMutableSet()
@@ -84,7 +84,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         while (ext.isNotEmpty()) {
 
             if (satExists() && sat.last()) Stats.satRule++
-            val newRule = TVal +  getUpperBoundOfExt(T.size, ext.last()) <= SVal
+            val newRule = TVal + getUpperBoundOfExt(T.size, ext.last()) <= SVal
             if (newRule) Stats.newRule++
 
             if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last() || newRule) {
@@ -132,6 +132,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         return null
     }
+
     private fun heuristic(G: SimpleGraph<V, E>, k: Int): Pair<Set<V>, Int> {
         val C = G.V().shuffled().take(k).toMutableSet() // Init random Candidate
 
@@ -166,7 +167,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return hasRemovedVertex
     }
 
-    private fun getUpperBoundOfExt(currSize : Int,  ext : Collection<V>): Int =
+    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>): Int =
         ext.sortedByDescending { degPlusCtr(it) }.take(k - currSize).sumOf { degPlusCtr(it) }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }

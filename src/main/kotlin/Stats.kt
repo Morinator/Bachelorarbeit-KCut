@@ -2,7 +2,7 @@ object Stats {
 
     const val padding = 10
 
-    var numTrees : Long = 0
+    var numTrees: Long = 0
     var treeNode: Long = 0
     var candidates: Long = 0
 
@@ -11,13 +11,13 @@ object Stats {
     var optimalHeuristics: Long = 0
     var kernelDeletions: Long = 0
     var kernelRuns: Long = 0
-    var newExclusionRule : Long = 0
+    var newExclusionRule: Long = 0
 
     // WITHIN TREE
     var satRule: Long = 0
     var satVertices: Long = 0
     var needlessRule: Long = 0
-    var newRule : Long = 0
+    var newRule: Long = 0
 
     fun print() {
         println("\n######### TESTING LOGGER #########\n")
