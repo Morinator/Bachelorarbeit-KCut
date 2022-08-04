@@ -8,7 +8,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     private val ctr = G.V().associateWith { 0 }.toMutableMap()
     private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
 
-    private var S: Set<V> = emptySet()
+    private lateinit var S: Set<V>
     private var SVal: Int = 0
 
     fun opt(): Pair<Set<V>, Int> {
@@ -41,17 +41,6 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return Pair(S, SVal)
     }
 
-    private fun newExclusionRule(currVal: Int) {
-        for (v in G.V().toList()) {
-            val delta = G.V().maxOf { degPlusCtr(it) }
-            if (degPlusCtr(v) + (k - 1) * delta <= currVal) {
-                applyExclusionRule(v)
-                Stats.newExclusionRule++
-            }
-        }
-    }
-
-
     private fun runTree(t: Int): List<V>? {
         Stats.numTrees++
 
@@ -66,9 +55,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         fun cont(v: V) = (G.degreeOf(v) + ctr[v]!!) - (2 * T.count { G.containsEdge(it, v) })
 
         fun trimNeedlessExt() {
-            if (T.size >= k || cont(
-                    ext.last().first()
-                ) >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
+            if (T.size >= k ||
+                cont(ext.last().first()) >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
             ) return
             val needlessBorder = (t - TVal).toDouble() / (k - T.size).toDouble() - 2 * (k - 1) * (k - 1)
             for (child in ext.last().reversed()) {
@@ -84,10 +72,11 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         while (ext.isNotEmpty()) {
 
             if (satExists() && sat.last()) Stats.satRule++
-            val newRule = TVal + getUpperBoundOfExt(T.size, ext.last()) <= SVal
-            if (newRule) Stats.newRule++
 
-            if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last() || newRule) {
+            val boundHolds = TVal + getUpperBoundOfExt(T.size, ext.last()) <= SVal
+            if (boundHolds) Stats.boundRule++
+
+            if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last() || boundHolds) {
 
                 if (T.size == k) {
                     Stats.candidates++
@@ -167,14 +156,24 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return hasRemovedVertex
     }
 
-    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>) =
-        ext.map { degPlusCtr(it) }.sortedDescending().take(k - currSize).sum()
+    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>): Int =
+        topSelect(ext.map { degPlusCtr(it) }, k - currSize).sum()
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 
     private fun applyExclusionRule(v: V) {
         neighborSetOf(G, v).forEach { ctr[it] = ctr[it]!! + 1 } // exclusion rule
         G.removeVertex(v)
+    }
+
+    private fun newExclusionRule(currVal: Int) {
+        for (v in G.V().toList()) {
+            val delta = G.V().maxOf { degPlusCtr(it) }
+            if (degPlusCtr(v) + (k - 1) * delta <= currVal) {
+                applyExclusionRule(v)
+                Stats.newExclusionRule++
+            }
+        }
     }
 
     init {
