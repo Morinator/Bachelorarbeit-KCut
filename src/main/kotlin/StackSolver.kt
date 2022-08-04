@@ -167,8 +167,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return hasRemovedVertex
     }
 
-    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>): Int =
-        ext.sortedByDescending { degPlusCtr(it) }.take(k - currSize).sumOf { degPlusCtr(it) }
+    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>) =
+        ext.map { degPlusCtr(it) }.sortedDescending().take(k - currSize).sum()
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 
