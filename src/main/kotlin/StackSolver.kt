@@ -28,7 +28,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         while (SVal < upperBound) {
 
-            newExclusionRule(SVal)
+            // newExclusionRule(SVal)
 
 
             S = runTree(SVal + 1)?.toSet() ?: break
@@ -105,16 +105,16 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
                     ext.add(ext.last().sortedByDescending { cont(it) }.toMutableList())
 
                 val cont = cont(newElem)
-                val isSatisfactory = cont >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1)
-                TVal += cont
-
-                T.add(newElem)
 
                 if (!satExists()) {
-                    sat.add(isSatisfactory)
-                    if (isSatisfactory)
+                    sat.add(cont >= ((t - TVal).toDouble() / (k - T.size).toDouble()) + 2 * (k - 1))
+                    if (sat.last())
                         Stats.satVertices++
                 }
+
+                T.add(newElem)
+                TVal += cont
+
                 trimNeedlessExt()
             }
         } // end while-loop
@@ -166,6 +166,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         G.removeVertex(v)
     }
 
+    // idk if useful, ask frank
     private fun newExclusionRule(currVal: Int) {
         for (v in G.V().toList()) {
             val delta = G.V().maxOf { degPlusCtr(it) }
