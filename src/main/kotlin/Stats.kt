@@ -32,6 +32,6 @@ object Stats {
         println("satRule:             " + satRule.toString().padStart(padding) + "   WITHIN TREE")
         println("satVertices:         " + satVertices.toString().padStart(padding))
         println("needlessRule:        " + needlessRule.toString().padStart(padding))
-        println("newRule:             " + boundRule.toString().padStart(padding))
+        println("boundRule:             " + boundRule.toString().padStart(padding))
     }
 }

@@ -166,17 +166,6 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         G.removeVertex(v)
     }
 
-    // idk if useful, ask frank
-    private fun newExclusionRule(currVal: Int) {
-        for (v in G.V().toList()) {
-            val delta = G.V().maxOf { degPlusCtr(it) }
-            if (degPlusCtr(v) + (k - 1) * delta <= currVal) {
-                applyExclusionRule(v)
-                Stats.newExclusionRule++
-            }
-        }
-    }
-
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
     }
