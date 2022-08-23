@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
+import solvers.DContSolver
 import solvers.ESatNeedlessSolver
 import solvers.FullStackSolver
 import java.io.File
@@ -44,13 +45,24 @@ class CompareWithLogs {
     }
 
     @RepeatedTest(2326)
-    fun doesSameWithoutKernel(repNr: RepetitionInfo) {
+    fun checkE(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
         val l = line.split("\\s+".toRegex())
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
         val (_, value) = ESatNeedlessSolver(G,k, doHeuristic = false).opt()
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
+    }
+
+    @RepeatedTest(2326)
+    fun checkD(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val G = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val (_, value) = DContSolver(G,k, doHeuristic = false).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
