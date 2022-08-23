@@ -49,7 +49,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = ESatNeedlessSolver(G,k, doHeuristic = true).opt()
+        val (_, value) = ESatNeedlessSolver(G, k, doHeuristic = true).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -60,7 +60,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = DContSolver(G,k, doHeuristic = true).opt()
+        val (_, value) = DContSolver(G, k, doHeuristic = true).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -71,7 +71,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = CHeuristikSolver(G,k, doHeuristic = true).opt()
+        val (_, value) = CHeuristikSolver(G, k, doHeuristic = true).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -82,7 +82,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = BUpperBoundSolver(G,k  ).opt()
+        val (_, value) = BUpperBoundSolver(G, k).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -93,7 +93,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = ATreeSolver(G,k  ).opt()
+        val (_, value) = ATreeSolver(G, k).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 

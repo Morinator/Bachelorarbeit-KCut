@@ -10,7 +10,7 @@ import org.jgrapht.graph.SimpleGraph
 /**
  * Does not contain heuristic
  */
-class BUpperBoundSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int ) {
+class BUpperBoundSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int) {
 
     private lateinit var S: Set<V>
     private var SVal: Int = 0
@@ -47,7 +47,7 @@ class BUpperBoundSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: I
                 if (T.size == k) {
                     Stats.candidates++
 
-                    if (cut(G,T) >= t)
+                    if (cut(G, T) >= t)
                         return T
                 }
 

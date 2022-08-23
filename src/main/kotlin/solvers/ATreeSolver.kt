@@ -10,7 +10,7 @@ import org.jgrapht.graph.SimpleGraph
 /**
  * Does not contain upperbound
  */
-class ATreeSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int ) {
+class ATreeSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int) {
 
     private lateinit var S: Set<V>
     private var SVal: Int = 0
@@ -44,7 +44,7 @@ class ATreeSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int ) {
                 if (T.size == k) {
                     Stats.candidates++
 
-                    if (cut(G,T) >= t)
+                    if (cut(G, T) >= t)
                         return T
                 }
 

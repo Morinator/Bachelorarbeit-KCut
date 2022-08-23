@@ -47,7 +47,7 @@ class DContSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         val ext = ArrayList<MutableList<V>>()
 
 
-        fun cont(v: V) = (G.degreeOf(v) ) - (2 * T.count { G.containsEdge(it, v) })
+        fun cont(v: V) = (G.degreeOf(v)) - (2 * T.count { G.containsEdge(it, v) })
 
 
 
@@ -58,7 +58,7 @@ class DContSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
             val boundHolds = TVal + getUpperBoundOfSortedExt(T.size, ext.last()) <= SVal
             if (boundHolds) Stats.boundRule++
 
-            if (T.size >= k || T.size + ext.last().size < k  || boundHolds) {
+            if (T.size >= k || T.size + ext.last().size < k || boundHolds) {
 
                 if (T.size == k) {
                     Stats.candidates++
@@ -115,7 +115,7 @@ class DContSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
     }
 
     private fun getUpperBoundOfSortedExt(currSize: Int, ext: List<V>): Int =
-        ext.take(k-currSize).sumOf { G.degreeOf(it) }
+        ext.take(k - currSize).sumOf { G.degreeOf(it) }
 
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")
