@@ -159,7 +159,7 @@ class FullStackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int
     }
 
     private fun getUpperBoundOfSortedExt(currSize: Int, ext: List<V>): Int =
-        ext.take(k-currSize).sumOf { degPlusCtr(it) }
+        ext.take(k - currSize).sumOf { degPlusCtr(it) }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 

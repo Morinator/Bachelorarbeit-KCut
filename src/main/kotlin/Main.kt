@@ -9,7 +9,7 @@ fun main() {
 
     val g = graphFromPath("data/graphs/laplace_random_n32_m150_i3")
     val timeoutMS = (1000 * 3).toLong()
-    var bla :  Pair<Set<Int>, Int>? = null
+    var bla: Pair<Set<Int>, Int>? = null
 
     val compFuture = CompletableFuture.supplyAsync {
         bla = FullStackSolver(g, k = 9, doHeuristic = false).opt()

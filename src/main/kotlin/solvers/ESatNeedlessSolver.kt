@@ -49,7 +49,7 @@ class ESatNeedlessSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: 
 
         fun satExists(): Boolean = (sat.size == T.size + 1)
 
-        fun cont(v: V) = (G.degreeOf(v) ) - (2 * T.count { G.containsEdge(it, v) })
+        fun cont(v: V) = (G.degreeOf(v)) - (2 * T.count { G.containsEdge(it, v) })
 
         fun trimNeedlessExt() {
             if (T.size >= k ||
@@ -140,7 +140,7 @@ class ESatNeedlessSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: 
     }
 
     private fun getUpperBoundOfSortedExt(currSize: Int, ext: List<V>): Int =
-        ext.take(k-currSize).sumOf { G.degreeOf(it) }
+        ext.take(k - currSize).sumOf { G.degreeOf(it) }
 
     init {
         if (k !in 1..G.V().size) throw IllegalArgumentException("Illegal value for k")

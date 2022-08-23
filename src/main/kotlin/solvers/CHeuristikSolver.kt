@@ -53,7 +53,7 @@ class CHeuristikSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: In
                 if (T.size == k) {
                     Stats.candidates++
 
-                    if (cut(G,T) >= t)
+                    if (cut(G, T) >= t)
                         return T
                 }
 
