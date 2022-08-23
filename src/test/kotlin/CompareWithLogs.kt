@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
-import solvers.DContSolver
-import solvers.ESatNeedlessSolver
-import solvers.FullStackSolver
+import solvers.*
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -51,7 +49,7 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = ESatNeedlessSolver(G,k, doHeuristic = false).opt()
+        val (_, value) = ESatNeedlessSolver(G,k, doHeuristic = true).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -62,7 +60,40 @@ class CompareWithLogs {
         val G = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val (_, value) = DContSolver(G,k, doHeuristic = false).opt()
+        val (_, value) = DContSolver(G,k, doHeuristic = true).opt()
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
+    }
+
+    @RepeatedTest(2326)
+    fun checkC(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val G = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val (_, value) = CHeuristikSolver(G,k, doHeuristic = true).opt()
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
+    }
+
+    @RepeatedTest(2326)
+    fun checkB(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val G = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val (_, value) = BUpperBoundSolver(G,k  ).opt()
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
+    }
+
+    @RepeatedTest(2326)
+    fun checkA(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val G = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val (_, value) = ATreeSolver(G,k  ).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
