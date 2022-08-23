@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
         }
         val timer = Timer()
         val tBefore = currentTimeMillis()
-        compFuture.completeOnTimeout(false, 15, SECONDS)
+        compFuture.completeOnTimeout(false, 60 * 60, SECONDS) // 1 hour
         val completed: Boolean = compFuture.get()
         timer.cancel()
         val (S, value) = result ?: Pair(emptySet(), 0)
