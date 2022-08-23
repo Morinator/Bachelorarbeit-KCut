@@ -1,3 +1,4 @@
+import solvers.FullStackSolver
 import java.io.File
 import java.lang.System.currentTimeMillis
 import java.util.*
@@ -11,7 +12,7 @@ fun main() {
         val g = graphFromPath(file.toString())
         var result: Pair<Set<Int>, Int>? = null
         val compFuture = CompletableFuture.supplyAsync {
-            result = StackSolver(g, k, doHeuristic = true).opt()
+            result = FullStackSolver(g, k, doHeuristic = true).opt()
             true
         }
         val timer = Timer()

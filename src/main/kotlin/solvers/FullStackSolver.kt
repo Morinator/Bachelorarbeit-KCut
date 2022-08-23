@@ -1,9 +1,14 @@
 @file:Suppress("PrivatePropertyName")
 
+package solvers
+
+import Stats
+import V
+import cut
 import org.jgrapht.Graphs.neighborSetOf
 import org.jgrapht.graph.SimpleGraph
 
-class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
+class FullStackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, private val doHeuristic: Boolean) {
 
     private val ctr = G.V().associateWith { 0 }.toMutableMap()
     private fun degPlusCtr(v: V) = G.degreeOf(v) + ctr[v]!!
@@ -24,12 +29,9 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
         val valueStart = SVal
 
-        val upperBound = getUpperBoundOfExt(0, G.V())
+        val upperBound = getUpperBoundOfSortedExt(0, G.V().sortedByDescending { degPlusCtr(it) })
 
         while (SVal < upperBound) {
-
-            // newExclusionRule(SVal)
-
 
             S = runTree(SVal + 1)?.toSet() ?: break
             SVal = cutPlusCtr(S)
@@ -73,7 +75,7 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
 
             if (satExists() && sat.last()) Stats.satRule++
 
-            val boundHolds = TVal + getUpperBoundOfExt(T.size, ext.last()) <= SVal
+            val boundHolds = TVal + getUpperBoundOfSortedExt(T.size, ext.last()) <= SVal
             if (boundHolds) Stats.boundRule++
 
             if (T.size >= k || T.size + ext.last().size < k || satExists() && sat.last() || boundHolds) {
@@ -156,8 +158,8 @@ class StackSolver<V, E>(private val G: SimpleGraph<V, E>, private val k: Int, pr
         return hasRemovedVertex
     }
 
-    private fun getUpperBoundOfExt(currSize: Int, ext: Collection<V>): Int =
-        topSelect(ext.map { degPlusCtr(it) }, k - currSize).sum()
+    private fun getUpperBoundOfSortedExt(currSize: Int, ext: List<V>): Int =
+        ext.take(k-currSize).sumOf { degPlusCtr(it) }
 
     private fun cutPlusCtr(X: Set<V>) = cut(G, X) + X.sumOf { ctr[it]!! }
 

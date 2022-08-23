@@ -1,17 +1,18 @@
+import solvers.FullStackSolver
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.timerTask
 import kotlin.math.max
 
-fun main(args: Array<String>) {
+fun main() {
 
     val g = graphFromPath("data/graphs/laplace_random_n32_m150_i3")
     val timeoutMS = (1000 * 3).toLong()
     var bla :  Pair<Set<Int>, Int>? = null
 
     val compFuture = CompletableFuture.supplyAsync {
-        bla = StackSolver(g, k = 9, doHeuristic = false).opt()
+        bla = FullStackSolver(g, k = 9, doHeuristic = false).opt()
         true
     }
     val runtime = Runtime.getRuntime()

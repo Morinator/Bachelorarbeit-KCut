@@ -1,6 +1,8 @@
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.RepetitionInfo
+import solvers.ESatNeedlessSolver
+import solvers.FullStackSolver
 import java.io.File
 import kotlin.test.assertEquals
 
@@ -15,7 +17,7 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
 
-        val (_, value) = StackSolver(G, k, doHeuristic = useHeuristic).opt()
+        val (_, value) = FullStackSolver(G, k, doHeuristic = useHeuristic).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
@@ -38,6 +40,17 @@ class CompareWithLogs {
         val k = l[1].toInt()
         val objValue = l[2].toInt()
         val (_, value) = BruteforceSolver.calc(G, k)
+        assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
+    }
+
+    @RepeatedTest(2326)
+    fun doesSameWithoutKernel(repNr: RepetitionInfo) {
+        val line = File(logPath).readLines()[repNr.currentRepetition - 1]
+        val l = line.split("\\s+".toRegex())
+        val G = graphFromPath("data/graphs/${l[0]}")
+        val k = l[1].toInt()
+        val objValue = l[2].toInt()
+        val (_, value) = ESatNeedlessSolver(G,k, doHeuristic = false).opt()
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
