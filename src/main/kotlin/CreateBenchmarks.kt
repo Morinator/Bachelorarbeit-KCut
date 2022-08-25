@@ -34,7 +34,6 @@ fun main(args: Array<String>) {
                         "\n"
             )
             println("added one line")
-            if (!completed) break@kcounter
         }
 
 
