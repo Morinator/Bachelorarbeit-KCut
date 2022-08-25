@@ -20,7 +20,7 @@ time_limit = 3600000
 #time_limit = 180000
  
 def work(in_file):
-    sp.call(["java", "-Djava.library.path=/opt/gurobi952/linux64/lib/", "-jar", "ba.jar", in_file.strip()])
+    sp.call(["java", "-Djava.library.path=/opt/ibm/ILOG/CPLEX_Studio201/cplex/bin/x86-64_linux/", "-jar", "ba.jar", in_file.strip()])
     return 0
  
 if __name__ == '__main__':
