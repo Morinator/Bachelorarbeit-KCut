@@ -1,23 +1,24 @@
-/*
-package bachelorthesis.solvers
 
-import graphlib.SimpleGraph
-import graphlib.Solution
 import ilog.cplex.IloCplex
-import util.mapGraphToRangeIndexedFromZero
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
 import kotlin.math.roundToInt
 
 class ILPSolver(
-    private val g: SimpleGraph<Int>,
+    private val g: SimpleGraph<Int, DefaultEdge>,
     private val k: Int,
 ) {
 
-    fun calc(): Solution<Int> {
+    fun calc(): Pair<Set<Int>, Int> {
 
-        val gNew = mapGraphToRangeIndexedFromZero(g)
+        val newIDs = HashMap<Int, Int>()
+        var ctr = 0
+        for (v in g.vertexSet()) {
+            newIDs[v] = ctr++
+        }
 
-        val vertexIDs = gNew.V
-        val edgeIDs: List<Pair<Int, Int>> = gNew.edgeList()
+        val vertexIDs = newIDs.values
+        val edgeIDs: List<Pair<Int, Int>> = g.edgeSet().map {newIDs[g.getEdgeSource(it)]!! to newIDs[g.getEdgeTarget(it)]!! }
 
         val cplex = IloCplex()
         cplex.setParam(IloCplex.Param.Threads, 1)
@@ -49,8 +50,6 @@ class ILPSolver(
         // solve
         cplex.solve()
 
-        return Solution(emptyList(), cplex.bestObjValue.roundToInt())
+        return Pair(emptySet(), cplex.bestObjValue.roundToInt())
     }
 }
-
-*/

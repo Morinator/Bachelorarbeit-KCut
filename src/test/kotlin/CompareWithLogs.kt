@@ -41,7 +41,7 @@ class CompareWithLogs {
         assertEquals(objValue, value, message = "### graphName=${l[0]}, k=$k###")
     }
 
-    /*
+
     @RepeatedTest(2326)
     fun withILP(repNr: RepetitionInfo) {
         val line = File(logPath).readLines()[repNr.currentRepetition - 1]
@@ -49,8 +49,7 @@ class CompareWithLogs {
         val g = graphFromPath("data/graphs/${l[0]}")
         val k = l[1].toInt()
         val objValue = l[2].toInt()
-        val prediction = ILPSolver(g, k).calc().value
+        val prediction = ILPSolver(g, k).calc().second
         assertEquals(objValue, prediction, message = "### graphName=${l[0]}, k=$k###")
     }
-    */
 }
