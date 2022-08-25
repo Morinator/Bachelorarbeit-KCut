@@ -35086,3 +35086,547 @@ satVertices:                 80
 needlessRule:             50493
 boundRule:                   8341
 added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   155   TREE-STATS
+treeNode:            140313402804
+candidates:          141423063009
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            73
+kernelDeletions:         111959
+kernelRuns:                 125
+newExclusionRule:             0
+satRule:                     82   WITHIN TREE
+satVertices:                 82
+needlessRule:             50493
+boundRule:                   8376
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   155   TREE-STATS
+treeNode:            15549487161
+candidates:          15468709570
+optimalUpperBounds            4   OUTSIDE TREE
+optimalHeuristics            47
+kernelDeletions:              0
+kernelRuns:                   0
+newExclusionRule:             0
+satRule:                     57   WITHIN TREE
+satVertices:                 57
+needlessRule:             42842
+boundRule:                 814040
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   156   TREE-STATS
+treeNode:            140830900684
+candidates:          141934082486
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            74
+kernelDeletions:         117415
+kernelRuns:                 130
+newExclusionRule:             0
+satRule:                     84   WITHIN TREE
+satVertices:                 84
+needlessRule:             50493
+boundRule:                   8423
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   157   TREE-STATS
+treeNode:            141517690659
+candidates:          142610102194
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            75
+kernelDeletions:         122580
+kernelRuns:                 135
+newExclusionRule:             0
+satRule:                     86   WITHIN TREE
+satVertices:                 86
+needlessRule:             50493
+boundRule:                   8490
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   158   TREE-STATS
+treeNode:            142523411524
+candidates:          143603411686
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            76
+kernelDeletions:         127434
+kernelRuns:                 139
+newExclusionRule:             0
+satRule:                     88   WITHIN TREE
+satVertices:                 88
+needlessRule:             50493
+boundRule:                   8596
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   159   TREE-STATS
+treeNode:            143742985505
+candidates:          144798605372
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            77
+kernelDeletions:         131881
+kernelRuns:                 142
+newExclusionRule:             0
+satRule:                     90   WITHIN TREE
+satVertices:                 90
+needlessRule:             50493
+boundRule:                   8732
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   160   TREE-STATS
+treeNode:            145510429468
+candidates:          146530404083
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            78
+kernelDeletions:         136173
+kernelRuns:                 145
+newExclusionRule:             0
+satRule:                     92   WITHIN TREE
+satVertices:                 92
+needlessRule:             50493
+boundRule:                   8888
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   161   TREE-STATS
+treeNode:            147215272759
+candidates:          148206899743
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            79
+kernelDeletions:         140310
+kernelRuns:                 148
+newExclusionRule:             0
+satRule:                     94   WITHIN TREE
+satVertices:                 94
+needlessRule:             50493
+boundRule:                   9045
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   156   TREE-STATS
+treeNode:            15549651911
+candidates:          15468709990
+optimalUpperBounds            4   OUTSIDE TREE
+optimalHeuristics            48
+kernelDeletions:              0
+kernelRuns:                   0
+newExclusionRule:             0
+satRule:                     60   WITHIN TREE
+satVertices:                 60
+needlessRule:             42842
+boundRule:                 978788
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   162   TREE-STATS
+treeNode:            149979386344
+candidates:          150921964838
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            80
+kernelDeletions:         144072
+kernelRuns:                 151
+newExclusionRule:             0
+satRule:                     96   WITHIN TREE
+satVertices:                 96
+needlessRule:             50493
+boundRule:                   9207
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   163   TREE-STATS
+treeNode:            152694953366
+candidates:          153588047394
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            81
+kernelDeletions:         147669
+kernelRuns:                 154
+newExclusionRule:             0
+satRule:                     98   WITHIN TREE
+satVertices:                 98
+needlessRule:             50493
+boundRule:                   9401
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   164   TREE-STATS
+treeNode:            156099752451
+candidates:          156926310344
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            82
+kernelDeletions:         150741
+kernelRuns:                 156
+newExclusionRule:             0
+satRule:                    100   WITHIN TREE
+satVertices:                100
+needlessRule:             50493
+boundRule:                   9666
+added one line
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   157   TREE-STATS
+treeNode:            15549991042
+candidates:          15468710415
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            49
+kernelDeletions:           2938
+kernelRuns:                   1
+newExclusionRule:             0
+satRule:                     60   WITHIN TREE
+satVertices:                 63
+needlessRule:             42842
+boundRule:                1317904
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   158   TREE-STATS
+treeNode:            15549991061
+candidates:          15468710416
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            50
+kernelDeletions:           5848
+kernelRuns:                  25
+newExclusionRule:             0
+satRule:                     61   WITHIN TREE
+satVertices:                 64
+needlessRule:             42869
+boundRule:                1317925
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   159   TREE-STATS
+treeNode:            15549991288
+candidates:          15468710417
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            51
+kernelDeletions:           8394
+kernelRuns:                  29
+newExclusionRule:             0
+satRule:                     63   WITHIN TREE
+satVertices:                 66
+needlessRule:             43259
+boundRule:                1318151
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   160   TREE-STATS
+treeNode:            15549992086
+candidates:          15468710420
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            52
+kernelDeletions:          10645
+kernelRuns:                  32
+newExclusionRule:             0
+satRule:                     66   WITHIN TREE
+satVertices:                 69
+needlessRule:             43935
+boundRule:                1318952
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   161   TREE-STATS
+treeNode:            15549994435
+candidates:          15468710425
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            53
+kernelDeletions:          12639
+kernelRuns:                  35
+newExclusionRule:             0
+satRule:                     69   WITHIN TREE
+satVertices:                 72
+needlessRule:             44871
+boundRule:                1321297
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   162   TREE-STATS
+treeNode:            15549999792
+candidates:          15468710431
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            54
+kernelDeletions:          14372
+kernelRuns:                  37
+newExclusionRule:             0
+satRule:                     72   WITHIN TREE
+satVertices:                 75
+needlessRule:             46072
+boundRule:                1326656
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   163   TREE-STATS
+treeNode:            15550013370
+candidates:          15468710434
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            55
+kernelDeletions:          15858
+kernelRuns:                  39
+newExclusionRule:             0
+satRule:                     75   WITHIN TREE
+satVertices:                 78
+needlessRule:             47488
+boundRule:                1340236
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   164   TREE-STATS
+treeNode:            15550033195
+candidates:          15468710440
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            56
+kernelDeletions:          17102
+kernelRuns:                  41
+newExclusionRule:             0
+satRule:                     78   WITHIN TREE
+satVertices:                 81
+needlessRule:             49319
+boundRule:                1360062
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   165   TREE-STATS
+treeNode:            15550055445
+candidates:          15468710455
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            57
+kernelDeletions:          18104
+kernelRuns:                  43
+newExclusionRule:             0
+satRule:                     81   WITHIN TREE
+satVertices:                 84
+needlessRule:             53542
+boundRule:                1382312
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   166   TREE-STATS
+treeNode:            15550081374
+candidates:          15468710474
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            58
+kernelDeletions:          18864
+kernelRuns:                  45
+newExclusionRule:             0
+satRule:                     84   WITHIN TREE
+satVertices:                 87
+needlessRule:             62997
+boundRule:                1408239
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   167   TREE-STATS
+treeNode:            15550126508
+candidates:          15468710482
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            59
+kernelDeletions:          19372
+kernelRuns:                  46
+newExclusionRule:             0
+satRule:                     87   WITHIN TREE
+satVertices:                 90
+needlessRule:             62997
+boundRule:                1453373
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   167   TREE-STATS
+treeNode:            15550146759
+candidates:          15468710482
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            60
+kernelDeletions:          19637
+kernelRuns:                  47
+newExclusionRule:             0
+satRule:                     90   WITHIN TREE
+satVertices:                 90
+needlessRule:             62997
+boundRule:                1473639
+
+######### TESTING LOGGER #########
+
+numTrees:                   168   TREE-STATS
+treeNode:            15550146977
+candidates:          15468710488
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            61
+kernelDeletions:          19637
+kernelRuns:                  47
+newExclusionRule:             0
+satRule:                     93   WITHIN TREE
+satVertices:                 93
+needlessRule:             62997
+boundRule:                1473855
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   165   TREE-STATS
+treeNode:            159752271160
+candidates:          160503849547
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            83
+kernelDeletions:         153633
+kernelRuns:                 158
+newExclusionRule:             0
+satRule:                    102   WITHIN TREE
+satVertices:                102
+needlessRule:             50493
+boundRule:                  10243
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   169   TREE-STATS
+treeNode:            15550147371
+candidates:          15468710508
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            62
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                     96   WITHIN TREE
+satVertices:                 96
+needlessRule:             62997
+boundRule:                1474247
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   170   TREE-STATS
+treeNode:            15550148194
+candidates:          15468710532
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            63
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                     99   WITHIN TREE
+satVertices:                 99
+needlessRule:             62997
+boundRule:                1475068
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   171   TREE-STATS
+treeNode:            15550149558
+candidates:          15468710562
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            64
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                    102   WITHIN TREE
+satVertices:                102
+needlessRule:             62997
+boundRule:                1476430
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   166   TREE-STATS
+treeNode:            165052731574
+candidates:          165698808174
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            84
+kernelDeletions:         156345
+kernelRuns:                 160
+newExclusionRule:             0
+satRule:                    104   WITHIN TREE
+satVertices:                104
+needlessRule:             50493
+boundRule:                  11438
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   172   TREE-STATS
+treeNode:            15550151297
+candidates:          15468710589
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            65
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                    105   WITHIN TREE
+satVertices:                105
+needlessRule:             62997
+boundRule:                1478167
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   173   TREE-STATS
+treeNode:            15550153491
+candidates:          15468710604
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            66
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                    108   WITHIN TREE
+satVertices:                108
+needlessRule:             62997
+boundRule:                1480359
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   167   TREE-STATS
+treeNode:            171852682165
+candidates:          172330183681
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            85
+kernelDeletions:         158877
+kernelRuns:                 162
+newExclusionRule:             0
+satRule:                    106   WITHIN TREE
+satVertices:                106
+needlessRule:             50493
+boundRule:                  13207
+added one line
+
+######### TESTING LOGGER #########
+
+numTrees:                   174   TREE-STATS
+treeNode:            15550156197
+candidates:          15468710624
+optimalUpperBounds            5   OUTSIDE TREE
+optimalHeuristics            67
+kernelDeletions:          19659
+kernelRuns:                  48
+newExclusionRule:             0
+satRule:                    111   WITHIN TREE
+satVertices:                111
+needlessRule:             62997
+boundRule:                1483063
+added one line
