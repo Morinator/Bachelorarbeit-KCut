@@ -19,7 +19,7 @@ internal class TopKTest {
     fun takeKFrom1to100() {
         val oneToHundred = (1..100).toSet()
         for (k in 1..100) {
-            val res = (100-k+1 .. 100).toSet()
+            val res = (100 - k + 1..100).toSet()
             assertEquals(res, topSelect(oneToHundred, k))
         }
     }

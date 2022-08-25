@@ -6,7 +6,6 @@ import org.jgrapht.graph.DefaultEdge
 import org.jgrapht.graph.SimpleGraph
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun <V, E> SimpleGraph<V, E>.V(): MutableSet<V> = vertexSet()
 
