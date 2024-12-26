@@ -21,3 +21,8 @@ For each implemented improvement, we evaluate how much the runtime has been redu
 The experiments show that the effectiveness of the various improvements varies greatly.
 For 4 of the 19 graphs tested, the maximum k solved within one hour was increased from 1 to at least 12 by all improvements in total.
 The ILP can be increased within one hour.
+
+---
+
+I started the project using Java, but decided to switch to Kotlin due to its better support of functional programming,
+particularly set-algebra related functionalities such as mapping, filtering, intersections and so on.
