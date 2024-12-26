@@ -3,9 +3,9 @@
 
 This project contains the code for my Bachelor thesis, working with the Algorithms research group of the University of Marburg.
 
----
-
 The following is an english translation of the summary of the thesis (see PDF in project):
+
+---
 
 In the graph problem Max (k, n - k)-Cut, a vertex set S of size k is sought so that as many edges as possible have exactly one endpoint in S. The number of these edges is called the cut size. In addition, Max (k, n - k)-Cut is an NP-hard graph problem.
 
